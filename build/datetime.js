@@ -1,3 +1,13 @@
+/*
+ * Datetime v0.1.0, (https://github.com/olton/Datetime.git)
+ * Copyright 2020 by Serhii Pimenov
+ * Immutable date-time library with the modern API
+ * Licensed under MIT
+ */
+
+
+// Source: src/index.js
+
 /* eslint-disable */
 (function(global) {
     'use strict';
