@@ -107,7 +107,7 @@ module.exports = function(grunt) {
         }
     });
 
-    tasks = ['clean', 'eslint', 'concat', 'removelogging', 'uglify', 'replace'];
+    tasks = ['clean', 'eslint', 'concat', 'uglify', 'replace'];
 
     if (watching) {
         tasks.push('watch');

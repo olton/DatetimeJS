@@ -29,6 +29,7 @@
     "build": "npm install && grunt"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^7.0.0",
     "grunt": "^1.0.4",
     "grunt-contrib-clean": "^2.0.0",
@@ -38,6 +39,8 @@
     "grunt-eslint": "^22.0.0",
     "grunt-remove-logging": "^0.2.0",
     "grunt-replace": "^1.0.1",
-    "load-grunt-tasks": "^5.0.0"
+    "load-grunt-tasks": "^5.0.0",
+    "mocha": "^8.2.1",
+    "sinon": "^9.2.1"
   }
 }
