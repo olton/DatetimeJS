@@ -335,7 +335,9 @@
             return this.compare(date, align, "!=");
         },
 
-        diff: function(date, align){},
+        diff: function(date, align){
+
+        },
 
         daysInMonth: function(){
             var curr = this.clone();
