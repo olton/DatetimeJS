@@ -332,7 +332,21 @@
             return curr.add(1, 'month').day(1).add(-1, 'day').day();
         },
 
-        utcOffset: function(){},
+        daysInYear: function(){
+            var result = 0;
+            var curr = this.clone();
+
+            curr.month(0).day(1);
+
+            for(var i = 0; i < 12; i++) {
+                curr.add(1, 'month').add(-1, 'day');
+                result += curr.day();
+                curr.day(1).add(1, 'month');
+            }
+            return result;
+        },
+
+        // utcOffset: function(){},
 
         offset: function(){
             return this.value.getTimezoneOffset();
