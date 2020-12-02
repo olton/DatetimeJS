@@ -231,8 +231,8 @@
                 case "minute": this.time(this.time() + (val * 60 * 1000)); break;
                 case "second": this.time(this.time() + (val * 1000)); break;
                 case "millisecond": this.time(this.time() + (val)); break;
-                case "day": this.date(this.date() + val); break;
-                case "week": this.date(this.date() + val * 7); break;
+                case "day": this.day(this.day() + val); break;
+                case "week": this.day(this.day() + val * 7); break;
                 case "month": this.month(this.month() + val); break;
                 case "year": this.year(this.year() + val); break;
             }
@@ -326,7 +326,12 @@
         },
 
         diff: function(date, align){},
-        daysInMonth: function(){},
+
+        daysInMonth: function(){
+            var curr = this.clone();
+            return curr.add(1, 'month').day(1).add(-1, 'day').day();
+        },
+
         utcOffset: function(){},
 
         offset: function(){

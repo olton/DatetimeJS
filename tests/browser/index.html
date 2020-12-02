@@ -7,16 +7,18 @@
     <script src="../../build/i18n/ru.js"></script>
     <script>
         // d1 < d3 && d1 > d2
-        var d1 = datetime("1972-12-21 01:00");
-        var d2 = datetime("1973-12-21 03:30");
-        var d3 = datetime("1971-12-21 03:30");
-        var d4 = datetime("1972-11-01");
+        // var d1 = datetime("1972-12-21 01:00");
+        // var d2 = datetime("1973-12-21 03:30");
+        // var d3 = datetime("1971-12-21 03:30");
+        // var d4 = datetime("1972-11-01");
         // console.log("false = ", d1.less(d2));
         // console.log("true = ", d1.less(d3));
-        console.log(d1.older(d2, "day"));
-        console.log(d1.older(d3, "day"));
-        console.log(d1.equal(d4, "month"));
-        console.log(d1.younger(d4, "month"));
+        // console.log(d1.older(d2, "day"));
+        // console.log(d1.older(d3, "day"));
+        // console.log(d1.equal(d4, "month"));
+        // console.log(d1.younger(d4, "month"));
+
+        console.log(datetime("02-01-2020").daysInMonth());
     </script>
 </head>
 <body>
