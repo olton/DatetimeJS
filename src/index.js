@@ -44,6 +44,9 @@
 
     /* Fabric method */
     var datetime = function(){
+        if (arguments[0] instanceof Datetime) {
+            return arguments[0].clone();
+        }
         var args = [].slice.call(arguments);
         return new (Function.prototype.bind.apply(Datetime,  [this].concat(args) ) );
     }
@@ -72,12 +75,30 @@
     Datetime.locale = function(name, locale){
         global['DATETIME_LOCALES'][name] = locale;
     }
+
+    Datetime.align = function(d, align, asDate){
+        var date = datetime(d), result;
+        switch (align) {
+            case "second": result = date.millisecond(0); break;
+            case "minute": result = date.millisecond(0).second(0); break;
+            case "hour": result = date.millisecond(0).second(0).minute(0); break;
+            case "day": result = date.millisecond(0).second(0).minute(0).hour(0); break;
+            case "month": result = date.millisecond(0).second(0).minute(0).hour(0).day(1); break;
+            case "year": result = date.millisecond(0).second(0).minute(0).hour(0).day(1).month(0); break;
+            default: result = date;
+        }
+        return asDate ? result.val() : result;
+    }
     /* ************* End of static **************** */
 
     Datetime.prototype = {
         useLocale: function(val){
             this.locale = val;
             return this;
+        },
+
+        clone: function(){
+            return datetime(this.value);
         },
 
         isValid: function(){
@@ -109,12 +130,16 @@
             return isLowerCase ? val.toLowerCase() : val;
         },
 
-        val: function(){
-            return this.value;
+        val: function(val){
+            if ( !(val instanceof Date) )
+                return this.value;
+
+            this.value = val;
+            return this;
         },
 
         unix: function(val) {
-            if (arguments.length === 1 || typeof val === "undefined") {
+            if (!arguments.length || (typeof val === "undefined" || val === null)) {
                 return Math.floor(this.valueOf() / 1000)
             }
             return this.time(val * 1000);
@@ -136,7 +161,7 @@
         },
 
         _work: function(part, val){
-            if (arguments.length === 1 || typeof val === "undefined") {
+            if (!arguments.length || (typeof val === "undefined" || val === null)) {
                 return this._get(part);
             }
             return this._set(part, val);
@@ -152,129 +177,157 @@
         year: function(val){return this._work("Y", val);},
         time: function(val){return this._work("t", val);},
 
-        hour12: function(){
-            return this.hour() % 12 || 12;
+        hour12: function(h, /* string am|pm */ p){
+            var hour = h;
+
+            if (arguments.length === 0) {
+                return this.hour() % 12 || 12;
+            }
+
+            p = p || 'am';
+
+            if (p.toLowerCase() === "pm") {
+                hour += 12;
+            }
+
+            return this.hour(hour);
         },
 
         get: function(unit){
             switch (unit) {
-                case "day":
-                case "D": return this.day();
-
-                case "weekDay":
-                case "d": return this.weekDay();
-
-                case "week":
-                case "w": return this.week();
-
-                case "month":
-                case "M": return this.month();
-
-                case "year":
-                case "Y": return this.year();
-                case "y": return this.year2();
-
-                case "hour":
-                case "h": return this.hour();
-
-                case "minute":
-                case "m": return this.minute();
-
-                case "second":
-                case "s": return this.second();
-
-                case "millisecond":
-                case "ms": return this.millisecond();
-
-                case "time":
-                case "t": return this.time();
-
-                case "century":
-                case "c": return this.century();
-
+                case "day": return this.day();
+                case "weekDay": return this.weekDay();
+                case "week": return this.week();
+                case "month": return this.month();
+                case "year": return this.year();
+                case "year2": return this.year2();
+                case "hour": return this.hour();
+                case "minute": return this.minute();
+                case "second": return this.second();
+                case "millisecond": return this.millisecond();
+                case "time": return this.time();
+                case "century": return this.century();
                 default: return this.valueOf();
             }
         },
 
-        set: function(unit, val){
+        set: function(val, unit){
             val = val || 0;
             switch (unit) {
-                case "day":
-                case "d":
-                case "D": return this.day(val);
-
-                case "month":
-                case "M": return this.month(val);
-
-                case "year":
-                case "Y":
-                case "y": return this.year(val);
-
-                case "hour":
-                case "h": return this.hour(val);
-
-                case "minute":
-                case "m": return this.minute(val);
-
-                case "second":
-                case "s": return this.second(val);
-
-                case "millisecond":
-                case "ms": return this.millisecond(val);
-
-                case "time":
-                case "t": return this.time(val);
+                case "day": return this.day(val);
+                case "month": return this.month(val);
+                case "year": return this.year(val);
+                case "hour": return this.hour(val);
+                case "minute": return this.minute(val);
+                case "second": return this.second(val);
+                case "millisecond": return this.millisecond(val);
+                case "time": return this.time(val);
             }
         },
 
-        add: function(to, val){
+        add: function(val, to){
             switch (to) {
-                case "hour":
-                case "hours":
-                case "h": this.time(this.time() + (val * 60 * 60 * 1000)); break;
-
-                case "minute":
-                case "minutes":
-                case "m": this.time(this.time() + (val * 60 * 1000)); break;
-
-                case "second":
-                case "seconds":
-                case "s": this.time(this.time() + (val * 1000)); break;
-
-                case "millisecond":
-                case "milliseconds":
-                case "ms": this.time(this.time() + (val)); break;
-
-                case "day":
-                case "days":
-                case "date":
-                case "d": this.date(this.date() + val); break;
-
-                case "week":
-                case "weeks":
-                case "w": this.date(this.date() + val * 7); break;
-
-                case "month":
-                case "M": this.month(this.month() + val); break;
-
-                case "year":
-                case "years":
-                case "y":
-                case "Y": this.year(this.year() + val); break;
+                case "hour": this.time(this.time() + (val * 60 * 60 * 1000)); break;
+                case "minute": this.time(this.time() + (val * 60 * 1000)); break;
+                case "second": this.time(this.time() + (val * 1000)); break;
+                case "millisecond": this.time(this.time() + (val)); break;
+                case "day": this.date(this.date() + val); break;
+                case "week": this.date(this.date() + val * 7); break;
+                case "month": this.month(this.month() + val); break;
+                case "year": this.year(this.year() + val); break;
             }
             return this;
         },
 
-        addHour: function(v){return this.add('h', v);},
-        addMinute: function(v){return this.add('m', v);},
-        addSecond: function(v){return this.add('s', v);},
-        addMillisecond: function(v){return this.add('ms', v);},
-        addDay: function(v){return this.add('d', v);},
-        addWeek: function(v){return this.add('w', v);},
-        addMonth: function(v){return this.add('M', v);},
-        addYear: function(v){return this.add('Y', v);},
+        addHour: function(v){return this.add(v,'hour');},
+        addMinute: function(v){return this.add(v,'minute');},
+        addSecond: function(v){return this.add(v, 'second');},
+        addMillisecond: function(v){return this.add(v, 'millisecond');},
+        addDay: function(v){return this.add(v,'day');},
+        addWeek: function(v){return this.add(v,'week');},
+        addMonth: function(v){return this.add(v, 'month');},
+        addYear: function(v){return this.add(v, 'year');},
 
-        // Information
+        between: function(d1, d2){
+            var time = this.time();
+            return datetime(d1).time() > time && time > datetime(d2);
+        },
+
+        align: function(align){
+            this.value = Datetime.align(this.value, align, true);
+            return this;
+        },
+
+        /*
+        * align: year, month, day, hour, minute, second, millisecond = default
+        * */
+        compare: function(d, align, operator){
+            var date = datetime(d);
+            var curr = this.clone();
+            var t1, t2;
+
+            operator = operator || "<";
+
+            if (["<", ">", ">=", "<=", "=", "!="].indexOf(operator) === -1) {
+                throw new Error("Operator must be one of <, >, >=, <=, =, !=");
+            }
+
+            if (!curr.isValid()) {
+                throw new Error("Object has not contains a valid date");
+            }
+
+            if (!date.isValid()) {
+                throw new Error("Argument is not a valid date");
+            }
+
+            align = (align || "millisecond").toLowerCase();
+
+            t1 = curr.align(align).time();
+            t2 = date.align(align).time();
+
+            switch (operator) {
+                case "<":
+                    return t1 < t2;
+                case ">":
+                    return t1 > t2;
+                case "<=":
+                    return t1 <= t2;
+                case ">=":
+                    return t1 >= t2;
+                case "=":
+                    return t1 === t2;
+                case "!=":
+                    return t1 !== t2;
+            }
+        },
+
+        older: function(date, align){
+            return this.compare(date, align, "<");
+        },
+
+        olderOrEqual: function(date, align){
+            return this.compare(date, align, "<=");
+        },
+
+        younger: function(date, align){
+            return this.compare(date, align, ">");
+        },
+
+        youngerOrEqual: function(date, align){
+            return this.compare(date, align, ">=");
+        },
+
+        equal: function(date, align){
+            return this.compare(date, align, "=");
+        },
+
+        notEqual: function(date, align){
+            return this.compare(date, align, "!=");
+        },
+
+        diff: function(date, align){},
+        daysInMonth: function(){},
+        utcOffset: function(){},
 
         offset: function(){
             return this.value.getTimezoneOffset();
@@ -292,19 +345,18 @@
             var nYear, nday, newYear, day, daynum, weeknum;
 
             weekStart = +weekStart ? 1 : 0;
-
             newYear = datetime(this.year(), 0, 1);
-            day = newYear.day() - weekStart;
+            day = newYear.weekDay() - weekStart;
             day = (day >= 0 ? day : day + 7);
             daynum = Math.floor(
                 (this.time() - newYear.time() - (this.offset() - newYear.offset()) * 60000) / 86400000
             ) + 1;
 
             if(day < 4) {
-                weeknum = Math.floor((daynum+day-1)/7) + 1;
+                weeknum = Math.floor((daynum + day - 1) / 7) + 1;
                 if(weeknum > 52) {
                     nYear = datetime(this.year() + 1, 0, 1);
-                    nday = nYear.day() - weekStart;
+                    nday = nYear.weekDay() - weekStart;
                     nday = nday >= 0 ? nday : nday + 7;
                     weeknum = nday < 4 ? 1 : 53;
                 }
@@ -365,6 +417,13 @@
             var names = global['DATETIME_LOCALES'][locale || this.locale];
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();
             var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), time = this.time();
+            var aDay = lpad(day, "0", 2),
+                aMonth = lpad(month + 1, "0", 2),
+                aHour = lpad(hour, "0", 2),
+                aHour12 = lpad(hour12, "0", 2),
+                aMinute = lpad(minute, "0", 2),
+                aSecond = lpad(second, "0", 2);
+
             var matches = {
                 '%a': names.weekdaysShort[weekDay],
                 '%A': names.weekdays[weekDay],
@@ -373,24 +432,24 @@
                 '%B': names.months[month],
                 '%c': "",
                 '%C': this.century(),
-                '%d': lpad(day, "0", 2),
-                '%D': [day, month + 1, year].join("/"),
+                '%d': aDay,
+                '%D': [aDay, aMonth, year].join("/"),
                 '%e': day,
-                '%F': [year, month + 1, day].join("-"),
+                '%F': [year, aMonth, aDay].join("-"),
                 '%G': "",
                 '%g': "",
-                '%H': lpad(hour, "0", 2),
-                '%I': lpad(hour12, "0", 2),
+                '%H': aHour,
+                '%I': aHour12,
                 '%j': lpad(this.dayOfYear(), "0", 3),
-                '%k': lpad(hour, "0", 2),
-                '%l': lpad(hour12, "0", 2),
-                '%m': lpad(month + 1, "0", 2),
+                '%k': aHour,
+                '%l': aHour12,
+                '%m': aMonth,
                 '%n': month + 1,
-                '%M': lpad(minute, "0", 2),
+                '%M': aMinute,
                 '%p': this.ampm(),
                 '%P': this.ampm(true),
                 '%s': Math.round(time / 1000),
-                '%S': lpad(second, "0", 2),
+                '%S': aSecond,
                 '%u': "", //Day of the week as a decimal (range 1 to 7), Monday being 1.
                 '%V': this.week(),
                 '%w': weekDay,
@@ -400,10 +459,9 @@
                 '%Y': year,
                 '%z': this.timezone().replace(":", ""),
                 '%Z': this.timezoneName(),
-                '%r': [lpad(hour12, "0", 2), lpad(minute, "0", 2), lpad(second, "0", 2)].join(":") + " " + this.ampm(),
-                '%R': [lpad(hour, "0", 2), lpad(minute, "0", 2)].join(":"),
-                "%t": "\t",
-                "%T": [lpad(hour, "0", 2), lpad(minute, "0", 2), lpad(second, "0", 2)].join(":")
+                '%r': [aHour12, aMinute, aSecond].join(":") + " " + this.ampm(),
+                '%R': [aHour, aMinute].join(":"),
+                "%T": [aHour, aMinute, aSecond].join(":")
             };
 
             return format.replace(REGEX_FORMAT_STRFTIME, function(match){
@@ -411,21 +469,49 @@
             });
         },
 
+        to: function(fn){
+            return this.isValid() && typeof this.value[fn] === "function" ? this.value["to"+fn]() : INVALID_DATE;
+        },
+
         toTimeString: function(){
-            return this.isValid() ? this.value.toTimeString() : INVALID_DATE;
+            return this.to('TimeString');
         },
 
         toLocaleDateString: function(){
-            return this.value.toLocaleDateString();
+            return this.to('LocaleDateString');
+        },
+
+        toLocaleString: function(){
+            return this.to('LocaleString');
         },
 
         toLocaleTimeString: function(){
-            return this.value.toLocaleTimeString();
+            return this.to('LocaleTimeString');
         },
 
         toString: function(){
-            return this.isValid() ? this.value.toString() : INVALID_DATE;
+            return this.to('String');
         },
+
+        toJSON: function(){
+            return this.to('JSON');
+        },
+
+        toSource: function(){
+            return this.to('Source');
+        },
+
+        toISOString: function(){
+            return this.to('ISOString');
+        },
+
+        toUTCString: function(){
+            return this.to('UTCString');
+        },
+
+        toDate: function(){
+            return new Date(this.valueOf());
+        }
     }
 
     global.Datetime = Datetime;
