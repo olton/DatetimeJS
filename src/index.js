@@ -57,6 +57,7 @@
         this.value = new (Function.prototype.bind.apply(Date,  [this].concat(args) ) );
         this.locale = "en";
         this.weekStart = 0;
+        this.utcMode = false;
     }
 
     /* ************ Static methods **************** */
@@ -92,6 +93,16 @@
     /* ************* End of static **************** */
 
     Datetime.prototype = {
+        utc: function(){
+            this.utcMode = true;
+            return this;
+        },
+
+        local: function(){
+            this.utcMode = false
+            return this;
+        },
+
         useLocale: function(val){
             this.locale = val;
             return this;
@@ -152,12 +163,12 @@
         /* Get + Set */
 
         _set: function(m, v){
-            this.value["set"+M[m]](v);
+            this.value["set"+(this.utcMode ? "UTC" : "")+M[m]](v);
             return this;
         },
 
         _get: function(m){
-            return this.value["get"+M[m]]();
+            return this.value["get"+(this.utcMode && m !== "t" ? "UTC" : "")+M[m]]();
         },
 
         _work: function(part, val){
@@ -249,8 +260,7 @@
         addYear: function(v){return this.add(v, 'year');},
 
         between: function(d1, d2){
-            var time = this.time();
-            return datetime(d1).time() > time && time > datetime(d2);
+            return this.younger(d1) && this.older(d2);
         },
 
         align: function(align){
@@ -421,8 +431,7 @@
                 s: second,
                 ss: lpad(second,"0", 2),
                 sss: lpad(ms,"0", 3),
-                Z: this.timezone(),
-                z: "Z",
+                Z: this.utcMode ? "Z" : this.timezone(),
                 C: this.century()
             };
 
@@ -490,44 +499,40 @@
             });
         },
 
-        to: function(fn){
-            return this.isValid() && typeof this.value[fn] === "function" ? this.value["to"+fn]() : INVALID_DATE;
-        },
-
         toTimeString: function(){
-            return this.to('TimeString');
+            return this.value.toTimeString();
         },
 
         toLocaleDateString: function(){
-            return this.to('LocaleDateString');
+            return this.value.toLocaleDateString();
         },
 
         toLocaleString: function(){
-            return this.to('LocaleString');
+            return this.value.toLocaleString();
         },
 
         toLocaleTimeString: function(){
-            return this.to('LocaleTimeString');
+            return this.value.toLocaleTimeString();
         },
 
         toString: function(){
-            return this.to('String');
+            return this.value.toString();
         },
 
         toJSON: function(){
-            return this.to('JSON');
+            return this.value.toJSON();
         },
 
         toSource: function(){
-            return this.to('Source');
+            return this.value.toSource();
         },
 
         toISOString: function(){
-            return this.to('ISOString');
+            return this.value.toISOString();
         },
 
         toUTCString: function(){
-            return this.to('UTCString');
+            return this.value.toUTCString();
         },
 
         toDate: function(){

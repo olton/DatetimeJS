@@ -12,8 +12,13 @@ describe('Datetime', function(){
         });
     });
 
-    describe('', () => {
-
+    describe('between()', () => {
+        it ('Should be true', () => {
+            let date = datetime();
+            let d1 = datetime().add(-1, 'year');
+            let d2 = datetime().add(1, 'year');
+            assert.equal(date.between(d1, d2), true);
+        })
     });
 
 });
