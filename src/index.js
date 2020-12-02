@@ -40,6 +40,10 @@
         return Array((length + 1) - _str.length).join(pad) + _str;
     }
 
+    var not = function(v){
+        return typeof v === "undefined" || v === null;
+    }
+
     /* Fabric method */
     var datetime = function(){
         if (arguments[0] instanceof Datetime) {
@@ -151,7 +155,7 @@
         },
 
         unix: function(val) {
-            if (!arguments.length || (typeof val === "undefined" || val === null)) {
+            if (!arguments.length || (not(val))) {
                 return Math.floor(this.valueOf() / 1000)
             }
             return this.time(val * 1000);
@@ -189,7 +193,7 @@
         time: function(val){return this._work("t", val);},
 
         weekDay: function(val){
-            if (!arguments.length || (typeof val === "undefined" || val === null)) {
+            if (!arguments.length || (not(val))) {
                 return this.utcMode ? this.value.getUTCDay() : this.value.getDay();
             }
 
@@ -218,7 +222,7 @@
         },
 
         isoWeekDay: function(val){
-            if (!arguments.length || (typeof val === "undefined" || val === null)) {
+            if (!arguments.length || (not(val))) {
                 return (this.weekDay() + 6) % 7 + 1;
             }
 
