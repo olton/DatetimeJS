@@ -87,6 +87,7 @@
     Datetime.prototype = {
         useLocale: function(val){
             this.locale = val;
+            return this;
         },
 
         isValid: function(){
@@ -414,6 +415,7 @@
                 "%t": "\t",
                 "%T": [lpad(hour, "0", 2), lpad(minute, "0", 2), lpad(second, "0", 2)].join(":")
             };
+
             return format.replace(REGEX_FORMAT_STRFTIME, function(match){
                 return matches[match] || match;
             });

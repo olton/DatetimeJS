@@ -95,10 +95,19 @@ module.exports = function(grunt) {
             }
         },
 
+        copy: {
+            fonts: {
+                expand: true,
+                cwd: 'src/i18n',
+                src: '**/*',
+                dest: 'build/i18n'
+            }
+        },
+
         watch: {
             scripts: {
                 files: ['src/*.js', 'Gruntfile.js'],
-                tasks: ['clean', 'eslint',  'concat', 'uglify', 'replace'],
+                tasks: ['clean', 'eslint',  'concat', 'uglify', 'copy', 'replace'],
                 options: {
                     spawn: false,
                     reload: true
@@ -107,7 +116,7 @@ module.exports = function(grunt) {
         }
     });
 
-    tasks = ['clean', 'eslint', 'concat', 'uglify', 'replace'];
+    tasks = ['clean', 'eslint', 'concat', 'uglify', 'copy', 'replace'];
 
     if (watching) {
         tasks.push('watch');

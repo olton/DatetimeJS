@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="../../build/datetime.js"></script>
+    <script src="../../build/i18n/ru.js"></script>
     <script>
         // console.log(new Date().getMilliseconds());
         // console.log(datetime().millisecond());
-        console.log(datetime().format());
+        console.log(datetime().useLocale('ru').format("dddd"));
         console.log(datetime().strftime());
         // console.log(datetime().format("MMMM"));
         // console.log(datetime().format("DD.MM.YYYY"));
