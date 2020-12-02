@@ -335,8 +335,24 @@
             return this.compare(date, align, "!=");
         },
 
-        diff: function(date, align){
+        diff: function(d){
+            var date = datetime(d);
+            var diff = Math.abs(this.time() - date.time());
+            var diffMonth = Math.abs(this.month() - date.month() + (12 * (this.year() - date.year())));
 
+            return {
+                "millisecond": diff,
+                "second": Math.ceil(diff / 1000),
+                "minute": Math.ceil(diff / (1000 * 60)),
+                "hour": Math.ceil(diff / (1000 * 60 * 60)),
+                "day": Math.ceil(diff / (1000 * 60 * 60 * 24)),
+                "month": diffMonth,
+                "year": Math.floor(diffMonth / 12)
+            }
+        },
+
+        distance: function(d, align){
+            return this.diff(d)[align];
         },
 
         daysInMonth: function(){
