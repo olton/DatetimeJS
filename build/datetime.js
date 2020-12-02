@@ -39,8 +39,6 @@
         M: "Month",
         Y: "FullYear",
         y: "Year",
-        w: "Week",
-        Q: "Quarter",
         t: "Time"
     }
 
@@ -96,6 +94,9 @@
             case "day": result = date.millisecond(0).second(0).minute(0).hour(0); break;
             case "month": result = date.millisecond(0).second(0).minute(0).hour(0).day(1); break;
             case "year": result = date.millisecond(0).second(0).minute(0).hour(0).day(1).month(0); break;
+            case "quarter": result = date.millisecond(0).second(0).minute(0).hour(0).day(1).month(date.quarter() * 3 - 3); break;
+            case "week": result = date.millisecond(0).second(0).minute(0).hour(0).add(-date.weekDay(), 'day'); break;
+            case "isoWeek": result = date.millisecond(0).second(0).minute(0).hour(0).add(-date.isoWeekDay() + 1, 'day'); break;
             default: result = date;
         }
         return asDate ? result.val() : result;
@@ -173,7 +174,7 @@
         /* Get + Set */
 
         _set: function(m, v){
-            this.value["set"+(this.utcMode ? "UTC" : "")+M[m]](v);
+            this.value["set"+(this.utcMode && m !== "t" ? "UTC" : "")+M[m]](v);
             return this;
         },
 
@@ -192,11 +193,23 @@
         second: function(val){return this._work("s", val);},
         minute: function(val){return this._work("m", val); },
         hour: function(val){return this._work("h", val);},
-        weekDay: function(val){return this._work("d", val);},
         day: function(val){return this._work("D", val);},
         month: function(val){return this._work("M", val);},
         year: function(val){return this._work("Y", val);},
         time: function(val){return this._work("t", val);},
+
+        weekDay: function(val){
+            if (!arguments.length || (typeof val === "undefined" || val === null)) {
+                return this.utcMode ? this.value.getUTCDay() : this.value.getDay();
+            }
+
+            var curr = this.weekDay();
+            var diff = curr - val;
+
+            this.day(this.day() + diff);
+
+            return this;
+        },
 
         hour12: function(h, /* string am|pm */ p){
             var hour = h;
@@ -212,6 +225,19 @@
             }
 
             return this.hour(hour);
+        },
+
+        isoWeekDay: function(val){
+            if (!arguments.length || (typeof val === "undefined" || val === null)) {
+                return (this.weekDay() + 6) % 7 + 1;
+            }
+
+            return this.weekDay((val + 6) % 7 + 1);
+        },
+
+        weeksInYear: function(iso){
+            var curr = this.clone();
+            return curr.month(11).day(31).week(iso ? 1 : 0);
         },
 
         get: function(unit){
@@ -232,7 +258,7 @@
             }
         },
 
-        set: function(val, unit){
+        set: function(unit, val){
             val = val || 0;
             switch (unit) {
                 case "day": return this.day(val);
@@ -256,6 +282,7 @@
                 case "week": this.day(this.day() + val * 7); break;
                 case "month": this.month(this.month() + val); break;
                 case "year": this.year(this.year() + val); break;
+                case "quarter": this.month(this.month() + val * 3); break;
             }
             return this;
         },
@@ -384,9 +411,29 @@
             return result;
         },
 
-        // utcOffset: function(){},
+        daysInYearMap: function(){
+            var result = [];
+            var curr = this.clone();
 
-        offset: function(){
+            curr.month(0).day(1);
+
+            for(var i = 0; i < 12; i++) {
+                curr.add(1, 'month').add(-1, 'day');
+                result.push(curr.day());
+                curr.day(1).add(1, 'month');
+            }
+            return result;
+        },
+
+        quarter: function(){
+            var month = this.month();
+            if (month <= 2) return 1;
+            if (month > 2 && month <= 5) return 2;
+            if (month > 5 && month <= 8) return 3;
+            return 4;
+        },
+
+        utcOffset: function(){
             return this.value.getTimezoneOffset();
         },
 
@@ -406,7 +453,7 @@
             day = newYear.weekDay() - weekStart;
             day = (day >= 0 ? day : day + 7);
             daynum = Math.floor(
-                (this.time() - newYear.time() - (this.offset() - newYear.offset()) * 60000) / 86400000
+                (this.time() - newYear.time() - (this.utcOffset() - newYear.utcOffset()) * 60000) / 86400000
             ) + 1;
 
             if(day < 4) {
