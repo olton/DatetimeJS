@@ -264,7 +264,7 @@
         },
 
         century: function(){
-            return this.year() / 100;
+            return parseInt(this.year() / 100);
         },
 
         dayOfYear: function(){
