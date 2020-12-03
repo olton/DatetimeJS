@@ -246,6 +246,10 @@
             return datetime(this.value);
         },
 
+        same: function(d){
+            return this.time() === datetime(d).time();
+        },
+
         isValid: function(){
             return !isNaN(this.time());
         },

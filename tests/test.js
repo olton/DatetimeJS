@@ -12,6 +12,42 @@ describe('Datetime', function(){
         });
     });
 
+    describe('utc()', () => {
+        it ('The utcMode Should be true', () => {
+            assert.equal(datetime().utc().utcMode, true);
+        })
+    });
+
+    describe('local()', () => {
+        it ('The utcMode Should be false', () => {
+            assert.equal(datetime().local().utcMode, false);
+        })
+    });
+
+    describe('uselocale()', () => {
+        it ('The locale Should be ru', () => {
+            assert.equal(datetime().useLocale('ru').locale, 'ru');
+        })
+    });
+
+    describe('same()', () => {
+        it ('The Should be true', () => {
+            assert.equal(datetime("2020").same("2020"), true);
+        })
+        it ('The Should be false', () => {
+            assert.equal(datetime("2020").same("2021"), false);
+        })
+    });
+
+    describe('isLeapYear()', () => {
+        it ('Should be true for 2020', () => {
+            assert.equal(datetime("2020").isLeapYear(), true);
+        })
+        it ('Should be false for 2021', () => {
+            assert.equal(datetime("2021").isLeapYear(), false);
+        })
+    });
+
     describe('older()', () => {
         it ('Should be true', () => {
             assert.equal(datetime("2020").older("2021"), true);
