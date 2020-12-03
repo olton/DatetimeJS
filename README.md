@@ -48,18 +48,21 @@ datetime().strftime('{%Y} %n-%dT%H:%M:%S %Q %z %p');
 ```
 
 #### Get & set
+You can set and get: `millisecond`, `second`, `minute`, `hour`, `day`, `month`, `year`, `time` (timestamp), ... 
 ```javascript
 datetime().set('month', 3).month();
 datetime().month(3).month();
 ```
 
 #### Manipulate
+You can set: `millisecond`, `second`, `minute`, `hour`, `day`, `month`, `year`.
 ```javascript
 datetime().add(3, 'day').add(1, 'hour');
 datetime().addDay(3).addHour(1);
 ```
 
 #### Align (Start From)
+You can align date to: `millisecond`, `second`, `minute`, `hour`, `day`, `month`, `year`, `quarter`, `week`, `isoWeek`.
 ```javascript
 datetime().align("year"); // Will alignment to 1st Jan of year
 datetime().align("month"); // Will alignment to 1st day of month
@@ -75,6 +78,7 @@ datetime("2020-21-12").distance("1972-21-12", "year"); // return 48
 ```
 
 #### Information
+You can get different additional information about your date: `count days in month`, `count days in year`, `number of quarter`, `year is leap`, ...  
 ```javascript
 datetime("2020-12-21").dayOfYear(); // return 356
 datetime("2020-02-01").daysInMonth(); // return 29
