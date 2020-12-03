@@ -24,7 +24,8 @@
             monthsShort: "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" "),
             weekdays: "Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split(" "),
             weekdaysShort: "Sun Mon Tue Wed Thu Fri Sat".split(" "),
-            weekdaysTwo: "Su Mo Tu We Th Fr Sa".split(" ")
+            weekdaysTwo: "Su Mo Tu We Th Fr Sa".split(" "),
+            weekStart: 0
         }
     }
 
@@ -141,20 +142,26 @@
             var index = -1;
             var names = global['DATETIME_LOCALES'][locale || 'en'];
 
-            if (typeof month === "undefined" || month === null) {
-                return -1;
+            if (not(month)) return -1;
+
+            index = names.months.map(function(el){
+                return el.toLowerCase();
+            }).indexOf(month.toLowerCase());
+
+            if (index === -1 && typeof names["monthsParental"] !== "undefined") {
+                index = names.monthsParental.map(function(el){
+                    return el.toLowerCase();
+                }).indexOf(month.toLowerCase());
             }
 
-            month = month.substr(0, 3);
-
-            for(var i = 0; i < 12; i++) {
-                if (names.monthsShort[i].toLowerCase() === month.toLowerCase()) {
-                    index = i;
-                    break;
-                }
+            if (index === -1) {
+                month = month.substr(0, 3);
+                index = names.monthsShort.map(function(el){
+                    return el.toLowerCase();
+                }).indexOf(month.toLowerCase());
             }
 
-            return index + 1;
+            return index === -1 ? -1 : index + 1;
         };
 
         var getPartIndex = function(part){

@@ -26,7 +26,8 @@
   "license": "MIT",
   "dependencies": {},
   "scripts": {
-    "build": "npm install && grunt"
+    "build": "npm install && grunt",
+    "test": "mocha tests/**/*.js"
   },
   "devDependencies": {
     "chai": "^4.2.0",

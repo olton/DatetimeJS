@@ -1,3 +1,13 @@
+/*
+ * Datetime v0.1.0, (https://github.com/olton/Datetime.git)
+ * Copyright 2020 by Serhii Pimenov
+ * Immutable date-time library with the modern API
+ * Licensed under MIT
+ */
+
+
+// Source: src/index.js
+
 /* eslint-disable */
 (function(global) {
     'use strict';
@@ -771,4 +781,65 @@
     global.datetime = datetime;
 
 }(typeof self === "undefined" ? typeof global === "undefined" ? window : global : self));
+/* eslint-enable */
+
+
+// Source: src/i18n/af.js
+
+/* eslint-disable */
+(function(Datetime) {
+    'use strict';
+
+    var locale = {
+        months: "Januarie Februarie Maart April Mei Junie Julie Augustus September Oktober November Desember".split(" "),
+        monthsShort: "Jan Feb Mrt Apr Mei Jun Jul Aug Sep Okt Nov Des".split(" "),
+        weekdays: "Sondag Maandag Dinsdag Woensdag Donderdag Vrydag Saterdag".split(" "),
+        weekdaysShort: "Son Maa Din Woe Don Vry Sat".split(" "),
+        weekdaysTwo: "So Ma Di Wo Do Vr Sa".split(" "),
+        weekStart: 1
+    };
+
+    Datetime.locale("af", locale);
+}(Datetime));
+/* eslint-enable */
+
+// Source: src/i18n/ru.js
+
+/* eslint-disable */
+(function(Datetime) {
+    'use strict';
+
+    var locale = {
+        months: "Январь Февраль Март Апрель Май Июнь Июль Август Сентябрь Октябрь Ноябрь Декабрь".split(" "),
+        monthsParental: "Января Февраля Марта Апреля Мая Июня Июля Августа Сентября Октября Ноября Декабря".split(" "),
+        monthsShort: "Янв Фев Мар Апр Май Июн Июл Авг Сен Окт Ноя Дек".split(" "),
+        weekdays: "Воскресенье Понедельник Вторник Среда Четверг Пятница Суббота".split(" "),
+        weekdaysShort: "Вск Пон Втр Срд Чет Пят Суб".split(" "),
+        weekdaysTwo: "Вс Пн Вт Ср Чт Пт Сб".split(" "),
+        weekStart: 1
+    };
+
+    Datetime.locale("ru", locale);
+}(Datetime));
+/* eslint-enable */
+
+
+// Source: src/i18n/ua.js
+
+/* eslint-disable */
+(function(Datetime) {
+    'use strict';
+
+    var locale = {
+        months: "Січень Лютий Березень Квітень Травень Червень Липень Серпень Вересень Жовтень Листопад Грудень".split(" "),
+        monthsParental: "Січня Лютого Березеня Квітня Травня Червня Липня Серпня Вересня Жовтня Листопада Грудня".split(" "),
+        monthsShort: "Січ Лют Бер Кві Тра Чер Лип Сер Вер Жов Лис Гру".split(" "),
+        weekdays: "Неділя Понеділок Вівторок Середа Четвер П'ятниця Субота".split(" "),
+        weekdaysShort: "Нед Пон Вів Сер Чет Птн Суб".split(" "),
+        weekdaysTwo: "Нд Пн Вт Ср Чт Пт Сб".split(" "),
+        weekStart: 1
+    };
+
+    Datetime.locale("ua", locale);
+}(Datetime));
 /* eslint-enable */

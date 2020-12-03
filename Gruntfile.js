@@ -3,14 +3,26 @@ module.exports = function(grunt) {
     "use strict";
 
     var watching = grunt.option('watching');
+    var develop = grunt.option('develop');
     var tasks, time = new Date(), day = time.getDate(), month = time.getMonth()+1, year = time.getFullYear(), hour = time.getHours(), mins = time.getMinutes(), sec = time.getSeconds();
     var timestamp = (day < 10 ? "0"+day:day) + "/" + (month < 10 ? "0"+month:month) + "/" + (year) + " " + (hour<10?"0"+hour:hour) + ":" + (mins<10?"0"+mins:mins) + ":" + (sec<10?"0"+sec:sec);
 
     var source_files = [
-        'src/index.js'
+        'src/index.js',
+        'src/i18n/*js'
     ];
 
     require('load-grunt-tasks')(grunt);
+
+    tasks = ['clean', 'eslint', 'concat', 'uglify', 'copy'];
+
+    if (!develop) {
+        tasks.push('removelogging');
+    }
+
+    if (watching) {
+        tasks.push('watch');
+    }
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -31,17 +43,21 @@ module.exports = function(grunt) {
         },
 
         concat: {
-            global: {
-                options: {
-                    banner: "<%= copyright %>\n",
-                    stripBanners: true,
-                    separator: "\n\n",
-                    process: function(src, filePath){
-                        return '// Source: ' + filePath + '\n\n' + src;
-                    }
-                },
-                src: source_files,
+            options: {
+                banner: "<%= copyright %>\n",
+                stripBanners: true,
+                separator: "\n\n",
+                process: function(src, filePath){
+                    return '// Source: ' + filePath + '\n\n' + src;
+                }
+            },
+            main: {
+                src: ['src/index.js'],
                 dest: 'build/datetime.js'
+            },
+            all: {
+                src: source_files,
+                dest: 'build/datetime.all.js'
             }
         },
 
@@ -61,37 +77,13 @@ module.exports = function(grunt) {
                 preserveComments: true,
                 compress: true
             },
-            global: {
+            main: {
                 src: 'build/datetime.js',
                 dest: 'build/datetime.min.js'
-            }
-        },
-
-        replace: {
-            build: {
-                options: {
-                    patterns: [
-                        {
-                            match: 'VERSION',
-                            replacement: "<%= pkg.version %>"
-                        },
-                        {
-                            match: 'STATUS',
-                            replacement: "<%= pkg.status %>"
-                        },
-                        {
-                            match: 'TIME',
-                            replacement: timestamp
-                        }
-                    ]
-                },
-                files: [
-                    {
-                        expand: true,
-                        flatten: true,
-                        src: ['build/*.js'], dest: 'build/'
-                    }
-                ]
+            },
+            all: {
+                src: 'build/datetime.all.js',
+                dest: 'build/datetime.all.min.js'
             }
         },
 
@@ -107,7 +99,7 @@ module.exports = function(grunt) {
         watch: {
             scripts: {
                 files: ['src/*.js', 'Gruntfile.js'],
-                tasks: ['clean', 'eslint',  'concat', 'uglify', 'copy', 'replace'],
+                tasks: tasks,
                 options: {
                     spawn: false,
                     reload: true
@@ -115,12 +107,6 @@ module.exports = function(grunt) {
             }
         }
     });
-
-    tasks = ['clean', 'eslint', 'concat', 'uglify', 'copy', 'replace'];
-
-    if (watching) {
-        tasks.push('watch');
-    }
 
     grunt.registerTask('default', tasks);
 };
