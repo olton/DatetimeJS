@@ -107,6 +107,7 @@ datetime().useLocale('ru').format("DD MMM YYYY"); // 03 Дек 2020
 In develop...
 
 ## Sponsors
+No sponsor yet :(
 
 ## License
 
