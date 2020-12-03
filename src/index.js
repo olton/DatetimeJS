@@ -685,7 +685,7 @@
                 '%P': this.ampm(true),
                 '%s': Math.round(time / 1000),
                 '%S': aSecond,
-                '%u': "", //Day of the week as a decimal (range 1 to 7), Monday being 1.
+                '%u': this.isoWeekDay(),
                 '%V': this.week(),
                 '%w': weekDay,
                 '%x': this.toLocaleDateString(),
