@@ -63,5 +63,14 @@ datetime().align("month"); // Will alignment to 1st day of month
 
 #### Compare
 ```javascript
+datetime("2020").older("2021"); // return true
+datetime("2020").younger("1972"); // return true
+datetime("2020").between("2019", "2021"); // return true
+datetime("2020-21-12").diff("1972-21-12"); // return {day: 17532, hour: 420768, millisecond: 1514764800000, minute: 25246080, month: 576, second: 1514764800, year: 48}
+datetime("2020-21-12").distance("1972-21-12", "year"); // return 48
+```
+
+#### Information
+```javascript
 
 ```

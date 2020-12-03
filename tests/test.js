@@ -12,12 +12,27 @@ describe('Datetime', function(){
         });
     });
 
+    describe('older()', () => {
+        it ('Should be true', () => {
+            assert.equal(datetime("2020").older("2021"), true);
+        })
+        it ('Should be false', () => {
+            assert.equal(datetime("2020").older("2019"), false);
+        })
+    });
+
+    describe('younger()', () => {
+        it ('Should be true', () => {
+            assert.equal(datetime("2020").younger("2019"), true);
+        })
+        it ('Should be false', () => {
+            assert.equal(datetime("2020").younger("2021"), false);
+        })
+    });
+
     describe('between()', () => {
         it ('Should be true', () => {
-            let date = datetime();
-            let d1 = datetime().add(-1, 'year');
-            let d2 = datetime().add(1, 'year');
-            assert.equal(date.between(d1, d2), true);
+            assert.equal(datetime("2020").between("2019", "2021"), true);
         })
     });
 
