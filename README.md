@@ -15,7 +15,11 @@ Datetime.js is a minimalist JavaScript library that parses, validates, manipulat
 You can find for more details, API, and other docs on [DOCUMENTATION](DOCUMENTATION.md).
 
 ### Installation
-
+In HTML
+```html
+<script src="datetime.js"></script>
+```
+For NodeJS or use with Webpack or modern JS
 ```console
 npm install @olton/datetime --save
 ```
@@ -72,5 +76,38 @@ datetime("2020-21-12").distance("1972-21-12", "year"); // return 48
 
 #### Information
 ```javascript
-
+datetime("2020-12-21").dayOfYear(); // return 356
+datetime("2020-02-01").daysInMonth(); // return 29
+datetime("2020-02-01").quarter(); // return 1
+datetime("2020").isLeapYear(); // return true
 ```
+
+### i18n
+`Datetime` has great support for internationalization. By default, Datetime includes only **english** locale.
+You can include many others:
+
+In HTML
+```html
+<script src="datetime.js"></script>
+<script src="i18n/ru.js"></script>
+```
+For NodeJS or use with Webpack or modern JS
+```javascript
+import "@olton/datetime";
+import "@olton/i18n/ru";
+```
+
+With locales:
+```javascript
+Datetime.fromString("16 Ноября 1961 15:24", "dd mm %y h:i", "ru");
+datetime().useLocale('ru').format("DD MMM YYYY"); // 03 Дек 2020
+```
+
+### Plugins
+In develop...
+
+## Sponsors
+
+## License
+
+Datetime is licensed under a [MIT license](LICENSE).
