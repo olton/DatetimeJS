@@ -2,7 +2,7 @@
 
 Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
 
-* 🕒 Familiar Moment.js API & patterns
+* 🕒 Quick and accurate
 * 🔥 Chainable
 * 🌐 I18n support
 * 📦 3kb mini library
