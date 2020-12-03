@@ -5,7 +5,6 @@
     var DEFAULT_FORMAT = "YYYY-MM-DDTHH:mm:ss.sssZ";
     var DEFAULT_FORMAT_STRFTIME = "%Y-%m-%d %H:%M:%S %z";
     var INVALID_DATE = "Invalid date";
-    var REGEX_PARSE = /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[^0-9]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?.?(\d+)?$/;
     var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,3}|Z{1,2}|z{1,2}|C/g;
     var REGEX_FORMAT_STRFTIME = /(%[a-z])/gi;
 
@@ -30,6 +29,23 @@
         Y: "FullYear",
         y: "Year",
         t: "Time"
+    }
+
+    var C = {
+        ms: "millisecond",
+        s: "second",
+        m: "minute",
+        h: "hour",
+        D: "day",
+        W: "week",
+        WI: "isoWeek",
+        d: "weekDay",
+        M: "month",
+        Y: "year",
+        Y2: "year2",
+        t: "time",
+        c: "century",
+        q: "quarter"
     }
 
     var lpad = function(str, pad, length){
@@ -87,22 +103,126 @@
     Datetime.align = function(d, align, asDate){
         var date = datetime(d), result;
         switch (align) {
-            case "second": result = date.millisecond(0); break;
-            case "minute": result = date.millisecond(0).second(0); break;
-            case "hour": result = date.millisecond(0).second(0).minute(0); break;
-            case "day": result = date.millisecond(0).second(0).minute(0).hour(0); break;
-            case "month": result = date.millisecond(0).second(0).minute(0).hour(0).day(1); break;
-            case "year": result = date.millisecond(0).second(0).minute(0).hour(0).day(1).month(0); break;
-            case "quarter": result = date.millisecond(0).second(0).minute(0).hour(0).day(1).month(date.quarter() * 3 - 3); break;
-            case "week": result = date.millisecond(0).second(0).minute(0).hour(0).add(-date.weekDay(), 'day'); break;
-            case "isoWeek": result = date.millisecond(0).second(0).minute(0).hour(0).add(-date.isoWeekDay() + 1, 'day'); break;
+            case C.s: result = date.millisecond(0); break;
+            case C.m: result = date.millisecond(0).second(0); break;
+            case C.h: result = date.millisecond(0).second(0).minute(0); break;
+            case C.D: result = date.millisecond(0).second(0).minute(0).hour(0); break;
+            case C.M: result = date.millisecond(0).second(0).minute(0).hour(0).day(1); break;
+            case C.Y: result = date.millisecond(0).second(0).minute(0).hour(0).day(1).month(0); break;
+            case C.q: result = date.millisecond(0).second(0).minute(0).hour(0).day(1).month(date.quarter() * 3 - 3); break;
+            case C.w: result = date.millisecond(0).second(0).minute(0).hour(0).add(-date.weekDay(), 'day'); break;
+            case C.WI: result = date.millisecond(0).second(0).minute(0).hour(0).add(-date.isoWeekDay() + 1, 'day'); break;
             default: result = date;
         }
         return asDate ? result.val() : result;
     }
 
-    Datetime.fromString = function(str, locale){
+    Datetime.parse = function(str){
+        return datetime(Date.parse(str));
+    }
 
+    Datetime.fromString = function(str, format, locale){
+        var normalized, normalizedFormat, formatItems, dateItems, checkValue;
+        var monthIndex, dayIndex, yearIndex, hourIndex, minutesIndex, secondsIndex;
+        var year, month, day, hour, minute, second;
+        var parsedMonth;
+
+        var monthNameToNumber = function(month){
+            var index = -1;
+            var names = global['DATETIME_LOCALES'][locale || 'en'];
+
+            if (typeof month === "undefined" || month === null) {
+                return -1;
+            }
+
+            month = month.substr(0, 3);
+
+            for(var i = 0; i < 12; i++) {
+                if (names.monthsShort[i].toLowerCase() === month.toLowerCase()) {
+                    index = i;
+                    break;
+                }
+            }
+
+            return index + 1;
+        };
+
+        var getPartIndex = function(part){
+            var parts = {
+                "month": ["M", "mm", "%m"],
+                "day": ["D", "dd", "%d"],
+                "year": ["YY", "YYYY", "yy", "yyyy", "%y"],
+                "hour": ["h", "hh", "%h"],
+                "minute": ["m", "mi", "i", "ii", "%i"],
+                "second": ["s", "ss", "%s"]
+            }
+
+            var result = -1, key, index;
+
+            if (!parts[part]) {
+                return result;
+            }
+
+            for(var i = 0; i < parts[part].length; i++) {
+                key = parts[part][i];
+                index = formatItems.indexOf(key);
+                if (index !== -1) {
+                    result = index;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        if (not(format) || (""+format).trim() === "") {
+            return datetime();
+        }
+
+        /* eslint-disable-next-line */
+        normalized      = str.replace(/[\/,.:\s]/g, '-');
+        /* eslint-disable-next-line */
+        normalizedFormat= format.toLowerCase().replace(/[^a-zA-Z0-9%]/g, '-');
+        formatItems     = normalizedFormat.split('-');
+        dateItems       = normalized.split('-');
+        checkValue      = normalized.replace(/-/g,"");
+
+        if (checkValue.trim() === "") {
+            return INVALID_DATE;
+        }
+
+        monthIndex = getPartIndex(C.M);
+        dayIndex = getPartIndex(C.D);
+        yearIndex = getPartIndex(C.Y);
+        hourIndex = getPartIndex(C.h);
+        minutesIndex = getPartIndex(C.m);
+        secondsIndex = getPartIndex(C.s);
+
+        if (monthIndex > -1 && dateItems[monthIndex] !== "") {
+            if (isNaN(parseInt(dateItems[monthIndex]))) {
+                dateItems[monthIndex] = monthNameToNumber(dateItems[monthIndex]);
+                if (dateItems[monthIndex] === -1) {
+                    return INVALID_DATE;
+                }
+            } else {
+                parsedMonth = parseInt(dateItems[monthIndex]);
+                if (parsedMonth < 1 || parsedMonth > 12) {
+                    return INVALID_DATE;
+                }
+            }
+        } else {
+            return INVALID_DATE;
+        }
+
+        year  = yearIndex >-1 && dateItems[yearIndex] !== "" ? dateItems[yearIndex] : null;
+        month = monthIndex >-1 && dateItems[monthIndex] !== "" ? dateItems[monthIndex] : null;
+        day   = dayIndex >-1 && dateItems[dayIndex] !== "" ? dateItems[dayIndex] : null;
+
+        hour    = hourIndex >-1 && dateItems[hourIndex] !== "" ? dateItems[hourIndex] : null;
+        minute  = minutesIndex>-1 && dateItems[minutesIndex] !== "" ? dateItems[minutesIndex] : null;
+        second  = secondsIndex>-1 && dateItems[secondsIndex] !== "" ? dateItems[secondsIndex] : null;
+
+        return datetime(year, month-1, day, hour, minute, second);
     }
     /* ************* End of static **************** */
 
@@ -245,18 +365,18 @@
 
         get: function(unit){
             switch (unit) {
-                case "day": return this.day();
-                case "weekDay": return this.weekDay();
-                case "week": return this.week();
-                case "month": return this.month();
-                case "year": return this.year();
-                case "year2": return this.year2();
-                case "hour": return this.hour();
-                case "minute": return this.minute();
-                case "second": return this.second();
-                case "millisecond": return this.millisecond();
-                case "time": return this.time();
-                case "century": return this.century();
+                case C.D: return this.day();
+                case C.d: return this.weekDay();
+                case C.W: return this.week();
+                case C.M: return this.month();
+                case C.Y: return this.year();
+                case C.Y2: return this.year2();
+                case C.h: return this.hour();
+                case C.m: return this.minute();
+                case C.s: return this.second();
+                case C.ms: return this.millisecond();
+                case C.t: return this.time();
+                case C.c: return this.century();
                 default: return this.valueOf();
             }
         },
@@ -264,40 +384,40 @@
         set: function(unit, val){
             val = val || 0;
             switch (unit) {
-                case "day": return this.day(val);
-                case "month": return this.month(val);
-                case "year": return this.year(val);
-                case "hour": return this.hour(val);
-                case "minute": return this.minute(val);
-                case "second": return this.second(val);
-                case "millisecond": return this.millisecond(val);
-                case "time": return this.time(val);
+                case C.D: return this.day(val);
+                case C.M: return this.month(val);
+                case C.Y: return this.year(val);
+                case C.h: return this.hour(val);
+                case C.m: return this.minute(val);
+                case C.s: return this.second(val);
+                case C.ms: return this.millisecond(val);
+                case C.t: return this.time(val);
             }
         },
 
         add: function(val, to){
             switch (to) {
-                case "hour": this.time(this.time() + (val * 60 * 60 * 1000)); break;
-                case "minute": this.time(this.time() + (val * 60 * 1000)); break;
-                case "second": this.time(this.time() + (val * 1000)); break;
-                case "millisecond": this.time(this.time() + (val)); break;
-                case "day": this.day(this.day() + val); break;
-                case "week": this.day(this.day() + val * 7); break;
-                case "month": this.month(this.month() + val); break;
-                case "year": this.year(this.year() + val); break;
-                case "quarter": this.month(this.month() + val * 3); break;
+                case C.h: this.time(this.time() + (val * 60 * 60 * 1000)); break;
+                case C.m: this.time(this.time() + (val * 60 * 1000)); break;
+                case C.s: this.time(this.time() + (val * 1000)); break;
+                case C.ms: this.time(this.time() + (val)); break;
+                case C.D: this.day(this.day() + val); break;
+                case C.W: this.day(this.day() + val * 7); break;
+                case C.M: this.month(this.month() + val); break;
+                case C.Y: this.year(this.year() + val); break;
+                case C.q: this.month(this.month() + val * 3); break;
             }
             return this;
         },
 
-        addHour: function(v){return this.add(v,'hour');},
-        addMinute: function(v){return this.add(v,'minute');},
-        addSecond: function(v){return this.add(v, 'second');},
-        addMillisecond: function(v){return this.add(v, 'millisecond');},
-        addDay: function(v){return this.add(v,'day');},
-        addWeek: function(v){return this.add(v,'week');},
-        addMonth: function(v){return this.add(v, 'month');},
-        addYear: function(v){return this.add(v, 'year');},
+        addHour: function(v){return this.add(v,C.h);},
+        addMinute: function(v){return this.add(v,C.m);},
+        addSecond: function(v){return this.add(v, C.s);},
+        addMillisecond: function(v){return this.add(v, C.ms);},
+        addDay: function(v){return this.add(v,C.D);},
+        addWeek: function(v){return this.add(v,C.W);},
+        addMonth: function(v){return this.add(v, C.M);},
+        addYear: function(v){return this.add(v, C.Y);},
 
         between: function(d1, d2){
             return this.younger(d1) && this.older(d2);
@@ -330,7 +450,7 @@
                 throw new Error("Argument is not a valid date");
             }
 
-            align = (align || "millisecond").toLowerCase();
+            align = (align || C.ms).toLowerCase();
 
             t1 = curr.align(align).time();
             t2 = date.align(align).time();
