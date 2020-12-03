@@ -656,13 +656,14 @@
             var format = fmt || DEFAULT_FORMAT_STRFTIME;
             var names = global['DATETIME_LOCALES'][locale || this.locale];
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();
-            var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), time = this.time();
+            var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), millisecond = this.millisecond(), time = this.time();
             var aDay = lpad(day, "0", 2),
                 aMonth = lpad(month + 1, "0", 2),
                 aHour = lpad(hour, "0", 2),
                 aHour12 = lpad(hour12, "0", 2),
                 aMinute = lpad(minute, "0", 2),
-                aSecond = lpad(second, "0", 2);
+                aSecond = lpad(second, "0", 2),
+                aMillisecond = lpad(millisecond, "0", 3);
 
             var matches = {
                 '%a': names.weekdaysShort[weekDay],
@@ -701,7 +702,10 @@
                 '%Z': this.timezoneName(),
                 '%r': [aHour12, aMinute, aSecond].join(":") + " " + this.ampm(),
                 '%R': [aHour, aMinute].join(":"),
-                "%T": [aHour, aMinute, aSecond].join(":")
+                "%T": [aHour, aMinute, aSecond].join(":"),
+                "%Q": aMillisecond,
+                "%q": millisecond,
+                "%t": this.timezone()
             };
 
             return format.replace(REGEX_FORMAT_STRFTIME, function(match){
