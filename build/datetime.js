@@ -56,10 +56,15 @@
 
     /* Fabric method */
     var datetime = function(){
+        var args;
         if (arguments[0] instanceof Datetime) {
             return arguments[0].clone();
         }
-        var args = [].slice.call(arguments);
+        if (Array.isArray(arguments[0])) {
+            args = [].slice.call(arguments[0]);
+        } else {
+            args = [].slice.call(arguments);
+        }
         return new (Function.prototype.bind.apply(Datetime,  [this].concat(args) ) );
     }
 
@@ -104,6 +109,10 @@
             default: result = date;
         }
         return asDate ? result.val() : result;
+    }
+
+    Datetime.fromString = function(str, locale){
+
     }
     /* ************* End of static **************** */
 
@@ -402,17 +411,9 @@
         },
 
         daysInYear: function(){
-            var result = 0;
-            var curr = this.clone();
-
-            curr.month(0).day(1);
-
-            for(var i = 0; i < 12; i++) {
-                curr.add(1, 'month').add(-1, 'day');
-                result += curr.day();
-                curr.day(1).add(1, 'month');
-            }
-            return result;
+            return this.daysInYearMap().reduce(function(a, b){
+                return a + b;
+            }, 0)
         },
 
         daysInYearMap: function(){
@@ -426,6 +427,18 @@
                 result.push(curr.day());
                 curr.day(1).add(1, 'month');
             }
+            return result;
+        },
+
+        daysInYearObj: function(locale){
+            var map = this.daysInYearMap();
+            var result = {};
+            var names = global['DATETIME_LOCALES'][locale || this.locale];
+
+            map.forEach(function(v, i){
+                result[names['months'][i]] = v;
+            });
+
             return result;
         },
 
