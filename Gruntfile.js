@@ -75,7 +75,10 @@ module.exports = function(grunt) {
             options: {
                 sourceMap: true,
                 preserveComments: true,
-                compress: true
+                compress: true,
+                mangle: {
+                    reserved: ['Datetime', 'datetime', 'DATETIME_LOCALES']
+                }
             },
             main: {
                 src: 'build/datetime.js',
