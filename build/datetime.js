@@ -372,6 +372,10 @@
             return this.weekDay((val + 6) % 7 + 1);
         },
 
+        isoWeek: function(){
+            return this.week(1);
+        },
+
         weeksInYear: function(iso){
             var curr = this.clone();
             return curr.month(11).day(31).week(iso ? 1 : 0);
@@ -669,20 +673,28 @@
                 aSecond = lpad(second, "0", 2),
                 aMillisecond = lpad(millisecond, "0", 3);
 
+            var that = this;
+
+            var thursday = function(){
+                var target = that.clone();
+                target.day(that.day() - ((that.weekDay() + 6) % 7) + 3);
+                return target;
+            };
+
             var matches = {
                 '%a': names.weekdaysShort[weekDay],
                 '%A': names.weekdays[weekDay],
                 '%b': names.monthsShort[month],
                 '%h': names.monthsShort[month],
                 '%B': names.months[month],
-                '%c': "",
+                '%c': this.toString().substring(0, this.toString().indexOf(" (")),
                 '%C': this.century(),
                 '%d': aDay,
                 '%D': [aDay, aMonth, year].join("/"),
                 '%e': day,
                 '%F': [year, aMonth, aDay].join("-"),
-                '%G': "",
-                '%g': "",
+                '%G': thursday().year(),
+                '%g': (""+thursday().year()).slice(2),
                 '%H': aHour,
                 '%I': aHour12,
                 '%j': lpad(this.dayOfYear(), "0", 3),
@@ -696,7 +708,7 @@
                 '%s': Math.round(time / 1000),
                 '%S': aSecond,
                 '%u': this.isoWeekDay(),
-                '%V': this.week(),
+                '%V': this.isoWeek(),
                 '%w': weekDay,
                 '%x': this.toLocaleDateString(),
                 '%X': this.toLocaleTimeString(),
