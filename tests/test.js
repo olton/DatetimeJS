@@ -60,6 +60,33 @@ describe('Datetime', function(){
         })
     });
 
+    describe('isToday()', () => {
+        it ('Should be true for 2020-12-21 and 2020-12-21', () => {
+            assert.equal(datetime("2020-12-21").isToday("2020-12-21"), true);
+        })
+        it ('Should be false for 2020-12-21 and 2020-12-22', () => {
+            assert.equal(datetime("2020-12-21").isToday("2020-12-22"), false);
+        })
+    });
+
+    describe('isYesterday()', () => {
+        it ('Should be true for 2020-12-21 and 2020-12-20', () => {
+            assert.equal(datetime("2020-12-21").isYesterday("2020-12-20"), true);
+        })
+        it ('Should be false for 2020-12-21 and 2020-12-22', () => {
+            assert.equal(datetime("2020-12-21").isYesterday("2020-12-22"), false);
+        })
+    });
+
+    describe('isTomorrow()', () => {
+        it ('Should be true for 2020-12-21 and 2020-12-22', () => {
+            assert.equal(datetime("2020-12-21").isTomorrow("2020-12-22"), true);
+        })
+        it ('Should be false for 2020-12-21 and 2020-12-20', () => {
+            assert.equal(datetime("2020-12-21").isTomorrow("2020-12-20"), false);
+        })
+    });
+
     describe('year2()', () => {
         it ('Should be 21 for 2021', () => {
             assert.equal(datetime("2021").year2(), 21);

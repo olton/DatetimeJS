@@ -294,6 +294,27 @@
             return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
         },
 
+        isToday: function(d){
+            var curr = this.clone().align('day');
+            var date = datetime(d).align('day');
+
+            return curr.time() === date.time();
+        },
+
+        isYesterday: function(d){
+            var curr = this.clone().align('day').addDay(-1);
+            var date = datetime(d).align('day');
+
+            return curr.time() === date.time();
+        },
+
+        isTomorrow: function(d){
+            var curr = this.clone().align('day').addDay(1);
+            var date = datetime(d).align('day');
+
+            return curr.time() === date.time();
+        },
+
         year2: function(){
             return (""+this.year()).substr(-2);
         },
