@@ -885,21 +885,13 @@
 
     Datetime.use({
         test: function(val){
-            if (val !== 0 && !val) {
-                return "test";
-            }
-
-            return val;
+            return 0 === val || val ? val : "test";
         }
     });
 
     Datetime.useStatic({
         test: function(val){
-            if (val !== 0 && !val) {
-                return "static test";
-            }
-
-            return val;
+            return 0 === val || val ? val : "static test";
         }
     });
 }(typeof self === "undefined" ? typeof global === "undefined" ? window : global : self));
