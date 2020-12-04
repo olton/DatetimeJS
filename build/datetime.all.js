@@ -242,6 +242,33 @@
 
         return datetime(year, month-1, day, hour, minute, second);
     }
+
+    // Extender for plugins
+    var extend = function(where, obj){
+        var options, name,
+            length = arguments.length;
+
+        var target = where;
+
+        for (var i = 0; i < length; i++ ) {
+            if ( ( options = arguments[ i ] ) != null ) {
+                for ( name in options ) {
+                    if (options.hasOwnProperty(name))
+                        target[ name ] = options[ name ];
+                }
+            }
+        }
+
+        return target;
+    }
+
+    Datetime.use = function(obj){
+        extend(Datetime.prototype, obj);
+    }
+
+    Datetime.useStatic = function(obj){
+        extend(Datetime, obj);
+    }
     /* ************* End of static **************** */
 
     Datetime.prototype = {
@@ -847,4 +874,33 @@
 
     Datetime.locale("ua", locale);
 }(Datetime));
+/* eslint-enable */
+
+
+// Source: src/plugins/test.js
+
+/* eslint-disable */
+(function(global) {
+    'use strict';
+
+    Datetime.use({
+        test: function(val){
+            if (val !== 0 && !val) {
+                return "test";
+            }
+
+            return val;
+        }
+    });
+
+    Datetime.useStatic({
+        test: function(val){
+            if (val !== 0 && !val) {
+                return "static test";
+            }
+
+            return val;
+        }
+    });
+}(typeof self === "undefined" ? typeof global === "undefined" ? window : global : self));
 /* eslint-enable */

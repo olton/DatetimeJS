@@ -232,6 +232,33 @@
 
         return datetime(year, month-1, day, hour, minute, second);
     }
+
+    // Extender for plugins
+    var extend = function(where, obj){
+        var options, name,
+            length = arguments.length;
+
+        var target = where;
+
+        for (var i = 0; i < length; i++ ) {
+            if ( ( options = arguments[ i ] ) != null ) {
+                for ( name in options ) {
+                    if (options.hasOwnProperty(name))
+                        target[ name ] = options[ name ];
+                }
+            }
+        }
+
+        return target;
+    }
+
+    Datetime.use = function(obj){
+        extend(Datetime.prototype, obj);
+    }
+
+    Datetime.useStatic = function(obj){
+        extend(Datetime, obj);
+    }
     /* ************* End of static **************** */
 
     Datetime.prototype = {

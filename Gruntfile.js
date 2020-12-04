@@ -9,12 +9,13 @@ module.exports = function(grunt) {
 
     var source_files = [
         'src/index.js',
-        'src/i18n/*js'
+        'src/i18n/*js',
+        'src/plugins/*js',
     ];
 
     require('load-grunt-tasks')(grunt);
 
-    tasks = ['clean', 'eslint', 'concat', 'uglify', 'copy'];
+    tasks = ['clean', 'eslint', 'copy', 'concat', 'uglify'];
 
     if (!develop) {
         tasks.push('removelogging');
@@ -87,15 +88,43 @@ module.exports = function(grunt) {
             all: {
                 src: 'build/datetime.all.js',
                 dest: 'build/datetime.all.min.js'
+            },
+            plugins: {
+                files: [{
+                    expand: true,
+                    cwd: 'build/plugins',
+                    src: '**/*.js',
+                    dest: 'build/plugins',
+                    rename: function (dst, src) {
+                        return dst + '/' + src.replace('.js', '.min.js');
+                    }
+                }]
+            },
+            i18n: {
+                files: [{
+                    expand: true,
+                    cwd: 'build/i18n',
+                    src: '**/*.js',
+                    dest: 'build/i18n',
+                    rename: function (dst, src) {
+                        return dst + '/' + src.replace('.js', '.min.js');
+                    }
+                }]
             }
         },
 
         copy: {
-            fonts: {
+            i18n: {
                 expand: true,
                 cwd: 'src/i18n',
                 src: '**/*',
                 dest: 'build/i18n'
+            },
+            plugins: {
+                expand: true,
+                cwd: 'src/plugins',
+                src: '**/*',
+                dest: 'build/plugins'
             }
         },
 
