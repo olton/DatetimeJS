@@ -116,13 +116,13 @@ Create plugin
     'use strict';
 
     Datetime.use({
-        test: function(val){
+        prototypeTest: function(val){
             return 0 === val || val ? val : "test";
         }
     });
 
     Datetime.useStatic({
-        test: function(val){
+        staticTest: function(val){
             return 0 === val || val ? val : "static test";
         }
     });
@@ -138,11 +138,11 @@ Include a plugin into page after `datetime.js`:
 And now use plugin:
 ```html
 <!-- Prototype methods -->
-console.log(datetime().test());
-console.log(datetime().test(123));
+console.log(datetime().prototypeTest());
+console.log(datetime().prototypeTest(123));
 <!-- static methods  -->
-console.log(Datetime.test());
-console.log(Datetime.test(456));
+console.log(Datetime.staticTest());
+console.log(Datetime.staticTest(456));
 ```
 
 ## Sponsors
