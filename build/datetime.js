@@ -112,6 +112,10 @@
         global['DATETIME_LOCALES'][name] = locale;
     }
 
+    Datetime.getNames = function(locale){
+        return global['DATETIME_LOCALES'][locale || "en"];
+    }
+
     Datetime.align = function(d, align, asDate){
         var date = datetime(d), result;
         switch (align) {
@@ -141,7 +145,7 @@
 
         var monthNameToNumber = function(month){
             var index = -1;
-            var names = global['DATETIME_LOCALES'][locale || 'en'];
+            var names = Datetime.getNames(locale || 'en');
 
             if (not(month)) return -1;
 
@@ -616,13 +620,13 @@
             return result;
         },
 
-        daysInYearObj: function(locale){
+        daysInYearObj: function(locale, shortName){
             var map = this.daysInYearMap();
             var result = {};
-            var names = global['DATETIME_LOCALES'][locale || this.locale];
+            var names = Datetime.getNames(locale || this.locale);
 
             map.forEach(function(v, i){
-                result[names['months'][i]] = v;
+                result[names[shortName ? 'monthsShort' : 'months'][i]] = v;
             });
 
             return result;
@@ -678,7 +682,7 @@
             if (!this.isValid()) return INVALID_DATE;
 
             var format = fmt || DEFAULT_FORMAT;
-            var names = global['DATETIME_LOCALES'][locale || this.locale];
+            var names = Datetime.getNames(locale || this.locale);
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay(), week = this.week();
             var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), ms = this.millisecond();
             var matches = {
@@ -722,7 +726,7 @@
             if (!this.isValid()) return INVALID_DATE;
 
             var format = fmt || DEFAULT_FORMAT_STRFTIME;
-            var names = global['DATETIME_LOCALES'][locale || this.locale];
+            var names = Datetime.getNames(locale || this.locale);
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();
             var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), millisecond = this.millisecond(), time = this.time();
             var aDay = lpad(day, "0", 2),
