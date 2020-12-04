@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://metroui.org.ua/res/images/calendar.png" alt="Datetime" height="100">
+    <img src="https://metroui.org.ua/res/images/calendar.png" alt="Datetime" height="200">
 </p>
 
 # Datetime.js
