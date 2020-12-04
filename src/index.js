@@ -5,7 +5,7 @@
     var DEFAULT_FORMAT = "YYYY-MM-DDTHH:mm:ss.sssZ";
     var DEFAULT_FORMAT_STRFTIME = "%Y-%m-%d %H:%M:%S %z";
     var INVALID_DATE = "Invalid date";
-    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,3}|Z{1,2}|z{1,2}|C/g;
+    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,3}|Z{1,2}|z{1,2}|C|W{1,2}|I{1,3}/g;
     var REGEX_FORMAT_STRFTIME = /(%[a-z])/gi;
 
     global['DATETIME_LOCALES'] = {
@@ -41,6 +41,7 @@
         W: "week",
         WI: "isoWeek",
         d: "weekDay",
+        dI: "isoWeekDay",
         M: "month",
         Y: "year",
         Y2: "year2",
@@ -80,7 +81,7 @@
         var args = [].slice.call(arguments);
         this.value = new (Function.prototype.bind.apply(Date,  [this].concat(args) ) );
         this.locale = "en";
-        this.weekStart = 0;
+        this.weekStart = global['DATETIME_LOCALES']["en"].weekStart;
         this.utcMode = false;
     }
 
@@ -373,16 +374,18 @@
             return this.week(1);
         },
 
-        weeksInYear: function(iso){
+        weeksInYear: function(weekStart){
             var curr = this.clone();
-            return curr.month(11).day(31).week(iso ? 1 : 0);
+            return curr.month(11).day(31).week(weekStart);
         },
 
         get: function(unit){
             switch (unit) {
                 case C.D: return this.day();
                 case C.d: return this.weekDay();
+                case C.dI: return this.isoWeekDay();
                 case C.W: return this.week();
+                case C.WI: return this.isoWeek();
                 case C.M: return this.month();
                 case C.Y: return this.year();
                 case C.Y2: return this.year2();
@@ -590,7 +593,7 @@
         week: function (weekStart) {
             var nYear, nday, newYear, day, daynum, weeknum;
 
-            weekStart = +weekStart ? 1 : 0;
+            weekStart = +weekStart || 0;
             newYear = datetime(this.year(), 0, 1);
             day = newYear.weekDay() - weekStart;
             day = (day >= 0 ? day : day + 7);
@@ -647,7 +650,9 @@
                 ss: lpad(second,"0", 2),
                 sss: lpad(ms,"0", 3),
                 Z: this.utcMode ? "Z" : this.timezone(),
-                C: this.century()
+                C: this.century(),
+                I: this.isoWeekDay(),
+                II: this.isoWeek()
             };
 
             return format.replace(REGEX_FORMAT, function(match, $1){
