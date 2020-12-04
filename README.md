@@ -2,11 +2,7 @@
     <img src="https://metroui.org.ua/res/images/calendar.png" alt="Datetime" height="200">
 </p>
 
-<p align="center">
-
-# Datetime.js
-
-</p>
+<h1 align="center">Datetime.js</h1>
 
 Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
 
