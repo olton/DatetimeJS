@@ -1,7 +1,7 @@
 {
   "name": "@olton/datetime",
-  "title": "Datetime",
-  "description": "Immutable date-time library with the modern API",
+  "title": "DatetimeJS",
+  "description": "Date and time library with the modern API",
   "version": "0.1.0",
   "main": "build/datetime.js",
   "homepage": "https://github.com/olton/Datetime",
