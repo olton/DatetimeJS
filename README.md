@@ -140,6 +140,7 @@ And now use plugin:
 <!-- Prototype methods -->
 console.log(datetime().prototypeTest());
 console.log(datetime().prototypeTest(123));
+
 <!-- static methods  -->
 console.log(Datetime.staticTest());
 console.log(Datetime.staticTest(456));
