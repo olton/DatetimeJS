@@ -5,7 +5,7 @@
     var DEFAULT_FORMAT = "YYYY-MM-DDTHH:mm:ss.sssZ";
     var DEFAULT_FORMAT_STRFTIME = "%Y-%m-%d %H:%M:%S %z";
     var INVALID_DATE = "Invalid date";
-    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,3}|Z{1,2}|z{1,2}|C|W{1,2}|I{1,3}/g;
+    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,3}|Z{1,2}|z{1,2}|C|W{1,2}|I{1,3}|B{2,4}/g;
     var REGEX_FORMAT_STRFTIME = /(%[a-z])/gi;
 
     global['DATETIME_LOCALES'] = {
@@ -325,6 +325,10 @@
 
         century: function(){
             return parseInt(this.year() / 100);
+        },
+
+        buddhistEra: function(){
+            return this.year() + 543;
         },
 
         dayOfYear: function(){
@@ -704,7 +708,9 @@
                 Z: this.utcMode ? "Z" : this.timezone(),
                 C: this.century(),
                 I: this.isoWeekDay(),
-                II: this.isoWeek()
+                II: this.isoWeek(),
+                BB: (this.buddhistEra()+"").slice(-2),
+                BBBB: this.buddhistEra()
             };
 
             return format.replace(REGEX_FORMAT, function(match, $1){
