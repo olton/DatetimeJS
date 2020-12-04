@@ -108,7 +108,42 @@ datetime().useLocale('ru').format("DD MMM YYYY"); // 03 Дек 2020
 ```
 
 ### Plugins
-In develop...
+You can create plugin and register it with functions `Datetime.use()` and `Datetime.useStatic()`:
+
+Create plugin
+```javascript
+(function(global) {
+    'use strict';
+
+    Datetime.use({
+        test: function(val){
+            return 0 === val || val ? val : "test";
+        }
+    });
+
+    Datetime.useStatic({
+        test: function(val){
+            return 0 === val || val ? val : "static test";
+        }
+    });
+}());
+```
+
+Include a plugin into page after `datetime.js`:
+```html
+<script sec="datetime.js"></script>
+<script sec="plugin.js"></script>
+```
+
+And now use plugin:
+```html
+<!-- Prototype methods -->
+console.log(datetime().test());
+console.log(datetime().test(123));
+<!-- static methods  -->
+console.log(Datetime.test());
+console.log(Datetime.test(456));
+```
 
 ## Sponsors
 No sponsor yet :(
