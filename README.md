@@ -46,6 +46,16 @@ Datetime.fromString("16 November 1961 15:24", "dd mm %y h:i", "en")
 Datetime.fromString("16 Ноября 1961 15:24", "dd mm %y h:i", "ru")
 ```
 
+#### Immutable/mutable
+By default, datetime object is mutable. But, You can create **immutable** variable with method `immutable`:
+
+```javascript
+var immutableDate = datetime('2020-12-21').immutable();
+console.log(immutableDate); // 2020-12-21
+console.log(immutableDate.add(1, 'month')); // 2021-01-21 this is a new object
+console.log(immutableDate); // 2020-12-21
+```
+
 #### Display
 ```javascript
 datetime().format('{YYYY} MM-DDTHH:mm:ss sss Z A');
