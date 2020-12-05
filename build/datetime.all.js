@@ -2,7 +2,7 @@
  * Datetime v0.1.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Date and time library with the modern API
- * Build at 05/12/2020 15:29:26
+ * Build at 05/12/2020 17:21:07
  * Licensed under MIT
  */
 
@@ -94,7 +94,7 @@
         this.locale = "en";
         this.weekStart = global['DATETIME_LOCALES']["en"].weekStart;
         this.utcMode = false;
-        this.immutable = false;
+        this.mutable = true;
     }
 
     /* ************ Static methods **************** */
@@ -122,7 +122,7 @@
     }
 
     Datetime.align = function(d, align, asDate){
-        var date = datetime(d), result;
+        var date = datetime(d), result, temp;
         switch (align) {
             case C.s:  result = date[C.ms](0); break; //second
             case C.m:  result = date[C.ms](0)[C.s](0); break; //minute
@@ -131,8 +131,16 @@
             case C.M:  result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0)[C.D](1); break; //month
             case C.Y:  result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0)[C.D](1)[C.M](0); break; //year
             case C.q:  result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0)[C.D](1)[C.M](date.quarter() * 3 - 3); break; //quarter
-            case C.w:  result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0).addDay(-date.weekDay()); break; // week
-            case C.WI: result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0).addDay(-date.isoWeekDay() + 1); break; // isoWeek
+            case C.W:  {
+                temp = date.weekDay();
+                result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0).addDay(-temp);
+                break; // week
+            }
+            case C.WI: {
+                temp = date.weekDay();
+                result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0).addDay(-temp + 1);
+                break; // isoWeek
+            }
             default:   result = date;
         }
         return asDate ? result.val() : result;
@@ -280,6 +288,11 @@
     /* ************* End of static **************** */
 
     Datetime.prototype = {
+        immutable: function(v){
+            this.mutable = !(not(v) ? true : v);
+            return this;
+        },
+
         utc: function(){
             this.utcMode = true;
             return this;
@@ -357,15 +370,23 @@
             if ( !(val instanceof Date) )
                 return this.value;
 
-            this.value = val;
-            return this;
+            if (this.mutable) {
+                this.value = val;
+                return this;
+            }
+
+            return datetime(val);
         },
 
         unix: function(val) {
+            var _val = val * 1000;
             if (!arguments.length || (not(val))) {
                 return Math.floor(this.valueOf() / 1000)
             }
-            return this.time(val * 1000);
+            if (this.mutable) {
+                return this.time(_val);
+            }
+            return datetime(this.value).time(_val);
         },
 
         valueOf: function(){
@@ -375,8 +396,14 @@
         /* Get + Set */
 
         _set: function(m, v){
-            this.value["set"+(this.utcMode && m !== "t" ? "UTC" : "")+M[m]](v);
-            return this;
+            var fn = "set" + (this.utcMode && m !== "t" ? "UTC" : "") + M[m];
+            if (this.mutable) {
+                this.value[fn](v);
+                return this;
+            }
+            var clone = this.clone();
+            clone.value[fn](v);
+            return clone;
         },
 
         _get: function(m){
@@ -481,17 +508,16 @@
 
         add: function(val, to){
             switch (to) {
-                case C.h: this.time(this.time() + (val * 60 * 60 * 1000)); break;
-                case C.m: this.time(this.time() + (val * 60 * 1000)); break;
-                case C.s: this.time(this.time() + (val * 1000)); break;
-                case C.ms: this.time(this.time() + (val)); break;
-                case C.D: this.day(this.day() + val); break;
-                case C.W: this.day(this.day() + val * 7); break;
-                case C.M: this.month(this.month() + val); break;
-                case C.Y: this.year(this.year() + val); break;
-                case C.q: this.month(this.month() + val * 3); break;
+                case C.h: return this.time(this.time() + (val * 60 * 60 * 1000));
+                case C.m: return this.time(this.time() + (val * 60 * 1000));
+                case C.s: return this.time(this.time() + (val * 1000));
+                case C.ms: return this.time(this.time() + (val));
+                case C.D: return this.day(this.day() + val);
+                case C.W: return this.day(this.day() + val * 7);
+                case C.M: return this.month(this.month() + val);
+                case C.Y: return this.year(this.year() + val);
+                case C.q: return this.month(this.month() + val * 3);
             }
-            return this;
         },
 
         addHour: function(v){return this.add(v,C.h);},
@@ -508,8 +534,12 @@
         },
 
         align: function(align){
-            this.value = Datetime.align(this.value, align, true);
-            return this;
+            if (this.mutable) {
+                this.value = Datetime.align(this.value, align, true);
+                return this;
+            }
+
+            return this.clone().align(align);
         },
 
         /*
@@ -695,7 +725,7 @@
             var names = Datetime.getNames(locale || this.locale);
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay(), week = this.week();
             var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), ms = this.millisecond();
-            var matches = Datetime.extend({
+            var matches = {
                 YY: year2,
                 YYYY: year,
                 M: month + 1,
@@ -725,7 +755,7 @@
                 C: this.century(),
                 I: this.isoWeekDay(),
                 II: this.isoWeek()
-            }, Datetime.extendFormat);
+            };
 
             return format.replace(REGEX_FORMAT, function(match){
                 return matches[match] || match;
