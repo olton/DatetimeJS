@@ -241,9 +241,6 @@
     }
 
     /* Plugin support */
-    Datetime.extendFormat = {}
-    Datetime.extendStrftime = {}
-
     Datetime.extend = function(where, obj){
         var options, name,
             length = arguments.length;
