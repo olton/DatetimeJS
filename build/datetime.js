@@ -2,7 +2,7 @@
  * Datetime v0.1.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Date and time library with the modern API
- * Build at 05/12/2020 15:22:51
+ * Build at 05/12/2020 15:29:26
  * Licensed under MIT
  */
 
@@ -143,7 +143,7 @@
     }
 
     Datetime.fromString = function(str, format, locale){
-        var norm, normFormat, formatItems, dateItems;
+        var norm, normFormat, fItems, dItems;
         var iMonth, iDay, iYear, iHour, iMinute, iSecond;
         var year, month, day, hour, minute, second;
         var parsedMonth;
@@ -192,7 +192,7 @@
 
             for(var i = 0; i < parts[part].length; i++) {
                 key = parts[part][i];
-                index = formatItems.indexOf(key);
+                index = fItems.indexOf(key);
                 if (index !== -1) {
                     result = index;
                     break;
@@ -207,11 +207,11 @@
         }
 
         /* eslint-disable-next-line */
-        norm      = str.replace(/[\/,.:\s]/g, '-');
+        norm = str.replace(/[\/,.:\s]/g, '-');
         /* eslint-disable-next-line */
-        normFormat= format.toLowerCase().replace(/[^a-zA-Z0-9%]/g, '-');
-        formatItems     = normFormat.split('-');
-        dateItems       = norm.split('-');
+        normFormat = format.toLowerCase().replace(/[^a-zA-Z0-9%]/g, '-');
+        fItems = normFormat.split('-');
+        dItems = norm.split('-');
 
         if (norm.replace(/-/g,"").trim() === "") {
             return INVALID_DATE;
@@ -224,14 +224,14 @@
         iMinute = getPartIndex(C.m);
         iSecond = getPartIndex(C.s);
 
-        if (iMonth > -1 && dateItems[iMonth] !== "") {
-            if (isNaN(parseInt(dateItems[iMonth]))) {
-                dateItems[iMonth] = monthNameToNumber(dateItems[iMonth]);
-                if (dateItems[iMonth] === -1) {
+        if (iMonth > -1 && dItems[iMonth] !== "") {
+            if (isNaN(parseInt(dItems[iMonth]))) {
+                dItems[iMonth] = monthNameToNumber(dItems[iMonth]);
+                if (dItems[iMonth] === -1) {
                     return INVALID_DATE;
                 }
             } else {
-                parsedMonth = parseInt(dateItems[iMonth]);
+                parsedMonth = parseInt(dItems[iMonth]);
                 if (parsedMonth < 1 || parsedMonth > 12) {
                     return INVALID_DATE;
                 }
@@ -240,13 +240,13 @@
             return INVALID_DATE;
         }
 
-        year  = iYear > -1 && dateItems[iYear] !== "" ? dateItems[iYear] : null;
-        month = iMonth > -1 && dateItems[iMonth] !== "" ? dateItems[iMonth] : null;
-        day   = iDay > -1 && dateItems[iDay] !== "" ? dateItems[iDay] : null;
+        year  = iYear > -1 && dItems[iYear] ? dItems[iYear] : null;
+        month = iMonth > -1 && dItems[iMonth] ? dItems[iMonth] : null;
+        day   = iDay > -1 && dItems[iDay] ? dItems[iDay] : null;
 
-        hour    = iHour > -1 && dateItems[iHour] !== "" ? dateItems[iHour] : null;
-        minute  = iMinute > -1 && dateItems[iMinute] !== "" ? dateItems[iMinute] : null;
-        second  = iSecond > -1 && dateItems[iSecond] !== "" ? dateItems[iSecond] : null;
+        hour    = iHour > -1 && dItems[iHour] ? dItems[iHour] : null;
+        minute  = iMinute > -1 && dItems[iMinute] ? dItems[iMinute] : null;
+        second  = iSecond > -1 && dItems[iSecond] ? dItems[iSecond] : null;
 
         return datetime(year, month-1, day, hour, minute, second);
     }
