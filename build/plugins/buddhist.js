@@ -1,5 +1,5 @@
 /* eslint-disable */
-(function(global) {
+(function() {
     'use strict';
 
     var oldFormat = Datetime.prototype.format;
@@ -21,5 +21,5 @@
             return oldFormat.bind(this)(result, locale)
         }
     });
-}(typeof self === "undefined" ? typeof global === "undefined" ? window : global : self));
+}());
 /* eslint-enable */
