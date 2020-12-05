@@ -15,7 +15,7 @@
                 BB: (this.buddhist()+"").slice(-2),
                 BBBB: this.buddhist()
             }
-            var result = format.replace(/(\[[^\]]+])|BBBB|BB/g, function(match){
+            var result = format.replace(/(\[[^\]]+])|B{4}|B{2}/g, function(match){
                 return matches[match] || match;
             })
             return oldFormat.bind(this)(result, locale)

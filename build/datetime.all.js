@@ -2,7 +2,7 @@
  * Datetime v0.1.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Date and time library with the modern API
- * Build at 05/12/2020 14:43:52
+ * Build at 05/12/2020 15:22:51
  * Licensed under MIT
  */
 
@@ -94,6 +94,7 @@
         this.locale = "en";
         this.weekStart = global['DATETIME_LOCALES']["en"].weekStart;
         this.utcMode = false;
+        this.immutable = false;
     }
 
     /* ************ Static methods **************** */
@@ -123,16 +124,16 @@
     Datetime.align = function(d, align, asDate){
         var date = datetime(d), result;
         switch (align) {
-            case C.s: result = date.millisecond(0); break;
-            case C.m: result = date.millisecond(0).second(0); break;
-            case C.h: result = date.millisecond(0).second(0).minute(0); break;
-            case C.D: result = date.millisecond(0).second(0).minute(0).hour(0); break;
-            case C.M: result = date.millisecond(0).second(0).minute(0).hour(0).day(1); break;
-            case C.Y: result = date.millisecond(0).second(0).minute(0).hour(0).day(1).month(0); break;
-            case C.q: result = date.millisecond(0).second(0).minute(0).hour(0).day(1).month(date.quarter() * 3 - 3); break;
-            case C.w: result = date.millisecond(0).second(0).minute(0).hour(0).add(-date.weekDay(), 'day'); break;
-            case C.WI: result = date.millisecond(0).second(0).minute(0).hour(0).add(-date.isoWeekDay() + 1, 'day'); break;
-            default: result = date;
+            case C.s:  result = date[C.ms](0); break; //second
+            case C.m:  result = date[C.ms](0)[C.s](0); break; //minute
+            case C.h:  result = date[C.ms](0)[C.s](0)[C.m](0); break; //hour
+            case C.D:  result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0); break; //day
+            case C.M:  result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0)[C.D](1); break; //month
+            case C.Y:  result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0)[C.D](1)[C.M](0); break; //year
+            case C.q:  result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0)[C.D](1)[C.M](date.quarter() * 3 - 3); break; //quarter
+            case C.w:  result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0).addDay(-date.weekDay()); break; // week
+            case C.WI: result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0).addDay(-date.isoWeekDay() + 1); break; // isoWeek
+            default:   result = date;
         }
         return asDate ? result.val() : result;
     }
@@ -142,35 +143,35 @@
     }
 
     Datetime.fromString = function(str, format, locale){
-        var normalized, normalizedFormat, formatItems, dateItems, checkValue;
-        var monthIndex, dayIndex, yearIndex, hourIndex, minutesIndex, secondsIndex;
+        var norm, normFormat, formatItems, dateItems;
+        var iMonth, iDay, iYear, iHour, iMinute, iSecond;
         var year, month, day, hour, minute, second;
         var parsedMonth;
 
+        var getIndex = function(where, what){
+            return where.map(function(el){
+                return el.toLowerCase();
+            }).indexOf(what.toLowerCase());
+        }
+
         var monthNameToNumber = function(month){
-            var index = -1;
+            var i = -1;
             var names = Datetime.getNames(locale || 'en');
 
             if (not(month)) return -1;
 
-            index = names.months.map(function(el){
-                return el.toLowerCase();
-            }).indexOf(month.toLowerCase());
+            i = getIndex(names.months, month);
 
-            if (index === -1 && typeof names["monthsParental"] !== "undefined") {
-                index = names.monthsParental.map(function(el){
-                    return el.toLowerCase();
-                }).indexOf(month.toLowerCase());
+            if (i === -1 && typeof names["monthsParental"] !== "undefined") {
+                i = getIndex(names.monthsParental, month);
             }
 
-            if (index === -1) {
+            if (i === -1) {
                 month = month.substr(0, 3);
-                index = names.monthsShort.map(function(el){
-                    return el.toLowerCase();
-                }).indexOf(month.toLowerCase());
+                i = getIndex(names.monthsShort, month);
             }
 
-            return index === -1 ? -1 : index + 1;
+            return i === -1 ? -1 : i + 1;
         };
 
         var getPartIndex = function(part){
@@ -206,32 +207,31 @@
         }
 
         /* eslint-disable-next-line */
-        normalized      = str.replace(/[\/,.:\s]/g, '-');
+        norm      = str.replace(/[\/,.:\s]/g, '-');
         /* eslint-disable-next-line */
-        normalizedFormat= format.toLowerCase().replace(/[^a-zA-Z0-9%]/g, '-');
-        formatItems     = normalizedFormat.split('-');
-        dateItems       = normalized.split('-');
-        checkValue      = normalized.replace(/-/g,"");
+        normFormat= format.toLowerCase().replace(/[^a-zA-Z0-9%]/g, '-');
+        formatItems     = normFormat.split('-');
+        dateItems       = norm.split('-');
 
-        if (checkValue.trim() === "") {
+        if (norm.replace(/-/g,"").trim() === "") {
             return INVALID_DATE;
         }
 
-        monthIndex = getPartIndex(C.M);
-        dayIndex = getPartIndex(C.D);
-        yearIndex = getPartIndex(C.Y);
-        hourIndex = getPartIndex(C.h);
-        minutesIndex = getPartIndex(C.m);
-        secondsIndex = getPartIndex(C.s);
+        iMonth = getPartIndex(C.M);
+        iDay = getPartIndex(C.D);
+        iYear = getPartIndex(C.Y);
+        iHour = getPartIndex(C.h);
+        iMinute = getPartIndex(C.m);
+        iSecond = getPartIndex(C.s);
 
-        if (monthIndex > -1 && dateItems[monthIndex] !== "") {
-            if (isNaN(parseInt(dateItems[monthIndex]))) {
-                dateItems[monthIndex] = monthNameToNumber(dateItems[monthIndex]);
-                if (dateItems[monthIndex] === -1) {
+        if (iMonth > -1 && dateItems[iMonth] !== "") {
+            if (isNaN(parseInt(dateItems[iMonth]))) {
+                dateItems[iMonth] = monthNameToNumber(dateItems[iMonth]);
+                if (dateItems[iMonth] === -1) {
                     return INVALID_DATE;
                 }
             } else {
-                parsedMonth = parseInt(dateItems[monthIndex]);
+                parsedMonth = parseInt(dateItems[iMonth]);
                 if (parsedMonth < 1 || parsedMonth > 12) {
                     return INVALID_DATE;
                 }
@@ -240,13 +240,13 @@
             return INVALID_DATE;
         }
 
-        year  = yearIndex >-1 && dateItems[yearIndex] !== "" ? dateItems[yearIndex] : null;
-        month = monthIndex >-1 && dateItems[monthIndex] !== "" ? dateItems[monthIndex] : null;
-        day   = dayIndex >-1 && dateItems[dayIndex] !== "" ? dateItems[dayIndex] : null;
+        year  = iYear > -1 && dateItems[iYear] !== "" ? dateItems[iYear] : null;
+        month = iMonth > -1 && dateItems[iMonth] !== "" ? dateItems[iMonth] : null;
+        day   = iDay > -1 && dateItems[iDay] !== "" ? dateItems[iDay] : null;
 
-        hour    = hourIndex >-1 && dateItems[hourIndex] !== "" ? dateItems[hourIndex] : null;
-        minute  = minutesIndex>-1 && dateItems[minutesIndex] !== "" ? dateItems[minutesIndex] : null;
-        second  = secondsIndex>-1 && dateItems[secondsIndex] !== "" ? dateItems[secondsIndex] : null;
+        hour    = iHour > -1 && dateItems[iHour] !== "" ? dateItems[iHour] : null;
+        minute  = iMinute > -1 && dateItems[iMinute] !== "" ? dateItems[iMinute] : null;
+        second  = iSecond > -1 && dateItems[iSecond] !== "" ? dateItems[iSecond] : null;
 
         return datetime(year, month-1, day, hour, minute, second);
     }
@@ -931,7 +931,7 @@
                 BB: (this.buddhist()+"").slice(-2),
                 BBBB: this.buddhist()
             }
-            var result = format.replace(/(\[[^\]]+])|BBBB|BB/g, function(match){
+            var result = format.replace(/(\[[^\]]+])|B{4}|B{2}/g, function(match){
                 return matches[match] || match;
             })
             return oldFormat.bind(this)(result, locale)
