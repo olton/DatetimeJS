@@ -2,7 +2,7 @@
  * Datetime v0.1.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Date and time library with the modern API
- * Build at 05/12/2020 14:40:13
+ * Build at 05/12/2020 14:42:57
  * Licensed under MIT
  */
 
@@ -252,8 +252,8 @@
     }
 
     /* Plugin support */
-    Datetime.extendFormat = {},
-    Datetime.extendStrftime = {},
+    Datetime.extendFormat = {}
+    Datetime.extendStrftime = {}
 
     Datetime.extend = function(where, obj){
         var options, name,
