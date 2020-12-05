@@ -5,7 +5,7 @@
     var DEFAULT_FORMAT = "YYYY-MM-DDTHH:mm:ss.sssZ";
     var DEFAULT_FORMAT_STRFTIME = "%Y-%m-%d %H:%M:%S %z";
     var INVALID_DATE = "Invalid date";
-    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,3}|Z{1,2}|z{1,2}|C|W{1,2}|I{1,3}|B{2,4}/g;
+    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,3}|Z{1,2}|z{1,2}|C|W{1,2}|I{1,3}|B{2,4}|(^[T][a-zA-Z]{1,4})/g;
     var REGEX_FORMAT_STRFTIME = /(%[a-z])/gi;
 
     global['DATETIME_LOCALES'] = {
@@ -86,6 +86,9 @@
     }
 
     /* ************ Static methods **************** */
+    Datetime.DEFAULT_FORMAT = DEFAULT_FORMAT;
+    Datetime.DEFAULT_FORMAT_STRFTIME = DEFAULT_FORMAT_STRFTIME;
+
     Datetime.isDatetime = function(val){
         return val instanceof Datetime;
     }
@@ -237,8 +240,11 @@
         return datetime(year, month-1, day, hour, minute, second);
     }
 
-    // Extender for plugins
-    var extend = function(where, obj){
+    /* Plugin support */
+    Datetime.extendFormat = {},
+    Datetime.extendStrftime = {},
+
+    Datetime.extend = function(where, obj){
         var options, name,
             length = arguments.length;
 
@@ -254,14 +260,14 @@
         }
 
         return target;
-    }
+    };
 
     Datetime.use = function(obj){
-        extend(Datetime.prototype, obj);
+        Datetime.extend(Datetime.prototype, obj);
     }
 
     Datetime.useStatic = function(obj){
-        extend(Datetime, obj);
+        Datetime.extend(Datetime, obj);
     }
     /* ************* End of static **************** */
 
@@ -325,10 +331,6 @@
 
         century: function(){
             return parseInt(this.year() / 100);
-        },
-
-        buddhistEra: function(){
-            return this.year() + 543;
         },
 
         dayOfYear: function(){
@@ -628,9 +630,10 @@
 
         quarter: function(){
             var month = this.month();
+
             if (month <= 2) return 1;
-            if (month > 2 && month <= 5) return 2;
-            if (month > 5 && month <= 8) return 3;
+            if (month <= 5) return 2;
+            if (month <= 8) return 3;
             return 4;
         },
 
@@ -672,6 +675,11 @@
             return weeknum;
         },
 
+
+        matches: function(matches){
+            return Datetime.extend(matches, {});
+        },
+
         format: function(fmt, locale){
             if (!this.isValid()) return INVALID_DATE;
 
@@ -679,7 +687,7 @@
             var names = Datetime.getNames(locale || this.locale);
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay(), week = this.week();
             var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), ms = this.millisecond();
-            var matches = {
+            var matches = Datetime.extend({
                 YY: year2,
                 YYYY: year,
                 M: month + 1,
@@ -708,13 +716,11 @@
                 Z: this.utcMode ? "Z" : this.timezone(),
                 C: this.century(),
                 I: this.isoWeekDay(),
-                II: this.isoWeek(),
-                BB: (this.buddhistEra()+"").slice(-2),
-                BBBB: this.buddhistEra()
-            };
+                II: this.isoWeek()
+            }, Datetime.extendFormat);
 
-            return format.replace(REGEX_FORMAT, function(match, $1){
-                return $1 || matches[match];
+            return format.replace(REGEX_FORMAT, function(match){
+                return matches[match] || match;
             });
         },
 

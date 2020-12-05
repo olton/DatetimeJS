@@ -32,6 +32,7 @@ module.exports = function(grunt) {
             ' * Datetime v<%= pkg.version %>, (<%= pkg.repository.url %>)\n' +
             ' * Copyright <%= grunt.template.today("yyyy") %> by <%= pkg.author.name %>\n' +
             ' * <%= pkg.description %>\n' +
+            ' * Build at ' +(timestamp)+ '\n' +
             ' * Licensed under <%= pkg.license %>\n' +
             ' */\n\n',
 
