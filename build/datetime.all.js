@@ -2,7 +2,7 @@
  * Datetime v0.1.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Date and time library with the modern API
- * Build at 05/12/2020 20:43:25
+ * Build at 07/12/2020 20:51:15
  * Licensed under MIT
  */
 
@@ -14,10 +14,8 @@
     'use strict';
 
     var DEFAULT_FORMAT = "YYYY-MM-DDTHH:mm:ss.sssZ";
-    var DEFAULT_FORMAT_STRFTIME = "%Y-%m-%d %H:%M:%S %z";
     var INVALID_DATE = "Invalid date";
     var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,3}|Z{1,2}|z{1,2}|C|W{1,2}|I{1,3}|B{2,4}|(^[T][a-zA-Z]{1,4})/g;
-    var REGEX_FORMAT_STRFTIME = /(%[a-z])/gi;
 
     global['DATETIME_LOCALES'] = {
         "en": {
@@ -99,7 +97,11 @@
 
     /* ************ Static methods **************** */
     Datetime.DEFAULT_FORMAT = DEFAULT_FORMAT;
-    Datetime.DEFAULT_FORMAT_STRFTIME = DEFAULT_FORMAT_STRFTIME;
+    Datetime.REGEX_FORMAT = REGEX_FORMAT;
+    Datetime.INVALID_DATE = INVALID_DATE;
+
+    Datetime.lpad = lpad;
+    Datetime.not = not;
 
     Datetime.isDatetime = function(val){
         return val instanceof Datetime;
@@ -222,30 +224,30 @@
         dItems = norm.split('-');
 
         if (norm.replace(/-/g,"").trim() === "") {
-            return INVALID_DATE;
+            return Datetime.INVALID_DATE;
         }
 
-        iMonth = getPartIndex(C.M);
-        iDay = getPartIndex(C.D);
-        iYear = getPartIndex(C.Y);
-        iHour = getPartIndex(C.h);
-        iMinute = getPartIndex(C.m);
-        iSecond = getPartIndex(C.s);
+        iMonth = getPartIndex("month");
+        iDay = getPartIndex("day");
+        iYear = getPartIndex("year");
+        iHour = getPartIndex("hour");
+        iMinute = getPartIndex("minute");
+        iSecond = getPartIndex("second");
 
         if (iMonth > -1 && dItems[iMonth] !== "") {
             if (isNaN(parseInt(dItems[iMonth]))) {
                 dItems[iMonth] = monthNameToNumber(dItems[iMonth]);
                 if (dItems[iMonth] === -1) {
-                    return INVALID_DATE;
+                    return Datetime.INVALID_DATE;
                 }
             } else {
                 parsedMonth = parseInt(dItems[iMonth]);
                 if (parsedMonth < 1 || parsedMonth > 12) {
-                    return INVALID_DATE;
+                    return Datetime.INVALID_DATE;
                 }
             }
         } else {
-            return INVALID_DATE;
+            return Datetime.INVALID_DATE;
         }
 
         year  = iYear > -1 && dItems[iYear] ? dItems[iYear] : null;
@@ -320,16 +322,13 @@
             return !isNaN(this.time());
         },
 
+        year2: function(){
+            return (""+this.year()).substr(-2);
+        },
+
         isLeapYear: function(){
             var year = this.year();
             return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-        },
-
-        isToday: function(d){
-            var curr = this.clone().align('day');
-            var date = datetime(d).align('day');
-
-            return curr.time() === date.time();
         },
 
         isYesterday: function(d){
@@ -339,6 +338,17 @@
             return curr.time() === date.time();
         },
 
+        unix: function(val) {
+            var _val = val * 1000;
+            if (!arguments.length || (not(val))) {
+                return Math.floor(this.valueOf() / 1000)
+            }
+            if (this.mutable) {
+                return this.time(_val);
+            }
+            return datetime(this.value).time(_val);
+        },
+
         isTomorrow: function(d){
             var curr = this.clone().align('day').addDay(1);
             var date = datetime(d).align('day');
@@ -346,8 +356,11 @@
             return curr.time() === date.time();
         },
 
-        year2: function(){
-            return (""+this.year()).substr(-2);
+        isToday: function(d){
+            var curr = this.clone().align('day');
+            var date = datetime(d).align('day');
+
+            return curr.time() === date.time();
         },
 
         century: function(){
@@ -376,17 +389,6 @@
             }
 
             return datetime(val);
-        },
-
-        unix: function(val) {
-            var _val = val * 1000;
-            if (!arguments.length || (not(val))) {
-                return Math.floor(this.valueOf() / 1000)
-            }
-            if (this.mutable) {
-                return this.time(_val);
-            }
-            return datetime(this.value).time(_val);
         },
 
         valueOf: function(){
@@ -714,10 +716,6 @@
         },
 
 
-        matches: function(matches){
-            return Datetime.extend(matches, {});
-        },
-
         format: function(fmt, locale){
             if (!this.isValid()) return INVALID_DATE;
 
@@ -758,77 +756,6 @@
             };
 
             return format.replace(REGEX_FORMAT, function(match){
-                return matches[match] || match;
-            });
-        },
-
-        strftime: function(fmt, locale){
-            if (!this.isValid()) return INVALID_DATE;
-
-            var format = fmt || DEFAULT_FORMAT_STRFTIME;
-            var names = Datetime.getNames(locale || this.locale);
-            var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();
-            var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), millisecond = this.millisecond(), time = this.time();
-            var aDay = lpad(day, "0", 2),
-                aMonth = lpad(month + 1, "0", 2),
-                aHour = lpad(hour, "0", 2),
-                aHour12 = lpad(hour12, "0", 2),
-                aMinute = lpad(minute, "0", 2),
-                aSecond = lpad(second, "0", 2),
-                aMillisecond = lpad(millisecond, "0", 3);
-
-            var that = this;
-
-            var thursday = function(){
-                var target = that.clone();
-                target.day(that.day() - ((that.weekDay() + 6) % 7) + 3);
-                return target;
-            };
-
-            var matches = {
-                '%a': names.weekdaysShort[weekDay],
-                '%A': names.weekdays[weekDay],
-                '%b': names.monthsShort[month],
-                '%h': names.monthsShort[month],
-                '%B': names.months[month],
-                '%c': this.toString().substring(0, this.toString().indexOf(" (")),
-                '%C': this.century(),
-                '%d': aDay,
-                '%D': [aDay, aMonth, year].join("/"),
-                '%e': day,
-                '%F': [year, aMonth, aDay].join("-"),
-                '%G': thursday().year(),
-                '%g': (""+thursday().year()).slice(2),
-                '%H': aHour,
-                '%I': aHour12,
-                '%j': lpad(this.dayOfYear(), "0", 3),
-                '%k': aHour,
-                '%l': aHour12,
-                '%m': aMonth,
-                '%n': month + 1,
-                '%M': aMinute,
-                '%p': this.ampm(),
-                '%P': this.ampm(true),
-                '%s': Math.round(time / 1000),
-                '%S': aSecond,
-                '%u': this.isoWeekDay(),
-                '%V': this.isoWeek(),
-                '%w': weekDay,
-                '%x': this.toLocaleDateString(),
-                '%X': this.toLocaleTimeString(),
-                '%y': year2,
-                '%Y': year,
-                '%z': this.timezone().replace(":", ""),
-                '%Z': this.timezoneName(),
-                '%r': [aHour12, aMinute, aSecond].join(":") + " " + this.ampm(),
-                '%R': [aHour, aMinute].join(":"),
-                "%T": [aHour, aMinute, aSecond].join(":"),
-                "%Q": aMillisecond,
-                "%q": millisecond,
-                "%t": this.timezone()
-            };
-
-            return format.replace(REGEX_FORMAT_STRFTIME, function(match){
                 return matches[match] || match;
             });
         },
@@ -965,6 +892,93 @@
                 return matches[match] || match;
             })
             return oldFormat.bind(this)(result, locale)
+        }
+    });
+}());
+/* eslint-enable */
+
+
+// Source: src/plugins/strftime.js
+
+/* eslint-disable */
+(function() {
+    'use strict';
+
+    var REGEX_FORMAT_STRFTIME = /(%[a-z])/gi;
+    var DEFAULT_FORMAT_STRFTIME = "%Y-%m-%dT%H:%M:%S.%Q%t";
+
+    var lpad = Datetime.lpad;
+
+    Datetime.use({
+        strftime: function(fmt, locale){
+            if (!this.isValid()) return Datetime.INVALID_DATE;
+
+            var format = fmt || DEFAULT_FORMAT_STRFTIME;
+            var names = Datetime.getNames(locale || this.locale);
+            var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();
+            var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), millisecond = this.millisecond(), time = this.time();
+            var aDay = lpad(day, "0", 2),
+                aMonth = lpad(month + 1, "0", 2),
+                aHour = lpad(hour, "0", 2),
+                aHour12 = lpad(hour12, "0", 2),
+                aMinute = lpad(minute, "0", 2),
+                aSecond = lpad(second, "0", 2),
+                aMillisecond = lpad(millisecond, "0", 3);
+
+            var that = this;
+
+            var thursday = function(){
+                var target = that.clone();
+                target.day(that.day() - ((that.weekDay() + 6) % 7) + 3);
+                return target;
+            };
+
+            var matches = {
+                '%a': names.weekdaysShort[weekDay],
+                '%A': names.weekdays[weekDay],
+                '%b': names.monthsShort[month],
+                '%h': names.monthsShort[month],
+                '%B': names.months[month],
+                '%c': this.toString().substring(0, this.toString().indexOf(" (")),
+                '%C': this.century(),
+                '%d': aDay,
+                '%D': [aDay, aMonth, year].join("/"),
+                '%e': day,
+                '%F': [year, aMonth, aDay].join("-"),
+                '%G': thursday().year(),
+                '%g': (""+thursday().year()).slice(2),
+                '%H': aHour,
+                '%I': aHour12,
+                '%j': lpad(this.dayOfYear(), "0", 3),
+                '%k': aHour,
+                '%l': aHour12,
+                '%m': aMonth,
+                '%n': month + 1,
+                '%M': aMinute,
+                '%p': this.ampm(),
+                '%P': this.ampm(true),
+                '%s': Math.round(time / 1000),
+                '%S': aSecond,
+                '%u': this.isoWeekDay(),
+                '%V': this.isoWeek(),
+                '%w': weekDay,
+                '%x': this.toLocaleDateString(),
+                '%X': this.toLocaleTimeString(),
+                '%y': year2,
+                '%Y': year,
+                '%z': this.timezone().replace(":", ""),
+                '%Z': this.timezoneName(),
+                '%r': [aHour12, aMinute, aSecond].join(":") + " " + this.ampm(),
+                '%R': [aHour, aMinute].join(":"),
+                "%T": [aHour, aMinute, aSecond].join(":"),
+                "%Q": aMillisecond,
+                "%q": millisecond,
+                "%t": this.timezone()
+            };
+
+            return format.replace(REGEX_FORMAT_STRFTIME, function(match){
+                return matches[match] || match;
+            });
         }
     });
 }());
