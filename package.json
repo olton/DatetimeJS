@@ -1,8 +1,8 @@
 {
   "name": "@olton/datetime",
   "title": "DatetimeJS",
-  "description": "Date and time library with the modern API",
-  "version": "0.1.0",
+  "description": "Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.",
+  "version": "1.0.0",
   "main": "build/datetime.js",
   "homepage": "https://github.com/olton/Datetime",
   "author": {
