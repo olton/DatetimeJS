@@ -56,6 +56,11 @@ console.log(immutableDate.add(1, 'month')); // 2021-01-21 this is a new object
 console.log(immutableDate); // 2020-12-21
 ```
 
+and return to `mutable` state
+```javascript
+immutableDate.immutable(false); // now immutableDate works as mutable object
+```
+
 #### Display
 ```javascript
 datetime().format('{YYYY} MM-DDTHH:mm:ss sss Z A');

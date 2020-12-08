@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* global Datetime */
 (function() {
     'use strict';
 
@@ -80,4 +80,3 @@
         }
     });
 }());
-/* eslint-enable */

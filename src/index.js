@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* global global*/
 (function(global) {
     'use strict';
 
@@ -251,22 +251,20 @@
     }
 
     /* Plugin support */
-    Datetime.extend = function(where, obj){
+    Datetime.extend = function(where){
         var options, name,
             length = arguments.length;
 
-        var target = where;
-
-        for (var i = 0; i < length; i++ ) {
+        for (var i = 1; i < length; i++ ) {
             if ( ( options = arguments[ i ] ) != null ) {
                 for ( name in options ) {
-                    if (options.hasOwnProperty(name))
-                        target[ name ] = options[ name ];
+                    if (Object.prototype.hasOwnProperty.call(options, name))
+                        where[ name ] = options[ name ];
                 }
             }
         }
 
-        return target;
+        return where;
     };
 
     Datetime.use = function(obj){
@@ -794,4 +792,3 @@
     global.datetime = datetime;
 
 }(typeof self === "undefined" ? typeof global === "undefined" ? window : global : self));
-/* eslint-enable */
