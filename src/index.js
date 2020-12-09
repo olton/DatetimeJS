@@ -298,7 +298,11 @@
         },
 
         clone: function(){
-            return datetime(this.value);
+            var c = datetime(this.value);
+            c.locale = this.locale;
+            c.mutable = this.mutable;
+            c.weekStart = this.weekStart;
+            return c;
         },
 
         same: function(d){

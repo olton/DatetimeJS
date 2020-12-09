@@ -11,7 +11,7 @@
     Datetime.useStatic({
         calendar: function(d, iso){
             var ws = iso ? 1 : 0;
-            var date = d.clone().useLocale(d.locale).align("month");
+            var date = d.clone().align("month");
             var wd = ws ? date.isoWeekDay() : date.weekDay();
             var names = Datetime.getNames(date.locale);
 
