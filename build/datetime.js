@@ -1,8 +1,8 @@
 /*
- * Datetime v0.1.0, (https://github.com/olton/Datetime.git)
+ * Datetime v1.0.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
- * Date and time library with the modern API
- * Build at 07/12/2020 23:24:55
+ * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
+ * Build at 09/12/2020 18:32:13
  * Licensed under MIT
  */
 
