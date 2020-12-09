@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 09/12/2020 18:44:00
+ * Build at 09/12/2020 19:00:34
  * Licensed under MIT
  */
 
@@ -23,7 +23,7 @@
             monthsShort: "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" "),
             weekdays: "Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split(" "),
             weekdaysShort: "Sun Mon Tue Wed Thu Fri Sat".split(" "),
-            weekdaysTwo: "Su Mo Tu We Th Fr Sa".split(" "),
+            weekdaysMin: "Su Mo Tu We Th Fr Sa".split(" "),
             weekStart: 0
         }
     }
@@ -735,7 +735,7 @@
                 D: day,
                 DD: lpad(day, "0", 2),
                 d: weekDay,
-                dd: names.weekdaysTwo[weekDay],
+                dd: names.weekdaysMin[weekDay],
                 ddd: names.weekdaysShort[weekDay],
                 dddd: names.weekdays[weekDay],
                 W: week,

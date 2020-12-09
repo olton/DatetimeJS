@@ -8,7 +8,7 @@
         monthsShort: "Січ Лют Бер Кві Тра Чер Лип Сер Вер Жов Лис Гру".split(" "),
         weekdays: "Неділя Понеділок Вівторок Середа Четвер П'ятниця Субота".split(" "),
         weekdaysShort: "Нед Пон Вів Сер Чет Птн Суб".split(" "),
-        weekdaysTwo: "Нд Пн Вт Ср Чт Пт Сб".split(" "),
+        weekdaysMin: "Нд Пн Вт Ср Чт Пт Сб".split(" "),
         weekStart: 1
     };
 

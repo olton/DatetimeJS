@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 09/12/2020 18:44:00
+ * Build at 09/12/2020 19:00:34
  * Licensed under MIT
  */
 
@@ -23,7 +23,7 @@
             monthsShort: "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" "),
             weekdays: "Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split(" "),
             weekdaysShort: "Sun Mon Tue Wed Thu Fri Sat".split(" "),
-            weekdaysTwo: "Su Mo Tu We Th Fr Sa".split(" "),
+            weekdaysMin: "Su Mo Tu We Th Fr Sa".split(" "),
             weekStart: 0
         }
     }
@@ -735,7 +735,7 @@
                 D: day,
                 DD: lpad(day, "0", 2),
                 d: weekDay,
-                dd: names.weekdaysTwo[weekDay],
+                dd: names.weekdaysMin[weekDay],
                 ddd: names.weekdaysShort[weekDay],
                 dddd: names.weekdays[weekDay],
                 W: week,
@@ -816,16 +816,34 @@
     'use strict';
 
     var locale = {
-        name: "Africaans",
         months: "Januarie Februarie Maart April Mei Junie Julie Augustus September Oktober November Desember".split(" "),
         monthsShort: "Jan Feb Mrt Apr Mei Jun Jul Aug Sep Okt Nov Des".split(" "),
         weekdays: "Sondag Maandag Dinsdag Woensdag Donderdag Vrydag Saterdag".split(" "),
         weekdaysShort: "Son Maa Din Woe Don Vry Sat".split(" "),
-        weekdaysTwo: "So Ma Di Wo Do Vr Sa".split(" "),
+        weekdaysMin: "So Ma Di Wo Do Vr Sa".split(" "),
         weekStart: 1
     };
 
     Datetime.locale("af", locale);
+}(Datetime));
+/* eslint-enable */
+
+// Source: src/i18n/de.js
+
+/* eslint-disable */
+(function(Datetime) {
+    'use strict';
+
+    var locale = {
+        months: "Januar Februar März April Mai Juni Juli August September Oktober November Dezember".split(" "),
+        monthsShort: "Jan_Feb Mär Apr Mai Jun Jul Aug Sep Okt Nov Dez".split(" "),
+        weekdays: "Sonntag Montag Dienstag Mittwoch Donnerstag Freitag Samstag".split(" "),
+        weekdaysShort: "Son Mon Die Mit Don Fre Sam".split(" "),
+        weekdaysMin: "So Mo Di Mi Do Fr Sa".split(" "),
+        weekStart: 1
+    };
+
+    Datetime.locale("de", locale);
 }(Datetime));
 /* eslint-enable */
 
@@ -841,7 +859,7 @@
         monthsShort: "Янв Фев Мар Апр Май Июн Июл Авг Сен Окт Ноя Дек".split(" "),
         weekdays: "Воскресенье Понедельник Вторник Среда Четверг Пятница Суббота".split(" "),
         weekdaysShort: "Вск Пон Втр Срд Чет Пят Суб".split(" "),
-        weekdaysTwo: "Вс Пн Вт Ср Чт Пт Сб".split(" "),
+        weekdaysMin: "Вс Пн Вт Ср Чт Пт Сб".split(" "),
         weekStart: 1
     };
 
@@ -862,7 +880,7 @@
         monthsShort: "Січ Лют Бер Кві Тра Чер Лип Сер Вер Жов Лис Гру".split(" "),
         weekdays: "Неділя Понеділок Вівторок Середа Четвер П'ятниця Субота".split(" "),
         weekdaysShort: "Нед Пон Вів Сер Чет Птн Суб".split(" "),
-        weekdaysTwo: "Нд Пн Вт Ср Чт Пт Сб".split(" "),
+        weekdaysMin: "Нд Пн Вт Ср Чт Пт Сб".split(" "),
         weekStart: 1
     };
 
@@ -870,6 +888,25 @@
 }(Datetime));
 /* eslint-enable */
 
+
+// Source: src/i18n/zh.js
+
+/* eslint-disable */
+(function(Datetime) {
+    'use strict';
+
+    var locale = {
+        months: "一月 二月 三月 四月 五月 六月 七月 八月 九月 十月 十一月 十二月".split(" "),
+        monthsShort: "1月 2月 3月 4月 5月 6月 7月 8月 9月 10月 11月 12月".split(" "),
+        weekdays: "星期日 星期一 星期二 星期三 星期四 星期五 星期六".split(" "),
+        weekdaysShort: "周日 周一 周二 周三 周四 周五 周六".split(" "),
+        weekdaysMin: "日 一 二 三 四 五 六".split(" "),
+        weekStart: 1
+    };
+
+    Datetime.locale("af", locale);
+}(Datetime));
+/* eslint-enable */
 
 // Source: src/plugins/buddhist.js
 
@@ -930,7 +967,7 @@
                 month: names.months[date.month()],
                 days: [],
                 weekStart: iso ? 1 : 0,
-                weekDays: getWeekDays(names.weekdaysTwo,ws),
+                weekDays: getWeekDays(names.weekdaysMin,ws),
                 toDay: datetime().format("YYYY-MM-DD"),
                 weekends: []
             };

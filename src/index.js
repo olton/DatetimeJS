@@ -12,7 +12,7 @@
             monthsShort: "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" "),
             weekdays: "Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split(" "),
             weekdaysShort: "Sun Mon Tue Wed Thu Fri Sat".split(" "),
-            weekdaysTwo: "Su Mo Tu We Th Fr Sa".split(" "),
+            weekdaysMin: "Su Mo Tu We Th Fr Sa".split(" "),
             weekStart: 0
         }
     }
@@ -724,7 +724,7 @@
                 D: day,
                 DD: lpad(day, "0", 2),
                 d: weekDay,
-                dd: names.weekdaysTwo[weekDay],
+                dd: names.weekdaysMin[weekDay],
                 ddd: names.weekdaysShort[weekDay],
                 dddd: names.weekdays[weekDay],
                 W: week,

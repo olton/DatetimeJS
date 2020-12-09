@@ -27,7 +27,7 @@
                 month: names.months[date.month()],
                 days: [],
                 weekStart: iso ? 1 : 0,
-                weekDays: getWeekDays(names.weekdaysTwo,ws),
+                weekDays: getWeekDays(names.weekdaysMin,ws),
                 toDay: datetime().format("YYYY-MM-DD"),
                 weekends: []
             };
