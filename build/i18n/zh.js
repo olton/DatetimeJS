@@ -11,6 +11,6 @@
         weekStart: 1
     };
 
-    Datetime.locale("af", locale);
+    Datetime.locale("zh", locale);
 }(Datetime));
 /* eslint-enable */

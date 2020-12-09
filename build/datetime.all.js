@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 09/12/2020 19:00:34
+ * Build at 09/12/2020 19:49:16
  * Licensed under MIT
  */
 
@@ -836,7 +836,7 @@
 
     var locale = {
         months: "Januar Februar März April Mai Juni Juli August September Oktober November Dezember".split(" "),
-        monthsShort: "Jan_Feb Mär Apr Mai Jun Jul Aug Sep Okt Nov Dez".split(" "),
+        monthsShort: "Jan Feb Mär Apr Mai Jun Jul Aug Sep Okt Nov Dez".split(" "),
         weekdays: "Sonntag Montag Dienstag Mittwoch Donnerstag Freitag Samstag".split(" "),
         weekdaysShort: "Son Mon Die Mit Don Fre Sam".split(" "),
         weekdaysMin: "So Mo Di Mi Do Fr Sa".split(" "),
@@ -904,7 +904,7 @@
         weekStart: 1
     };
 
-    Datetime.locale("af", locale);
+    Datetime.locale("zh", locale);
 }(Datetime));
 /* eslint-enable */
 
@@ -950,6 +950,10 @@
 
     Datetime.useStatic({
         calendar: function(d, iso){
+            if ( !(d instanceof Datetime) ) {
+                d = datetime(d);
+            }
+
             var ws = iso ? 1 : 0;
             var date = d.clone().align("month");
             var wd = ws ? date.isoWeekDay() : date.weekDay();
