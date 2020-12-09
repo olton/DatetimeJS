@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 09/12/2020 19:49:16
+ * Build at 09/12/2020 20:10:01
  * Licensed under MIT
  */
 
@@ -811,49 +811,39 @@
 
 // Source: src/i18n/af.js
 
-/* eslint-disable */
+/* global Datetime */
 (function(Datetime) {
-    'use strict';
-
-    var locale = {
+    Datetime.locale("af", {
         months: "Januarie Februarie Maart April Mei Junie Julie Augustus September Oktober November Desember".split(" "),
         monthsShort: "Jan Feb Mrt Apr Mei Jun Jul Aug Sep Okt Nov Des".split(" "),
         weekdays: "Sondag Maandag Dinsdag Woensdag Donderdag Vrydag Saterdag".split(" "),
         weekdaysShort: "Son Maa Din Woe Don Vry Sat".split(" "),
         weekdaysMin: "So Ma Di Wo Do Vr Sa".split(" "),
         weekStart: 1
-    };
-
-    Datetime.locale("af", locale);
+    });
 }(Datetime));
-/* eslint-enable */
+
 
 // Source: src/i18n/de.js
 
-/* eslint-disable */
+/* global Datetime */
 (function(Datetime) {
-    'use strict';
-
-    var locale = {
+    Datetime.locale("de", {
         months: "Januar Februar März April Mai Juni Juli August September Oktober November Dezember".split(" "),
         monthsShort: "Jan Feb Mär Apr Mai Jun Jul Aug Sep Okt Nov Dez".split(" "),
         weekdays: "Sonntag Montag Dienstag Mittwoch Donnerstag Freitag Samstag".split(" "),
         weekdaysShort: "Son Mon Die Mit Don Fre Sam".split(" "),
         weekdaysMin: "So Mo Di Mi Do Fr Sa".split(" "),
         weekStart: 1
-    };
-
-    Datetime.locale("de", locale);
+    });
 }(Datetime));
-/* eslint-enable */
+
 
 // Source: src/i18n/ru.js
 
-/* eslint-disable */
+/* global Datetime */
 (function(Datetime) {
-    'use strict';
-
-    var locale = {
+    Datetime.locale("ru", {
         months: "Январь Февраль Март Апрель Май Июнь Июль Август Сентябрь Октябрь Ноябрь Декабрь".split(" "),
         monthsParental: "Января Февраля Марта Апреля Мая Июня Июля Августа Сентября Октября Ноября Декабря".split(" "),
         monthsShort: "Янв Фев Мар Апр Май Июн Июл Авг Сен Окт Ноя Дек".split(" "),
@@ -861,20 +851,15 @@
         weekdaysShort: "Вск Пон Втр Срд Чет Пят Суб".split(" "),
         weekdaysMin: "Вс Пн Вт Ср Чт Пт Сб".split(" "),
         weekStart: 1
-    };
-
-    Datetime.locale("ru", locale);
+    });
 }(Datetime));
-/* eslint-enable */
 
 
 // Source: src/i18n/ua.js
 
-/* eslint-disable */
+/* global Datetime */
 (function(Datetime) {
-    'use strict';
-
-    var locale = {
+    Datetime.locale("ua", {
         months: "Січень Лютий Березень Квітень Травень Червень Липень Серпень Вересень Жовтень Листопад Грудень".split(" "),
         monthsParental: "Січня Лютого Березеня Квітня Травня Червня Липня Серпня Вересня Жовтня Листопада Грудня".split(" "),
         monthsShort: "Січ Лют Бер Кві Тра Чер Лип Сер Вер Жов Лис Гру".split(" "),
@@ -882,31 +867,24 @@
         weekdaysShort: "Нед Пон Вів Сер Чет Птн Суб".split(" "),
         weekdaysMin: "Нд Пн Вт Ср Чт Пт Сб".split(" "),
         weekStart: 1
-    };
-
-    Datetime.locale("ua", locale);
+    });
 }(Datetime));
-/* eslint-enable */
 
 
 // Source: src/i18n/zh.js
 
-/* eslint-disable */
+/* global Datetime */
 (function(Datetime) {
-    'use strict';
-
-    var locale = {
+    Datetime.locale("zh", {
         months: "一月 二月 三月 四月 五月 六月 七月 八月 九月 十月 十一月 十二月".split(" "),
         monthsShort: "1月 2月 3月 4月 5月 6月 7月 8月 9月 10月 11月 12月".split(" "),
         weekdays: "星期日 星期一 星期二 星期三 星期四 星期五 星期六".split(" "),
         weekdaysShort: "周日 周一 周二 周三 周四 周五 周六".split(" "),
         weekdaysMin: "日 一 二 三 四 五 六".split(" "),
         weekStart: 1
-    };
-
-    Datetime.locale("zh", locale);
+    });
 }(Datetime));
-/* eslint-enable */
+
 
 // Source: src/plugins/buddhist.js
 
