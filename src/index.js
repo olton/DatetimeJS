@@ -48,6 +48,17 @@
         q: "quarter"
     }
 
+    // *** This polyfill only for IE, and must be removed after the end of support IE ***
+    if (typeof Object.values !== "function") {
+        Object.prototype.values = function(){
+            var self = this;
+            Object.keys(self).map(function(e) {
+                return self[e];
+            });
+        }
+    }
+    // ******************* end of polyfill **********************************************
+
     var lpad = function(str, pad, length){
         var _str = ""+str;
         if (length && _str.length >= length) {
@@ -212,6 +223,7 @@
         },
 
         millisecond: function(val){ return this._work("ms", val);},
+        ms: function(val){ return this._work("ms", val);},
         second: function(val){return this._work("s", val);},
         minute: function(val){return this._work("m", val); },
         hour: function(val){return this._work("h", val);},
@@ -234,37 +246,11 @@
         },
 
         get: function(unit){
-            switch (unit) {
-                case C.D: return this.day();
-                case C.d: return this.weekDay();
-                case C.dI: return this.isoWeekDay();
-                case C.W: return this.weekNumber();
-                case C.WI: return this.isoWeekNumber();
-                case C.M: return this.month();
-                case C.Y: return this.year();
-                case C.Y2: return this.year2();
-                case C.h: return this.hour();
-                case C.m: return this.minute();
-                case C.s: return this.second();
-                case C.ms: return this.millisecond();
-                case C.t: return this.time();
-                case C.c: return this.century();
-                default: return this.valueOf();
-            }
+            return Object.values(C).indexOf(unit) === -1 ? this.valueOf() : this[unit]();
         },
 
         set: function(unit, val){
-            val = val || 0;
-            switch (unit) {
-                case C.D: return this.day(val);
-                case C.M: return this.month(val);
-                case C.Y: return this.year(val);
-                case C.h: return this.hour(val);
-                case C.m: return this.minute(val);
-                case C.s: return this.second(val);
-                case C.ms: return this.millisecond(val);
-                case C.t: return this.time(val);
-            }
+            return Object.values(C).indexOf(unit) === -1 ? this : this[unit]( val || 0 );
         },
 
         add: function(val, to){
@@ -285,10 +271,12 @@
         addMinute: function(v){return this.add(v,C.m);},
         addSecond: function(v){return this.add(v, C.s);},
         addMillisecond: function(v){return this.add(v, C.ms);},
+        addMs: function(v){return this.add(v, C.ms);},
         addDay: function(v){return this.add(v,C.D);},
         addWeek: function(v){return this.add(v,C.W);},
         addMonth: function(v){return this.add(v, C.M);},
         addYear: function(v){return this.add(v, C.Y);},
+        addQuarter: function(v){return this.add(v, C.q);},
 
         format: function(fmt, locale){
             if (!this.isValid()) return INVALID_DATE;
