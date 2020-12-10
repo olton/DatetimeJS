@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 11/12/2020 00:22:48
+ * Build at 11/12/2020 00:34:45
  * Licensed under MIT
  */
 
@@ -108,7 +108,7 @@
     }
 
     Datetime.now = function(asDate){
-        return asDate ? datetime().val() : datetime().time();
+        return datetime()[asDate ? "val" : "time"]();
     }
 
     Datetime.locale = function(name, locale){
@@ -193,7 +193,12 @@
         },
 
         useLocale: function(val){
+            if (typeof Datetime.getNames(val) === "undefined") {
+                console.warn("Locale " + val + " not defined!");
+                return this;
+            }
             this.locale = val;
+            this.weekStart = Datetime.getNames(val).weekStart;
             return this;
         },
 
@@ -645,8 +650,8 @@ Datetime.locale("zh", {
 
     Datetime.useStatic({
         calendar: function(d, iso){
-            var ws = iso ? 1 : 0;
             var date = d instanceof Datetime ? d.clone().align("month") : datetime(d);
+            var ws = iso === 0 || iso ? iso : date.weekStart;
             var wd = ws ? date.isoWeekDay() : date.weekDay();
             var names = Datetime.getNames(date.locale);
 
