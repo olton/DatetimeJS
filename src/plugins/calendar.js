@@ -26,9 +26,9 @@
             var result = {
                 month: names.months[date.month()],
                 days: [],
-                weekStart: iso ? 1 : 0,
-                weekDays: getWeekDays(names.weekdaysMin,ws),
-                toDay: datetime().format("YYYY-MM-DD"),
+                weekstart: iso ? 1 : 0,
+                weekdays: getWeekDays(names.weekdaysMin,ws),
+                today: datetime().format("YYYY-MM-DD"),
                 weekends: []
             };
 
