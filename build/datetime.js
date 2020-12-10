@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 09/12/2020 20:10:01
+ * Build at 10/12/2020 13:03:50
  * Licensed under MIT
  */
 
@@ -111,10 +111,6 @@
         return asDate ? datetime().val() : datetime().time();
     }
 
-    Datetime.unix = function(timestamp){
-        return datetime(timestamp * 1000);
-    }
-
     Datetime.locale = function(name, locale){
         global['DATETIME_LOCALES'][name] = locale;
     }
@@ -123,142 +119,8 @@
         return global['DATETIME_LOCALES'][locale || "en"];
     }
 
-    Datetime.align = function(d, align, asDate){
-        var date = datetime(d), result, temp;
-        switch (align) {
-            case C.s:  result = date[C.ms](0); break; //second
-            case C.m:  result = date[C.ms](0)[C.s](0); break; //minute
-            case C.h:  result = date[C.ms](0)[C.s](0)[C.m](0); break; //hour
-            case C.D:  result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0); break; //day
-            case C.M:  result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0)[C.D](1); break; //month
-            case C.Y:  result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0)[C.D](1)[C.M](0); break; //year
-            case C.q:  result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0)[C.D](1)[C.M](date.quarter() * 3 - 3); break; //quarter
-            case C.W:  {
-                temp = date.weekDay();
-                result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0).addDay(-temp);
-                break; // week
-            }
-            case C.WI: {
-                temp = date.weekDay();
-                result = date[C.ms](0)[C.s](0)[C.m](0)[C.h](0).addDay(-temp + 1);
-                break; // isoWeek
-            }
-            default:   result = date;
-        }
-        return asDate ? result.val() : result;
-    }
-
     Datetime.parse = function(str){
         return datetime(Date.parse(str));
-    }
-
-    Datetime.fromString = function(str, format, locale){
-        var norm, normFormat, fItems, dItems;
-        var iMonth, iDay, iYear, iHour, iMinute, iSecond;
-        var year, month, day, hour, minute, second;
-        var parsedMonth;
-
-        var getIndex = function(where, what){
-            return where.map(function(el){
-                return el.toLowerCase();
-            }).indexOf(what.toLowerCase());
-        }
-
-        var monthNameToNumber = function(month){
-            var i = -1;
-            var names = Datetime.getNames(locale || 'en');
-
-            if (not(month)) return -1;
-
-            i = getIndex(names.months, month);
-
-            if (i === -1 && typeof names["monthsParental"] !== "undefined") {
-                i = getIndex(names.monthsParental, month);
-            }
-
-            if (i === -1) {
-                month = month.substr(0, 3);
-                i = getIndex(names.monthsShort, month);
-            }
-
-            return i === -1 ? -1 : i + 1;
-        };
-
-        var getPartIndex = function(part){
-            var parts = {
-                "month": ["M", "mm", "%m"],
-                "day": ["D", "dd", "%d"],
-                "year": ["YY", "YYYY", "yy", "yyyy", "%y"],
-                "hour": ["h", "hh", "%h"],
-                "minute": ["m", "mi", "i", "ii", "%i"],
-                "second": ["s", "ss", "%s"]
-            }
-
-            var result = -1, key, index;
-
-            if (!parts[part]) {
-                return result;
-            }
-
-            for(var i = 0; i < parts[part].length; i++) {
-                key = parts[part][i];
-                index = fItems.indexOf(key);
-                if (index !== -1) {
-                    result = index;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-        if (not(format) || (""+format).trim() === "") {
-            return datetime();
-        }
-
-        /* eslint-disable-next-line */
-        norm = str.replace(/[\/,.:\s]/g, '-');
-        /* eslint-disable-next-line */
-        normFormat = format.toLowerCase().replace(/[^a-zA-Z0-9%]/g, '-');
-        fItems = normFormat.split('-');
-        dItems = norm.split('-');
-
-        if (norm.replace(/-/g,"").trim() === "") {
-            return Datetime.INVALID_DATE;
-        }
-
-        iMonth = getPartIndex("month");
-        iDay = getPartIndex("day");
-        iYear = getPartIndex("year");
-        iHour = getPartIndex("hour");
-        iMinute = getPartIndex("minute");
-        iSecond = getPartIndex("second");
-
-        if (iMonth > -1 && dItems[iMonth] !== "") {
-            if (isNaN(parseInt(dItems[iMonth]))) {
-                dItems[iMonth] = monthNameToNumber(dItems[iMonth]);
-                if (dItems[iMonth] === -1) {
-                    return Datetime.INVALID_DATE;
-                }
-            } else {
-                parsedMonth = parseInt(dItems[iMonth]);
-                if (parsedMonth < 1 || parsedMonth > 12) {
-                    return Datetime.INVALID_DATE;
-                }
-            }
-        } else {
-            return Datetime.INVALID_DATE;
-        }
-
-        year  = iYear > -1 && dItems[iYear] ? dItems[iYear] : null;
-        month = iMonth > -1 && dItems[iMonth] ? dItems[iMonth] : null;
-        day   = iDay > -1 && dItems[iDay] ? dItems[iDay] : null;
-
-        hour    = iHour > -1 && dItems[iHour] ? dItems[iHour] : null;
-        minute  = iMinute > -1 && dItems[iMinute] ? dItems[iMinute] : null;
-        second  = iSecond > -1 && dItems[iSecond] ? dItems[iSecond] : null;
-
-        return datetime(year, month-1, day, hour, minute, second);
     }
 
     /* Plugin support */
@@ -316,69 +178,8 @@
             return c;
         },
 
-        same: function(d){
-            return this.time() === datetime(d).time();
-        },
-
         isValid: function(){
             return !isNaN(this.time());
-        },
-
-        year2: function(){
-            return (""+this.year()).substr(-2);
-        },
-
-        isLeapYear: function(){
-            var year = this.year();
-            return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-        },
-
-        isYesterday: function(d){
-            var curr = this.clone().align('day').addDay(-1);
-            var date = datetime(d).align('day');
-
-            return curr.time() === date.time();
-        },
-
-        unix: function(val) {
-            var _val = val * 1000;
-            if (!arguments.length || (not(val))) {
-                return Math.floor(this.valueOf() / 1000)
-            }
-            if (this.mutable) {
-                return this.time(_val);
-            }
-            return datetime(this.value).time(_val);
-        },
-
-        isTomorrow: function(d){
-            var curr = this.clone().align('day').addDay(1);
-            var date = datetime(d).align('day');
-
-            return curr.time() === date.time();
-        },
-
-        isToday: function(d){
-            var curr = this.clone().align('day');
-            var date = datetime(d).align('day');
-
-            return curr.time() === date.time();
-        },
-
-        century: function(){
-            return parseInt(this.year() / 100);
-        },
-
-        dayOfYear: function(){
-            var dayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
-            var month = this.month();
-            var day = this.day();
-            return dayCount[month] + day + ((month > 1 && this.isLeapYear()) ? 1 : 0);
-        },
-
-        ampm: function(isLowerCase){
-            var val = this.hour() < 12 ? "AM" : "PM";
-            return isLowerCase ? val.toLowerCase() : val;
         },
 
         val: function(val){
@@ -443,46 +244,13 @@
             return this;
         },
 
-        hour12: function(h, /* string am|pm */ p){
-            var hour = h;
-
-            if (arguments.length === 0) {
-                return this.hour() % 12 || 12;
-            }
-
-            p = p || 'am';
-
-            if (p.toLowerCase() === "pm") {
-                hour += 12;
-            }
-
-            return this.hour(hour);
-        },
-
-        isoWeekDay: function(val){
-            if (!arguments.length || (not(val))) {
-                return (this.weekDay() + 6) % 7 + 1;
-            }
-
-            return this.weekDay((val + 6) % 7 + 1);
-        },
-
-        isoWeek: function(){
-            return this.week(1);
-        },
-
-        weeksInYear: function(weekStart){
-            var curr = this.clone();
-            return curr.month(11).day(31).week(weekStart);
-        },
-
         get: function(unit){
             switch (unit) {
                 case C.D: return this.day();
                 case C.d: return this.weekDay();
                 case C.dI: return this.isoWeekDay();
-                case C.W: return this.week();
-                case C.WI: return this.isoWeek();
+                case C.W: return this.weekNumber();
+                case C.WI: return this.isoWeekNumber();
                 case C.M: return this.month();
                 case C.Y: return this.year();
                 case C.Y2: return this.year2();
@@ -533,197 +301,12 @@
         addMonth: function(v){return this.add(v, C.M);},
         addYear: function(v){return this.add(v, C.Y);},
 
-        between: function(d1, d2){
-            return this.younger(d1) && this.older(d2);
-        },
-
-        align: function(align){
-            if (this.mutable) {
-                this.value = Datetime.align(this.value, align, true);
-                return this;
-            }
-
-            return this.clone().align(align);
-        },
-
-        /*
-        * align: year, month, day, hour, minute, second, millisecond = default
-        * */
-        compare: function(d, align, operator){
-            var date = datetime(d);
-            var curr = this.clone();
-            var t1, t2;
-
-            operator = operator || "<";
-
-            if (["<", ">", ">=", "<=", "=", "!="].indexOf(operator) === -1) {
-                throw new Error("Operator must be one of <, >, >=, <=, =, !=");
-            }
-
-            if (!curr.isValid()) {
-                throw new Error("Object has not contains a valid date");
-            }
-
-            if (!date.isValid()) {
-                throw new Error("Argument is not a valid date");
-            }
-
-            align = (align || C.ms).toLowerCase();
-
-            t1 = curr.align(align).time();
-            t2 = date.align(align).time();
-
-            switch (operator) {
-                case "<":
-                    return t1 < t2;
-                case ">":
-                    return t1 > t2;
-                case "<=":
-                    return t1 <= t2;
-                case ">=":
-                    return t1 >= t2;
-                case "=":
-                    return t1 === t2;
-                case "!=":
-                    return t1 !== t2;
-            }
-        },
-
-        older: function(date, align){
-            return this.compare(date, align, "<");
-        },
-
-        olderOrEqual: function(date, align){
-            return this.compare(date, align, "<=");
-        },
-
-        younger: function(date, align){
-            return this.compare(date, align, ">");
-        },
-
-        youngerOrEqual: function(date, align){
-            return this.compare(date, align, ">=");
-        },
-
-        equal: function(date, align){
-            return this.compare(date, align, "=");
-        },
-
-        notEqual: function(date, align){
-            return this.compare(date, align, "!=");
-        },
-
-        diff: function(d){
-            var date = datetime(d);
-            var diff = Math.abs(this.time() - date.time());
-            var diffMonth = Math.abs(this.month() - date.month() + (12 * (this.year() - date.year())));
-
-            return {
-                "millisecond": diff,
-                "second": Math.ceil(diff / 1000),
-                "minute": Math.ceil(diff / (1000 * 60)),
-                "hour": Math.ceil(diff / (1000 * 60 * 60)),
-                "day": Math.ceil(diff / (1000 * 60 * 60 * 24)),
-                "month": diffMonth,
-                "year": Math.floor(diffMonth / 12)
-            }
-        },
-
-        distance: function(d, align){
-            return this.diff(d)[align];
-        },
-
-        daysInMonth: function(){
-            var curr = this.clone();
-            return curr.add(1, 'month').day(1).add(-1, 'day').day();
-        },
-
-        daysInYear: function(){
-            return this.daysInYearMap().reduce(function(a, b){
-                return a + b;
-            }, 0)
-        },
-
-        daysInYearMap: function(){
-            var result = [];
-            var curr = this.clone();
-
-            curr.month(0).day(1);
-
-            for(var i = 0; i < 12; i++) {
-                curr.add(1, 'month').add(-1, 'day');
-                result.push(curr.day());
-                curr.day(1).add(1, 'month');
-            }
-            return result;
-        },
-
-        daysInYearObj: function(locale, shortName){
-            var map = this.daysInYearMap();
-            var result = {};
-            var names = Datetime.getNames(locale || this.locale);
-
-            map.forEach(function(v, i){
-                result[names[shortName ? 'monthsShort' : 'months'][i]] = v;
-            });
-
-            return result;
-        },
-
-        quarter: function(){
-            var month = this.month();
-
-            if (month <= 2) return 1;
-            if (month <= 5) return 2;
-            if (month <= 8) return 3;
-            return 4;
-        },
-
-        utcOffset: function(){
-            return this.value.getTimezoneOffset();
-        },
-
-        timezone: function(){
-            return this.toTimeString().replace(/.+GMT([+-])(\d{2})(\d{2}).+/, '$1$2:$3');
-        },
-
-        timezoneName: function(){
-            return this.toTimeString().replace(/.+\((.+?)\)$/, '$1');
-        },
-
-        week: function (weekStart) {
-            var nYear, nday, newYear, day, daynum, weeknum;
-
-            weekStart = +weekStart || 0;
-            newYear = datetime(this.year(), 0, 1);
-            day = newYear.weekDay() - weekStart;
-            day = (day >= 0 ? day : day + 7);
-            daynum = Math.floor(
-                (this.time() - newYear.time() - (this.utcOffset() - newYear.utcOffset()) * 60000) / 86400000
-            ) + 1;
-
-            if(day < 4) {
-                weeknum = Math.floor((daynum + day - 1) / 7) + 1;
-                if(weeknum > 52) {
-                    nYear = datetime(this.year() + 1, 0, 1);
-                    nday = nYear.weekDay() - weekStart;
-                    nday = nday >= 0 ? nday : nday + 7;
-                    weeknum = nday < 4 ? 1 : 53;
-                }
-            }
-            else {
-                weeknum = Math.floor((daynum + day - 1) / 7);
-            }
-            return weeknum;
-        },
-
-
         format: function(fmt, locale){
             if (!this.isValid()) return INVALID_DATE;
 
             var format = fmt || DEFAULT_FORMAT;
             var names = Datetime.getNames(locale || this.locale);
-            var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay(), week = this.week();
+            var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay(), weekNumber = this.weekNumber();
             var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), ms = this.millisecond();
             var matches = {
                 YY: year2,
@@ -738,8 +321,8 @@
                 dd: names.weekdaysMin[weekDay],
                 ddd: names.weekdaysShort[weekDay],
                 dddd: names.weekdays[weekDay],
-                W: week,
-                WW: lpad(week, "0", 2),
+                W: weekNumber,
+                WW: lpad(weekNumber, "0", 2),
                 H: hour,
                 HH: lpad(hour, "0", 2),
                 h: hour12,
@@ -754,7 +337,7 @@
                 Z: this.utcMode ? "Z" : this.timezone(),
                 C: this.century(),
                 I: this.isoWeekDay(),
-                II: this.isoWeek()
+                II: this.isoWeekNumber()
             };
 
             return format.replace(REGEX_FORMAT, function(match){

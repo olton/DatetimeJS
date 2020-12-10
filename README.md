@@ -10,7 +10,7 @@ Datetime.js is a minimalist JavaScript library that parses, validates, manipulat
 * 💪 Immutable/mutable modes
 * 🔥 Chainable
 * 🌐 I18n support
-* 📦 4kb mini library
+* 📦 2kb mini library (in base), 6kb - with all plugins
 * 👫 All browsers, Electron, NodeJS supported
 
 ## Getting started

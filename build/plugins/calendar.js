@@ -10,12 +10,8 @@
 
     Datetime.useStatic({
         calendar: function(d, iso){
-            if ( !(d instanceof Datetime) ) {
-                d = datetime(d);
-            }
-
             var ws = iso ? 1 : 0;
-            var date = d.clone().align("month");
+            var date = d instanceof Datetime ? d.clone().align("month") : datetime(d);
             var wd = ws ? date.isoWeekDay() : date.weekDay();
             var names = Datetime.getNames(date.locale);
 
