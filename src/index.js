@@ -112,6 +112,31 @@
         return datetime(Date.parse(str));
     }
 
+    Datetime.align = function(d, align, asDate){
+        var date = datetime(d), result, temp;
+        switch (align) {
+            case "second":  result = date["ms"](0); break; //second
+            case "minute":  result = date["ms"](0)["second"](0); break; //minute
+            case "hour":  result = date["ms"](0)["second"](0)["minute"](0); break; //hour
+            case "day":  result = date["ms"](0)["second"](0)["minute"](0)["hour"](0); break; //day
+            case "month":  result = date["ms"](0)["second"](0)["minute"](0)["hour"](0)["day"](1); break; //month
+            case "year":  result = date["ms"](0)["second"](0)["minute"](0)["hour"](0)["day"](1)["month"](0); break; //year
+            case "quarter":  result = date["ms"](0)["second"](0)["minute"](0)["hour"](0)["day"](1)["month"](date.quarter() * 3 - 3); break; //quarter
+            case "week":  {
+                temp = date.weekDay();
+                result = date["ms"](0)["second"](0)["minute"](0)["hour"](0).addDay(-temp);
+                break; // week
+            }
+            case "isoWeek": {
+                temp = date.weekDay();
+                result = date["ms"](0)["second"](0)["minute"](0)["hour"](0).addDay(-temp + 1);
+                break; // isoWeek
+            }
+            default:   result = date;
+        }
+        return asDate ? result.val() : result;
+    }
+
     /* Plugin support */
     Datetime.extend = function(where){
         var options, name,
@@ -167,6 +192,15 @@
             return c;
         },
 
+        align: function(to){
+            if (this.mutable) {
+                this.value = Datetime.align(this.value, to, true);
+                return this;
+            }
+
+            return this.clone().align(to);
+        },
+
         isValid: function(){
             return !isNaN(this.time());
         },
@@ -201,7 +235,8 @@
         },
 
         _get: function(m){
-            return this.value["get"+(this.utcMode && m !== "t" ? "UTC" : "")+M[m]]();
+            var fn = "get" + (this.utcMode && m !== "t" ? "UTC" : "") + M[m];
+            return this.value[fn]();
         },
 
         _work: function(part, val){

@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 10/12/2020 20:41:15
+ * Build at 10/12/2020 23:59:41
  * Licensed under MIT
  */
 
@@ -123,6 +123,31 @@
         return datetime(Date.parse(str));
     }
 
+    Datetime.align = function(d, align, asDate){
+        var date = datetime(d), result, temp;
+        switch (align) {
+            case "second":  result = date["ms"](0); break; //second
+            case "minute":  result = date["ms"](0)["second"](0); break; //minute
+            case "hour":  result = date["ms"](0)["second"](0)["minute"](0); break; //hour
+            case "day":  result = date["ms"](0)["second"](0)["minute"](0)["hour"](0); break; //day
+            case "month":  result = date["ms"](0)["second"](0)["minute"](0)["hour"](0)["day"](1); break; //month
+            case "year":  result = date["ms"](0)["second"](0)["minute"](0)["hour"](0)["day"](1)["month"](0); break; //year
+            case "quarter":  result = date["ms"](0)["second"](0)["minute"](0)["hour"](0)["day"](1)["month"](date.quarter() * 3 - 3); break; //quarter
+            case "week":  {
+                temp = date.weekDay();
+                result = date["ms"](0)["second"](0)["minute"](0)["hour"](0).addDay(-temp);
+                break; // week
+            }
+            case "isoWeek": {
+                temp = date.weekDay();
+                result = date["ms"](0)["second"](0)["minute"](0)["hour"](0).addDay(-temp + 1);
+                break; // isoWeek
+            }
+            default:   result = date;
+        }
+        return asDate ? result.val() : result;
+    }
+
     /* Plugin support */
     Datetime.extend = function(where){
         var options, name,
@@ -178,6 +203,15 @@
             return c;
         },
 
+        align: function(to){
+            if (this.mutable) {
+                this.value = Datetime.align(this.value, to, true);
+                return this;
+            }
+
+            return this.clone().align(to);
+        },
+
         isValid: function(){
             return !isNaN(this.time());
         },
@@ -212,7 +246,8 @@
         },
 
         _get: function(m){
-            return this.value["get"+(this.utcMode && m !== "t" ? "UTC" : "")+M[m]]();
+            var fn = "get" + (this.utcMode && m !== "t" ? "UTC" : "") + M[m];
+            return this.value[fn]();
         },
 
         _work: function(part, val){
@@ -564,52 +599,6 @@ Datetime.locale("zh", {
     weekdaysMin: "日_一_二_三_四_五_六".split("_"),
     weekStart: 1
 });
-
-
-// Source: src/plugins/align.js
-
-/* global Datetime, datetime */
-(function() {
-    'use strict';
-
-    Datetime.useStatic({
-        align: function(d, align, asDate){
-            var date = datetime(d), result, temp;
-            switch (align) {
-                case "second":  result = date["millisecond"](0); break; //second
-                case "minute":  result = date["millisecond"](0)["second"](0); break; //minute
-                case "hour":  result = date["millisecond"](0)["second"](0)["minute"](0); break; //hour
-                case "day":  result = date["millisecond"](0)["second"](0)["minute"](0)["hour"](0); break; //day
-                case "month":  result = date["millisecond"](0)["second"](0)["minute"](0)["hour"](0)["day"](1); break; //month
-                case "year":  result = date["millisecond"](0)["second"](0)["minute"](0)["hour"](0)["day"](1)["month"](0); break; //year
-                case "quarter":  result = date["millisecond"](0)["second"](0)["minute"](0)["hour"](0)["day"](1)["month"](date.quarter() * 3 - 3); break; //quarter
-                case "week":  {
-                    temp = date.weekDay();
-                    result = date["millisecond"](0)["second"](0)["minute"](0)["hour"](0).addDay(-temp);
-                    break; // week
-                }
-                case "isoWeek": {
-                    temp = date.weekDay();
-                    result = date["millisecond"](0)["second"](0)["minute"](0)["hour"](0).addDay(-temp + 1);
-                    break; // isoWeek
-                }
-                default:   result = date;
-            }
-            return asDate ? result.val() : result;
-        }
-    })
-
-    Datetime.use({
-        align: function(align){
-            if (this.mutable) {
-                this.value = Datetime.align(this.value, align, true);
-                return this;
-            }
-
-            return this.clone().align(align);
-        }
-    })
-}());
 
 
 // Source: src/plugins/buddhist.js
