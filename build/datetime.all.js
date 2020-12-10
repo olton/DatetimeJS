@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 10/12/2020 16:57:17
+ * Build at 10/12/2020 17:33:22
  * Licensed under MIT
  */
 
@@ -384,11 +384,141 @@
 
 /* global Datetime */
 Datetime.locale("af", {
-    months: "Januarie Februarie Maart April Mei Junie Julie Augustus September Oktober November Desember".split(" "),
-    monthsShort: "Jan Feb Mrt Apr Mei Jun Jul Aug Sep Okt Nov Des".split(" "),
-    weekdays: "Sondag Maandag Dinsdag Woensdag Donderdag Vrydag Saterdag".split(" "),
-    weekdaysShort: "Son Maa Din Woe Don Vry Sat".split(" "),
-    weekdaysMin: "So Ma Di Wo Do Vr Sa".split(" "),
+    months: "Januarie_Februarie_Maart_April_Mei_Junie_Julie_Augustus_September_Oktober_November_Desember".split("_"),
+    monthsShort: "Jan_Feb_Mrt_Apr_Mei_Jun_Jul_Aug_Sep_Okt_Nov_Des".split("_"),
+    weekdays: "Sondag_Maandag_Dinsdag_Woensdag_Donderdag_Vrydag_Saterdag".split("_"),
+    weekdaysShort: "Son_Maa_Din_Woe_Don_Vry_Sat".split("_"),
+    weekdaysMin: "So_Ma_Di_Wo_Do_Vr_Sa".split("_"),
+    weekStart: 1
+});
+
+
+// Source: src/i18n/am.js
+
+/* global Datetime */
+Datetime.locale("am", {
+    months: "ጃንዋሪ_ፌብሯሪ_ማርች_ኤፕሪል_ሜይ_ጁን_ጁላይ_ኦገስት_ሴፕቴምበር_ኦክቶበር_ኖቬምበር_ዲሴምበር".split("_"),
+    monthsShort: "ጃንዋ_ፌብሯ_ማርች_ኤፕሪ_ሜይ_ጁን_ጁላይ_ኦገስ_ሴፕቴ_ኦክቶ_ኖቬም_ዲሴም".split("_"),
+    weekdays: "እሑድ_ሰኞ_ማክሰኞ_ረቡዕ_ሐሙስ_አርብ_ቅዳሜ".split("_"),
+    weekdaysShort: "እሑድ_ሰኞ_ማክሰ_ረቡዕ_ሐሙስ_አርብ_ቅዳሜ".split("_"),
+    weekdaysMin: "እሑ_ሰኞ_ማክ_ረቡ_ሐሙ_አር_ቅዳ".split("_"),
+    weekStart: 1
+});
+
+
+// Source: src/i18n/ar.js
+
+/* global Datetime */
+Datetime.locale("ar", {
+    months: "يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),
+    monthsShort: "يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),
+    weekdays: "الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت".split("_"),
+    weekdaysShort: "أحد_إثنين_ثلاثاء_أربعاء_خميس_جمعة_سبت".split("_"),
+    weekdaysMin: "ح_ن_ث_ر_خ_ج_س".split("_"),
+    weekStart: 1
+});
+
+
+// Source: src/i18n/az.js
+
+/* global Datetime */
+Datetime.locale("am", {
+    months: "Yanvar_Fevral_Mart_Aprel_May_Iyun_Iyul_Avqust_Sentyabr_Oktyabr_Noyabr_Dekabr".split("_"),
+    monthsShort: "Yan_Fev_Mar_Apr_May_Iyn_Iyl_Avq_Sen_Okt_Noy_Dek".split("_"),
+    weekdays: "Bazar_Bazar ertəsi_Çərşənbə axşamı_Çərşənbə_Cümə axşamı_Cümə_Şənbə".split("_"),
+    weekdaysShort: "Baz_BzE_ÇAx_Çər_CAx_Cüm_Şən".split("_"),
+    weekdaysMin: "Bz_BE_ÇA_Çə_CA_Cü_Şə".split("_"),
+    weekStart: 1
+});
+
+
+// Source: src/i18n/ba.js
+
+/* global Datetime */
+Datetime.locale("ba", {
+    months: "Zanwuyekalo_Fewuruyekalo_Marisikalo_Awirilikalo_Mɛkalo_Zuwɛnkalo_Zuluyekalo_Utikalo_Sɛtanburukalo_ɔkutɔburukalo_Nowanburukalo_Desanburukalo".split("_"),
+    monthsShort: "Zan_Few_Mar_Awi_Mɛ_Zuw_Zul_Uti_Sɛt_ɔku_Now_Des".split("_"),
+    weekdays: "Kari_Ntɛnɛn_Tarata_Araba_Alamisa_Juma_Sibiri".split("_"),
+    weekdaysShort: "Kar_Ntɛ_Tar_Ara_Ala_Jum_Sib".split("_"),
+    weekdaysMin: "Ka_Nt_Ta_Ar_Al_Ju_Si".split("_"),
+    weekStart: 1
+});
+
+
+// Source: src/i18n/be.js
+
+/* global Datetime */
+Datetime.locale("be", {
+    months: "Студзеня_Лютага_Сакавіка_Красавіка_Траўня_Чэрвеня_Ліпеня_Жніўня_Верасня_Кастрычніка_Лістапада_Снежня".split("_"),
+    monthsShort: "Студ_Лют_Сак_Крас_Трав_Чэрв_Ліп_Жнів_Вер_Каст_Ліст_Снеж".split("_"),
+    weekdays: "Нядзелю_Панядзелак_Аўторак_Сераду_Чацвер_Пятніцу_Суботу".split("_"),
+    weekdaysShort: "Няд_Пан_Аўт_Сер_Чац_Пят_Суб".split("_"),
+    weekdaysMin: "Нд_Пн_Ат_Ср_Чц_Пт_Сб".split("_"),
+    weekStart: 1
+});
+
+
+// Source: src/i18n/bg.js
+
+/* global Datetime */
+Datetime.locale("bg", {
+    months: "Януари_Февруари_Март_Април_Май_Юни_Юли_Август_Септември_Октомври_Ноември_Декември".split("_"),
+    monthsShort: "Янр_Фев_Мар_Апр_Май_Юни_Юли_Авг_Сеп_Окт_Ное_Дек".split("_"),
+    weekdays: "Неделя_Понеделник_Вторник_Сряда_Четвъртък_Петък_Събота".split("_"),
+    weekdaysShort: "Нед_Пон_Вто_Сря_Чет_Пет_Съб".split("_"),
+    weekdaysMin: "Нд_Пн_Вт_Ср_Чт_Пт_Сб".split("_"),
+    weekStart: 1
+});
+
+
+// Source: src/i18n/bi.js
+
+/* global Datetime */
+Datetime.locale("bi", {
+    months: "Januari_Februari_Maj_Eprel_Mei_Jun_Julae_Okis_Septemba_Oktoba_Novemba_Disemba".split("_"),
+    monthsShort: "Jan_Feb_Maj_Epr_Mai_Jun_Jul_Oki_Sep_Okt_Nov_Dis".split("_"),
+    weekdays: "Sande_Mande_Tusde_Wenesde_Tosde_Fraede_Sarade".split("_"),
+    weekdaysShort: "San_Man_Tus_Wen_Tos_Frae_Sar".split("_"),
+    weekdaysMin: "Sn_Ma_Tu_We_To_Fr_Sr".split("_"),
+    weekStart: 1
+});
+
+
+// Source: src/i18n/bn.js
+
+/* global Datetime */
+Datetime.locale("bn", {
+    months: "জানুয়ারী_ফেব্রুয়ারি_মার্চ_এপ্রিল_মে_জুন_জুলাই_আগস্ট_সেপ্টেম্বর_অক্টোবর_নভেম্বর_ডিসেম্বর".split("_"),
+    monthsShort: "জানু_ফেব_মার্চ_এপ্র_মে_জুন_জুল_আগ_সেপ্ট_অক্টো_নভে_ডিসে".split("_"),
+    weekdays: "রবিবার_সোমবার_মঙ্গলবার_বুধবার_বৃহস্পতিবার_শুক্রবার_শনিবার".split("_"),
+    weekdaysShort: "রবি_সোম_মঙ্গল_বুধ_বৃহস্পতি_শুক্র_শনি".split("_"),
+    weekdaysMin: "রবি_সোম_মঙ্গ_বুধ_বৃহঃ_শুক্র_শনি".split("_"),
+    weekStart: 1
+});
+
+
+// Source: src/i18n/bo.js
+
+/* global Datetime */
+Datetime.locale("bo", {
+    months: "ཟླ་བ་དང་པོ_ཟླ་བ་གཉིས་པ_ཟླ་བ་གསུམ་པ_ཟླ་བ་བཞི་པ_ཟླ་བ་ལྔ་པ_ཟླ་བ་དྲུག་པ_ཟླ་བ་བདུན་པ_ཟླ་བ་བརྒྱད་པ_ཟླ་བ་དགུ་པ_ཟླ་བ་བཅུ་པ_ཟླ་བ་བཅུ་གཅིག་པ_ཟླ་བ་བཅུ་གཉིས་པ".split("_"),
+    monthsShort: "ཟླ་བ་དང་པོ_ཟླ་བ་གཉིས་པ_ཟླ་བ་གསུམ་པ_ཟླ་བ་བཞི་པ_ཟླ་བ་ལྔ་པ_ཟླ་བ་དྲུག་པ_ཟླ་བ་བདུན་པ_ཟླ་བ་བརྒྱད་པ_ཟླ་བ་དགུ་པ_ཟླ་བ་བཅུ་པ_ཟླ་བ་བཅུ་གཅིག་པ_ཟླ་བ་བཅུ་གཉིས་པ".split("_"),
+    weekdays: "གཟའ་ཉི་མ་_གཟའ་ཟླ་བ་_གཟའ་མིག་དམར་_གཟའ་ལྷག་པ་_གཟའ་ཕུར་བུ_གཟའ་པ་སངས་_གཟའ་སྤེན་པ་".split("_"),
+    weekdaysShort: "ཉི་མ་_ཟླ་བ་_མིག་དམར་_ལྷག་པ་_ཕུར་བུ_པ་སངས་_སྤེན་པ་".split("_"),
+    weekdaysMin: "ཉི་མ་_ཟླ་བ་_མིག་དམར་_ལྷག་པ་_ཕུར་བུ_པ་སངས་_སྤེན་པ་".split("_"),
+    weekStart: 1
+});
+
+
+// Source: src/i18n/br.js
+
+/* global Datetime */
+Datetime.locale("br", {
+    months: "Genver_Cʼhwevrer_Meurzh_Ebrel_Mae_Mezheven_Gouere_Eost_Gwengolo_Here_Du_Kerzu".split("_"),
+    monthsShort: "Gen_Cʼhwe_Meu_Ebr_Mae_Eve_Gou_Eos_Gwe_Her_Du_Ker".split("_"),
+    weekdays: "Sul_Lun_Meurzh_Mercʼher_Yaou_Gwener_Sadorn".split("_"),
+    weekdaysShort: "Sul_Lun_Meu_Mer_Yao_Gwe_Sad".split("_"),
+    weekdaysMin: "Su_Lu_Me_Mer_Ya_Gw_Sa".split("_"),
     weekStart: 1
 });
 
@@ -397,11 +527,11 @@ Datetime.locale("af", {
 
 /* global Datetime */
 Datetime.locale("de", {
-    months: "Januar Februar März April Mai Juni Juli August September Oktober November Dezember".split(" "),
-    monthsShort: "Jan Feb Mär Apr Mai Jun Jul Aug Sep Okt Nov Dez".split(" "),
-    weekdays: "Sonntag Montag Dienstag Mittwoch Donnerstag Freitag Samstag".split(" "),
-    weekdaysShort: "Son Mon Die Mit Don Fre Sam".split(" "),
-    weekdaysMin: "So Mo Di Mi Do Fr Sa".split(" "),
+    months: "Januar_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),
+    monthsShort: "Jan_Feb_Mär_Apr_Mai_Jun_Jul_Aug_Sep_Okt_Nov_Dez".split("_"),
+    weekdays: "Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag".split("_"),
+    weekdaysShort: "Son_Mon_Die_Mit_Don_Fre_Sam".split("_"),
+    weekdaysMin: "So_Mo_Di_Mi_Do_Fr_Sa".split("_"),
     weekStart: 1
 });
 
@@ -410,12 +540,12 @@ Datetime.locale("de", {
 
 /* global Datetime */
 Datetime.locale("ru", {
-    months: "Январь Февраль Март Апрель Май Июнь Июль Август Сентябрь Октябрь Ноябрь Декабрь".split(" "),
-    monthsParental: "Января Февраля Марта Апреля Мая Июня Июля Августа Сентября Октября Ноября Декабря".split(" "),
-    monthsShort: "Янв Фев Мар Апр Май Июн Июл Авг Сен Окт Ноя Дек".split(" "),
-    weekdays: "Воскресенье Понедельник Вторник Среда Четверг Пятница Суббота".split(" "),
-    weekdaysShort: "Вск Пон Втр Срд Чет Пят Суб".split(" "),
-    weekdaysMin: "Вс Пн Вт Ср Чт Пт Сб".split(" "),
+    months: "Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь".split("_"),
+    monthsParental: "Января_Февраля_Марта_Апреля_Мая_Июня_Июля_Августа_Сентября_Октября_Ноября_Декабря".split("_"),
+    monthsShort: "Янв_Фев_Мар_Апр_Май_Июн_Июл_Авг_Сен_Окт_Ноя_Дек".split("_"),
+    weekdays: "Воскресенье_Понедельник_Вторник_Среда_Четверг_Пятница_Суббота".split("_"),
+    weekdaysShort: "Вск_Пон_Втр_Срд_Чет_Пят_Суб".split("_"),
+    weekdaysMin: "Вс_Пн_Вт_Ср_Чт_Пт_Сб".split("_"),
     weekStart: 1
 });
 
@@ -424,12 +554,12 @@ Datetime.locale("ru", {
 
 /* global Datetime */
 Datetime.locale("ua", {
-    months: "Січень Лютий Березень Квітень Травень Червень Липень Серпень Вересень Жовтень Листопад Грудень".split(" "),
-    monthsParental: "Січня Лютого Березеня Квітня Травня Червня Липня Серпня Вересня Жовтня Листопада Грудня".split(" "),
-    monthsShort: "Січ Лют Бер Кві Тра Чер Лип Сер Вер Жов Лис Гру".split(" "),
-    weekdays: "Неділя Понеділок Вівторок Середа Четвер П'ятниця Субота".split(" "),
-    weekdaysShort: "Нед Пон Вів Сер Чет Птн Суб".split(" "),
-    weekdaysMin: "Нд Пн Вт Ср Чт Пт Сб".split(" "),
+    months: "Січень_Лютий_Березень_Квітень_Травень_Червень_Липень_Серпень_Вересень_Жовтень_Листопад_Грудень".split("_"),
+    monthsParental: "Січня_Лютого_Березеня_Квітня_Травня_Червня_Липня_Серпня_Вересня_Жовтня_Листопада_Грудня".split("_"),
+    monthsShort: "Січ_Лют_Бер_Кві_Тра_Чер_Лип_Сер_Вер_Жов_Лис_Гру".split("_"),
+    weekdays: "Неділя_Понеділок_Вівторок_Середа_Четвер_П'ятниця_Субота".split("_"),
+    weekdaysShort: "Нед_Пон_Вів_Сер_Чет_Птн_Суб".split("_"),
+    weekdaysMin: "Нд_Пн_Вт_Ср_Чт_Пт_Сб".split("_"),
     weekStart: 1
 });
 
@@ -438,11 +568,11 @@ Datetime.locale("ua", {
 
 /* global Datetime */
 Datetime.locale("zh", {
-    months: "一月 二月 三月 四月 五月 六月 七月 八月 九月 十月 十一月 十二月".split(" "),
-    monthsShort: "1月 2月 3月 4月 5月 6月 7月 8月 9月 10月 11月 12月".split(" "),
-    weekdays: "星期日 星期一 星期二 星期三 星期四 星期五 星期六".split(" "),
-    weekdaysShort: "周日 周一 周二 周三 周四 周五 周六".split(" "),
-    weekdaysMin: "日 一 二 三 四 五 六".split(" "),
+    months: "一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月".split("_"),
+    monthsShort: "1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月".split("_"),
+    weekdays: "星期日_星期一_星期二_星期三_星期四_星期五_星期六".split("_"),
+    weekdaysShort: "周日_周一_周二_周三_周四_周五_周六".split("_"),
+    weekdaysMin: "日_一_二_三_四_五_六".split("_"),
     weekStart: 1
 });
 
