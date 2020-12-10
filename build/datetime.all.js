@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 10/12/2020 23:59:41
+ * Build at 11/12/2020 00:22:48
  * Licensed under MIT
  */
 
@@ -123,29 +123,31 @@
         return datetime(Date.parse(str));
     }
 
-    Datetime.align = function(d, align, asDate){
-        var date = datetime(d), result, temp;
+    Datetime.align = function(d, align){
+        var date = d instanceof Datetime ? d : datetime(d),
+            result, temp;
+
         switch (align) {
-            case "second":  result = date["ms"](0); break; //second
-            case "minute":  result = date["ms"](0)["second"](0); break; //minute
-            case "hour":  result = date["ms"](0)["second"](0)["minute"](0); break; //hour
-            case "day":  result = date["ms"](0)["second"](0)["minute"](0)["hour"](0); break; //day
-            case "month":  result = date["ms"](0)["second"](0)["minute"](0)["hour"](0)["day"](1); break; //month
-            case "year":  result = date["ms"](0)["second"](0)["minute"](0)["hour"](0)["day"](1)["month"](0); break; //year
-            case "quarter":  result = date["ms"](0)["second"](0)["minute"](0)["hour"](0)["day"](1)["month"](date.quarter() * 3 - 3); break; //quarter
-            case "week":  {
+            case C.s:  result = date.ms(0); break; //second
+            case C.m:  result = date.ms(0).second(0); break; //minute
+            case C.h:  result = date.ms(0).second(0).minute(0); break; //hour
+            case C.D:  result = date.ms(0).second(0).minute(0).hour(0); break; //day
+            case C.M:  result = date.ms(0).second(0).minute(0).hour(0).day(1); break; //month
+            case C.Y:  result = date.ms(0).second(0).minute(0).hour(0).day(1).month(0); break; //year
+            case C.q:  result = date.ms(0).second(0).minute(0).hour(0).day(1).month(date.quarter() * 3 - 3); break; //quarter
+            case C.W:  {
                 temp = date.weekDay();
-                result = date["ms"](0)["second"](0)["minute"](0)["hour"](0).addDay(-temp);
+                result = date.ms(0).second(0).minute(0).hour(0).addDay(-temp);
                 break; // week
             }
-            case "isoWeek": {
+            case C.WI: {
                 temp = date.weekDay();
-                result = date["ms"](0)["second"](0)["minute"](0)["hour"](0).addDay(-temp + 1);
+                result = date.ms(0).second(0).minute(0).hour(0).addDay(-temp + 1);
                 break; // isoWeek
             }
             default:   result = date;
         }
-        return asDate ? result.val() : result;
+        return result;
     }
 
     /* Plugin support */
@@ -205,7 +207,7 @@
 
         align: function(to){
             if (this.mutable) {
-                this.value = Datetime.align(this.value, to, true);
+                this.value = Datetime.align(this, to).val();
                 return this;
             }
 
