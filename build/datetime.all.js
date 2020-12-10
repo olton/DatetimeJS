@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 10/12/2020 13:03:50
+ * Build at 10/12/2020 14:12:17
  * Licensed under MIT
  */
 
@@ -1094,12 +1094,18 @@ Datetime.locale("zh", {
 (function() {
     'use strict';
 
-    Datetime.use({
-        isToday: function(d){
-            var curr = this.clone().align('day');
-            var date = datetime(d).align('day');
+    Datetime.useStatic({
+        isToday: function(date){
+            var d = (date instanceof  Datetime ? date.clone() : datetime(date)).align("day");
+            var c = datetime().align('day');
 
-            return curr.time() === date.time();
+            return d.time() === c.time();
+        }
+    })
+
+    Datetime.use({
+        isToday: function(){
+            return Datetime.isToday(this);
         }
     })
 }());
@@ -1111,14 +1117,20 @@ Datetime.locale("zh", {
 (function() {
     'use strict';
 
-    Datetime.use({
-        isTomorrow: function(d){
-            var curr = this.clone().align('day').addDay(1);
-            var date = datetime(d).align('day');
+    Datetime.useStatic({
+        isTomorrow: function(date){
+            var d = (date instanceof  Datetime ? date.clone() : datetime(date)).align("day");
+            var c = datetime().align('day').add(1, 'day');
 
-            return curr.time() === date.time();
+            return d.time() === c.time();
         }
-    })
+    });
+
+    Datetime.use({
+        isTomorrow: function(){
+            return Datetime.isTomorrow(this);
+        }
+    });
 }());
 
 
@@ -1220,12 +1232,18 @@ Datetime.locale("zh", {
 (function() {
     'use strict';
 
-    Datetime.use({
-        isYesterday: function(d){
-            var curr = this.clone().align('day').addDay(-1);
-            var date = datetime(d).align('day');
+    Datetime.useStatic({
+        isYesterday: function(date){
+            var d = (date instanceof  Datetime ? date.clone() : datetime(date)).align("day");
+            var c = datetime().align('day').add(-1, 'day');
 
-            return curr.time() === date.time();
+            return d.time() === c.time();
+        }
+    });
+
+    Datetime.use({
+        isYesterday: function(){
+            return Datetime.isYesterday(this);
         }
     })
 }());

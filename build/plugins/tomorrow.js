@@ -2,12 +2,18 @@
 (function() {
     'use strict';
 
-    Datetime.use({
-        isTomorrow: function(d){
-            var curr = this.clone().align('day').addDay(1);
-            var date = datetime(d).align('day');
+    Datetime.useStatic({
+        isTomorrow: function(date){
+            var d = (date instanceof  Datetime ? date.clone() : datetime(date)).align("day");
+            var c = datetime().align('day').add(1, 'day');
 
-            return curr.time() === date.time();
+            return d.time() === c.time();
         }
-    })
+    });
+
+    Datetime.use({
+        isTomorrow: function(){
+            return Datetime.isTomorrow(this);
+        }
+    });
 }());
