@@ -48,17 +48,6 @@
         q: "quarter"
     }
 
-    // *** This polyfill only for IE, and must be removed after the end of support IE ***
-    if (typeof Object.values !== "function") {
-        Object.prototype.values = function(){
-            var self = this;
-            Object.keys(self).map(function(e) {
-                return self[e];
-            });
-        }
-    }
-    // ******************* end of polyfill **********************************************
-
     var lpad = function(str, pad, length){
         var _str = ""+str;
         if (length && _str.length >= length) {
