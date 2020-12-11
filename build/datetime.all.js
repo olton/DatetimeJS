@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 11/12/2020 12:47:41
+ * Build at 11/12/2020 13:48:58
  * Licensed under MIT
  */
 
@@ -353,10 +353,7 @@
                 s: second,
                 ss: lpad(second,"0", 2),
                 sss: lpad(ms,"0", 3),
-                Z: this.utcMode ? "Z" : this.timezone(),
-                C: this.century(),
-                I: this.isoWeekDay(),
-                II: this.isoWeekNumber()
+                Z: this.utcMode ? "Z" : this.timezone()
             };
 
             return format.replace(REGEX_FORMAT, function(match){
@@ -708,9 +705,23 @@ Datetime.locale("zh", {
 (function() {
     'use strict';
 
+    var oldFormat = Datetime.prototype.format;
+
     Datetime.use({
         century: function(){
             return parseInt(this.year() / 100);
+        },
+
+        format: function(format, locale){
+            format = format || Datetime.DEFAULT_FORMAT;
+            var matches = {
+                I: this.isoWeekDay(),
+                II: this.isoWeekNumber()
+            }
+            var result = format.replace(/(\[[^\]]+])|I{1,2}/g, function(match){
+                return matches[match] || match;
+            })
+            return oldFormat.bind(this)(result, locale)
         }
     })
 }());
@@ -938,6 +949,8 @@ Datetime.locale("zh", {
 (function() {
     'use strict';
 
+    var oldFormat = Datetime.prototype.format;
+
     Datetime.use({
         isoWeekDay: function(val){
             if (!arguments.length || (Datetime.not(val))) {
@@ -949,6 +962,17 @@ Datetime.locale("zh", {
 
         isoWeekNumber: function(){
             return this.weekNumber(1);
+        },
+
+        format: function(format, locale){
+            format = format || Datetime.DEFAULT_FORMAT;
+            var matches = {
+                C: this.century()
+            }
+            var result = format.replace(/(\[[^\]]+])|C/g, function(match){
+                return matches[match] || match;
+            })
+            return oldFormat.bind(this)(result, locale)
         }
     })
 }());

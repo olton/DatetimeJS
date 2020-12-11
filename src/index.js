@@ -342,10 +342,7 @@
                 s: second,
                 ss: lpad(second,"0", 2),
                 sss: lpad(ms,"0", 3),
-                Z: this.utcMode ? "Z" : this.timezone(),
-                C: this.century(),
-                I: this.isoWeekDay(),
-                II: this.isoWeekNumber()
+                Z: this.utcMode ? "Z" : this.timezone()
             };
 
             return format.replace(REGEX_FORMAT, function(match){
