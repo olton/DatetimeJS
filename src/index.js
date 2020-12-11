@@ -313,7 +313,7 @@
             var format = fmt || DEFAULT_FORMAT;
             var names = Datetime.getNames(locale || this.locale);
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay(), weekNumber = this.weekNumber();
-            var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), ms = this.millisecond();
+            var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), ms = this.ms();
             var matches = {
                 YY: year2,
                 YYYY: year,

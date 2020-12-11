@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/Datetime.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 11/12/2020 14:08:31
+ * Build at 11/12/2020 14:12:37
  * Licensed under MIT
  */
 
@@ -324,7 +324,7 @@
             var format = fmt || DEFAULT_FORMAT;
             var names = Datetime.getNames(locale || this.locale);
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay(), weekNumber = this.weekNumber();
-            var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), ms = this.millisecond();
+            var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), ms = this.ms();
             var matches = {
                 YY: year2,
                 YYYY: year,
@@ -737,7 +737,7 @@ Datetime.locale("zh", {
         },
 
         /*
-        * align: year, month, day, hour, minute, second, millisecond = default
+        * align: year, month, day, hour, minute, second, ms = default
         * */
         compare: function(d, align, operator){
             var date = datetime(d);
@@ -758,7 +758,7 @@ Datetime.locale("zh", {
                 throw new Error("Argument is not a valid date");
             }
 
-            align = (align || "millisecond").toLowerCase();
+            align = (align || "ms").toLowerCase();
 
             t1 = curr.align(align).time();
             t2 = date.align(align).time();
@@ -813,7 +813,7 @@ Datetime.locale("zh", {
             var diffMonth = Math.abs(this.month() - date.month() + (12 * (this.year() - date.year())));
 
             return {
-                "millisecond": diff,
+                "ms": diff,
                 "second": Math.ceil(diff / 1000),
                 "minute": Math.ceil(diff / (1000 * 60)),
                 "hour": Math.ceil(diff / (1000 * 60 * 60)),
@@ -1133,14 +1133,14 @@ Datetime.locale("zh", {
             var format = fmt || DEFAULT_FORMAT_STRFTIME;
             var names = Datetime.getNames(locale || this.locale);
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();
-            var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), millisecond = this.millisecond(), time = this.time();
+            var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), ms = this.ms(), time = this.time();
             var aDay = lpad(day, "0", 2),
                 aMonth = lpad(month + 1, "0", 2),
                 aHour = lpad(hour, "0", 2),
                 aHour12 = lpad(hour12, "0", 2),
                 aMinute = lpad(minute, "0", 2),
                 aSecond = lpad(second, "0", 2),
-                aMillisecond = lpad(millisecond, "0", 3);
+                aMs = lpad(ms, "0", 3);
 
             var that = this;
 
@@ -1188,8 +1188,8 @@ Datetime.locale("zh", {
                 '%r': [aHour12, aMinute, aSecond].join(":") + " " + this.ampm(),
                 '%R': [aHour, aMinute].join(":"),
                 "%T": [aHour, aMinute, aSecond].join(":"),
-                "%Q": aMillisecond,
-                "%q": millisecond,
+                "%Q": aMs,
+                "%q": ms,
                 "%t": this.timezone()
             };
 

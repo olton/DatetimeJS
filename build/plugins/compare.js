@@ -8,7 +8,7 @@
         },
 
         /*
-        * align: year, month, day, hour, minute, second, millisecond = default
+        * align: year, month, day, hour, minute, second, ms = default
         * */
         compare: function(d, align, operator){
             var date = datetime(d);
@@ -29,7 +29,7 @@
                 throw new Error("Argument is not a valid date");
             }
 
-            align = (align || "millisecond").toLowerCase();
+            align = (align || "ms").toLowerCase();
 
             t1 = curr.align(align).time();
             t2 = date.align(align).time();
@@ -84,7 +84,7 @@
             var diffMonth = Math.abs(this.month() - date.month() + (12 * (this.year() - date.year())));
 
             return {
-                "millisecond": diff,
+                "ms": diff,
                 "second": Math.ceil(diff / 1000),
                 "minute": Math.ceil(diff / (1000 * 60)),
                 "hour": Math.ceil(diff / (1000 * 60 * 60)),
