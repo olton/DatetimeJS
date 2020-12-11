@@ -14,6 +14,7 @@
             var ws = iso === 0 || iso ? iso : date.weekStart;
             var wd = ws ? date.isoWeekDay() : date.weekDay();
             var names = Datetime.getNames(date.locale);
+            var now = datetime(), i;
 
             var getWeekDays = function (wd, ws){
                 if (ws === 0) {
@@ -28,13 +29,14 @@
                 days: [],
                 weekstart: iso ? 1 : 0,
                 weekdays: getWeekDays(names.weekdaysMin,ws),
-                today: datetime().format("YYYY-MM-DD"),
-                weekends: []
+                today: now.format("YYYY-MM-DD"),
+                weekends: [],
+                week: []
             };
 
             date.addDay(ws ? -wd+1 : -wd);
 
-            for(var i = 0; i < 42; i++) {
+            for(i = 0; i < 42; i++) {
                 result.days.push(date.format("YYYY-MM-DD"));
                 date.add(1, 'day');
             }
@@ -45,6 +47,14 @@
 
                 return ws === 0 ? def.indexOf(i) > -1 : iso.indexOf(i) > -1;
             });
+
+            date = now.clone();
+            wd = ws ? date.isoWeekDay() : date.weekDay();
+            date.addDay(ws ? -wd+1 : -wd);
+            for (i = 0; i < 7; i++) {
+                result.week.push(date.format("YYYY-MM-DD"));
+                date.add(1, 'day');
+            }
 
             return result;
         }

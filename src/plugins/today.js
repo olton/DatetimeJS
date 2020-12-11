@@ -14,6 +14,14 @@
     Datetime.use({
         isToday: function(){
             return Datetime.isToday(this);
+        },
+
+        today: function(){
+            var now = datetime();
+            if (!this.mutable) {
+                return now;
+            }
+            return this.val(now.val());
         }
     })
 }());

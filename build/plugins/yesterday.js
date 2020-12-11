@@ -14,6 +14,13 @@
     Datetime.use({
         isYesterday: function(){
             return Datetime.isYesterday(this);
+        },
+
+        yesterday: function(){
+            if (!this.mutable) {
+                return this.clone().add(-1, 'day');
+            }
+            return this.add(-1, 'day');
         }
     })
 }());

@@ -14,6 +14,13 @@
     Datetime.use({
         isTomorrow: function(){
             return Datetime.isTomorrow(this);
+        },
+
+        tomorrow: function(){
+            if (!this.mutable) {
+                return this.clone().add(1, 'day');
+            }
+            return this.add(1, 'day');
         }
     });
 }());
