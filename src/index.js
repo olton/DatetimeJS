@@ -4,7 +4,7 @@
 
     var DEFAULT_FORMAT = "YYYY-MM-DDTHH:mm:ss.sssZ";
     var INVALID_DATE = "Invalid date";
-    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,3}|Z{1,2}|z{1,2}|C|W{1,2}|I{1,3}|B{2,4}|(^[T][a-zA-Z]{1,4})/g;
+    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,3}|Z{1,2}|z{1,2}|W{1,2}|(^[T][a-zA-Z]{1,4})/g;
 
     global['DATETIME_LOCALES'] = {
         "en": {
@@ -31,7 +31,7 @@
     }
 
     var C = {
-        ms: "millisecond",
+        ms: "ms",
         s: "second",
         m: "minute",
         h: "hour",
@@ -253,7 +253,6 @@
             return this._set(part, val);
         },
 
-        millisecond: function(val){ return this._work("ms", val);},
         ms: function(val){ return this._work("ms", val);},
         second: function(val){return this._work("s", val);},
         minute: function(val){return this._work("m", val); },
@@ -301,7 +300,6 @@
         addHour: function(v){return this.add(v,C.h);},
         addMinute: function(v){return this.add(v,C.m);},
         addSecond: function(v){return this.add(v, C.s);},
-        addMillisecond: function(v){return this.add(v, C.ms);},
         addMs: function(v){return this.add(v, C.ms);},
         addDay: function(v){return this.add(v,C.D);},
         addWeek: function(v){return this.add(v,C.W);},

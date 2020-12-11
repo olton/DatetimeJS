@@ -68,21 +68,21 @@ datetime().strftime('{%Y} %n-%dT%H:%M:%S %Q %z %p');
 ```
 
 #### Get & set
-You can set and get: `millisecond`, `second`, `minute`, `hour`, `day`, `month`, `year`, `time` (timestamp), ... 
+You can set and get: `ms`, `second`, `minute`, `hour`, `day`, `month`, `year`, `time` (timestamp), ... 
 ```javascript
 datetime().set('month', 3).month();
 datetime().month(3).month();
 ```
 
 #### Manipulate
-You can set: `millisecond`, `second`, `minute`, `hour`, `day`, `month`, `year`.
+You can set: `ms`, `second`, `minute`, `hour`, `day`, `month`, `year`.
 ```javascript
 datetime().add(3, 'day').add(1, 'hour');
 datetime().addDay(3).addHour(1);
 ```
 
 #### Align (Start From)
-You can align date to: `millisecond`, `second`, `minute`, `hour`, `day`, `month`, `year`, `quarter`, `week`, `isoWeek`.
+You can align date to: `second`, `minute`, `hour`, `day`, `month`, `year`, `quarter`, `week`, `isoWeek`.
 ```javascript
 datetime().align("year"); // Will alignment to 1st Jan of year
 datetime().align("month"); // Will alignment to 1st day of month
