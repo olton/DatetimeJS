@@ -41,7 +41,7 @@ datetime("2020-12-31");
 datetime("2020-12-31 23:59");
 datetime(2020, 12, 31, 23, 59);
 datetime([2020, 12, 31, 23, 59]);
-Datetime.parse(...);
+Datetime.parse("Mon, 25 Dec 1995 13:30:00 +0430"); // Work same as Date.parse()
 Datetime.fromString("16 November 1961 15:24", "dd mm %y h:i", "en")
 Datetime.fromString("16 Ноября 1961 15:24", "dd mm %y h:i", "ru")
 ```
@@ -112,13 +112,13 @@ You can include many others:
 
 In HTML
 ```html
-<script src="datetime.js"></script>
-<script src="i18n/ru.js"></script>
+<script src="/DATETIME_DIR/datetime.js"></script>
+<script src="/DATETIME_DIR/i18n/ru.js"></script>
 ```
 For NodeJS or use with Webpack or modern JS
 ```javascript
 import "@olton/datetime";
-import "@olton/i18n/ru";
+import "@olton/datetime/i18n/ru";
 ```
 
 With locales:
