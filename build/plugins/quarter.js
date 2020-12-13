@@ -1,6 +1,35 @@
-/* global Datetime */
+/* global Datetime, datetime */
 (function() {
     'use strict';
+
+    var fnAlign = Datetime.align;
+    var fnAlignEnd = Datetime.alignEnd;
+
+    Datetime.useStatic({
+        align: function(d, align){
+            var date = d instanceof Datetime ? d : datetime(d),
+                result;
+
+            switch(align) {
+                case "quarter":  result = date.ms(0).second(0).minute(0).hour(0).day(1).month(date.quarter() * 3 - 3); break; //quarter
+                default: result = fnAlign.apply(this, [date, align]);
+            }
+
+            return result;
+        },
+
+        alignEnd: function(d, align){
+            var date = d instanceof Datetime ? d : datetime(d),
+                result;
+
+            switch(align) {
+                case "quarter":  result = Datetime.align(date, 'quarter').add(3, 'month').add(-1, 'day'); break; //quarter
+                default: result = fnAlignEnd.apply(this, [date, align]);
+            }
+
+            return result;
+        }
+    })
 
     Datetime.use({
         quarter: function(){

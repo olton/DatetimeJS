@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/DatetimeJS.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 13/12/2020 16:00:10
+ * Build at 13/12/2020 17:32:27
  * Licensed under MIT
  */
 
@@ -129,24 +129,41 @@
 
         switch (align) {
             case C.s:  result = date.ms(0); break; //second
-            case C.m:  result = date.ms(0).second(0); break; //minute
-            case C.h:  result = date.ms(0).second(0).minute(0); break; //hour
-            case C.D:  result = date.ms(0).second(0).minute(0).hour(0); break; //day
-            case C.M:  result = date.ms(0).second(0).minute(0).hour(0).day(1); break; //month
-            case C.Y:  result = date.ms(0).second(0).minute(0).hour(0).day(1).month(0); break; //year
-            case C.q:  result = date.ms(0).second(0).minute(0).hour(0).day(1).month(date.quarter() * 3 - 3); break; //quarter
+            case C.m:  result = Datetime.align(date, 'second').second(0); break; //minute
+            case C.h:  result = Datetime.align(date, 'minute').minute(0); break; //hour
+            case C.D:  result = Datetime.align(date, 'hour').hour(0); break; //day
+            case C.M:  result = Datetime.align(date, 'day').day(1); break; //month
+            case C.Y:  result = Datetime.align(date, 'month').month(0); break; //year
             case C.W:  {
                 temp = date.weekDay();
-                result = date.ms(0).second(0).minute(0).hour(0).addDay(-temp);
+                result = Datetime.align(date, 'day').addDay(-temp);
                 break; // week
-            }
-            case C.WI: {
-                temp = date.weekDay();
-                result = date.ms(0).second(0).minute(0).hour(0).addDay(-temp + 1);
-                break; // isoWeek
             }
             default:   result = date;
         }
+        return result;
+    }
+
+    Datetime.alignEnd = function(d, align){
+        var date = d instanceof Datetime ? d : datetime(d),
+            result, temp;
+
+        switch (align) {
+            case C.s:  result = date.ms(999); break; //second
+            case C.m:  result = Datetime.alignEnd(date, 'second').second(59); break; //minute
+            case C.h:  result = Datetime.alignEnd(date, 'minute').minute(59); break; //hour
+            case C.D:  result = Datetime.alignEnd(date, 'hour').hour(23); break; //day
+            case C.M:  result = Datetime.alignEnd(date, 'day').day(1).add(1, 'month').add(-1, 'day'); break; //month
+            case C.Y:  result = Datetime.alignEnd(date, 'day').month(11).day(31); break; //year
+            case C.W:  {
+                temp = date.weekDay();
+                result = Datetime.align(date, 'day').addDay(6 - temp);
+                break; // week
+            }
+
+            default:   result = date;
+        }
+
         return result;
     }
 
@@ -216,7 +233,16 @@
                 return this;
             }
 
-            return this.clone().align(to);
+            return this.clone().immutable(false).align(to).immutable();
+        },
+
+        alignEnd: function(to){
+            if (this.mutable) {
+                this.value = Datetime.alignEnd(this, to).val();
+                return this;
+            }
+
+            return this.clone().immutable(false).alignEnd(to).immutable();
         },
 
         isValid: function(){
