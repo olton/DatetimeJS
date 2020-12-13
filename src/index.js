@@ -365,8 +365,7 @@
                 mm: lpad(minute,"0", 2),
                 s: second,
                 ss: lpad(second,"0", 2),
-                sss: lpad(ms,"0", 3),
-                Z: this.utcMode ? "Z" : this.timezone()
+                sss: lpad(ms,"0", 3)
             };
 
             return format.replace(REGEX_FORMAT, function(match){

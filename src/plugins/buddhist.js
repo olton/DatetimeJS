@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    var oldFormat = Datetime.prototype.format;
+    var fnFormat = Datetime.prototype.format;
 
     Datetime.use({
         buddhist: function(){
@@ -18,7 +18,7 @@
             var result = format.replace(/(\[[^\]]+])|B{4}|B{2}/g, function(match){
                 return matches[match] || match;
             })
-            return oldFormat.bind(this)(result, locale)
+            return fnFormat.bind(this)(result, locale)
         }
     });
 }());
