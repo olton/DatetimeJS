@@ -11,7 +11,7 @@
                 result;
 
             switch(align) {
-                case "quarter":  result = date.ms(0).second(0).minute(0).hour(0).day(1).month(date.quarter() * 3 - 3); break; //quarter
+                case "quarter":  result = Datetime.align(date, 'day').day(1).month(date.quarter() * 3 - 3); break; //quarter
                 default: result = fnAlign.apply(this, [date, align]);
             }
 
@@ -23,7 +23,7 @@
                 result;
 
             switch(align) {
-                case "quarter":  result = Datetime.align(date, 'quarter').add(3, 'month').add(-1, 'day'); break; //quarter
+                case "quarter":  result = Datetime.align(date, 'quarter').add(3, 'month').add(-1, 'ms'); break; //quarter
                 default: result = fnAlignEnd.apply(this, [date, align]);
             }
 

@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/DatetimeJS.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 15/12/2020 00:43:17
+ * Build at 15/12/2020 01:26:37
  * Licensed under MIT
  */
 
@@ -129,14 +129,14 @@
 
         switch (align) {
             case C.s:  result = date.ms(0); break; //second
-            case C.m:  result = Datetime.align(date, 'second').second(0); break; //minute
-            case C.h:  result = Datetime.align(date, 'minute').minute(0); break; //hour
-            case C.D:  result = Datetime.align(date, 'hour').hour(0); break; //day
-            case C.M:  result = Datetime.align(date, 'day').day(1); break; //month
-            case C.Y:  result = Datetime.align(date, 'month').month(0); break; //year
+            case C.m:  result = Datetime.align(date, C.s)[C.s](0); break; //minute
+            case C.h:  result = Datetime.align(date, C.m)[C.m](0); break; //hour
+            case C.D:  result = Datetime.align(date, C.h)[C.h](0); break; //day
+            case C.M:  result = Datetime.align(date, C.D)[C.D](1); break; //month
+            case C.Y:  result = Datetime.align(date, C.M)[C.M](0); break; //year
             case C.W:  {
                 temp = date.weekDay();
-                result = Datetime.align(date, 'day').addDay(-temp);
+                result = Datetime.align(date, C.D).addDay(-temp);
                 break; // week
             }
             default:   result = date;
@@ -149,12 +149,13 @@
             result, temp;
 
         switch (align) {
-            case C.s:  result = date.ms(999); break; //second
-            case C.m:  result = Datetime.alignEnd(date, 'second').second(59); break; //minute
-            case C.h:  result = Datetime.alignEnd(date, 'minute').minute(59); break; //hour
-            case C.D:  result = Datetime.alignEnd(date, 'hour').hour(23); break; //day
-            case C.M:  result = Datetime.alignEnd(date, 'day').day(1).add(1, 'month').add(-1, 'day'); break; //month
-            case C.Y:  result = Datetime.alignEnd(date, 'day').month(11).day(31); break; //year
+            case C.ms: result = date.ms(999); break; //second
+            case C.s:  result = Datetime.alignEnd(date, C.ms); break; //second
+            case C.m:  result = Datetime.alignEnd(date, C.s)[C.s](59); break; //minute
+            case C.h:  result = Datetime.alignEnd(date, C.m)[C.m](59); break; //hour
+            case C.D:  result = Datetime.alignEnd(date, C.h)[C.h](23); break; //day
+            case C.M:  result = Datetime.alignEnd(date, C.D)[C.D](1).add(1, C.M).add(-1, C.D); break; //month
+            case C.Y:  result = Datetime.alignEnd(date, C.D)[C.M](11)[C.D](31); break; //year
             case C.W:  {
                 temp = date.weekDay();
                 result = Datetime.align(date, 'day').addDay(6 - temp);
@@ -233,7 +234,7 @@
                 return this;
             }
 
-            return this.clone().immutable(false).align(to).immutable();
+            return this.clone().immutable(false).align(to).immutable(!this.mutable);
         },
 
         alignEnd: function(to){
@@ -242,7 +243,7 @@
                 return this;
             }
 
-            return this.clone().immutable(false).alignEnd(to).immutable();
+            return this.clone().immutable(false).alignEnd(to).immutable(!this.mutable);
         },
 
         isValid: function(){
@@ -259,10 +260,6 @@
             }
 
             return datetime(val);
-        },
-
-        valueOf: function(){
-            return this.value.getTime();
         },
 
         /* Get + Set */
@@ -350,7 +347,7 @@
             var format = fmt || DEFAULT_FORMAT;
             var names = Datetime.getNames(locale || this.locale);
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();
-            var hour = this.hour()/*, hour12 = this.hour12()*/, minute = this.minute(), second = this.second(), ms = this.ms();
+            var hour = this.hour(), minute = this.minute(), second = this.second(), ms = this.ms();
             var matches = {
                 YY: year2,
                 YYYY: year,
@@ -376,6 +373,10 @@
             return format.replace(REGEX_FORMAT, function(match){
                 return matches[match] === 0 || matches[match] ? matches[match] : match;
             });
+        },
+
+        valueOf: function(){
+            return this.value.valueOf();
         },
 
         toTimeString: function(){
