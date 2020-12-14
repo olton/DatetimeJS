@@ -2,6 +2,9 @@
 (function() {
     'use strict';
 
+    var fnFormat = Datetime.prototype.format;
+    var lpad = Datetime.lpad;
+
     Datetime.use({
         weekNumber: function (weekStart) {
             var nYear, nday, newYear, day, daynum, weeknum;
@@ -27,6 +30,29 @@
                 weeknum = Math.floor((daynum + day - 1) / 7);
             }
             return weeknum;
+        },
+
+        isoWeekNumber: function(){
+            return this.weekNumber(1);
+        },
+
+        format: function(format, locale){
+            var matches, result, wn = this.weekNumber(), wni = this.isoWeekNumber();
+
+            format = format || Datetime.DEFAULT_FORMAT;
+
+            matches = {
+                W: wn,
+                WW: lpad(wn, "0", 2),
+                WWW: wni,
+                WWWW: lpad(wni, "0", 2)
+            };
+
+            result = format.replace(/(\[[^\]]+])|W{1,4}/g, function(match){
+                return matches[match] === 0 || matches[match] ? matches[match] : match;
+            });
+
+            return fnFormat.bind(this)(result, locale)
         }
     })
 }());

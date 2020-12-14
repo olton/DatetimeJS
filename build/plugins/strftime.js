@@ -75,7 +75,7 @@
             };
 
             return format.replace(REGEX_FORMAT_STRFTIME, function(match){
-                return matches[match] || match;
+                return matches[match] === 0 || matches[match] ? matches[match] : match;
             });
         }
     });

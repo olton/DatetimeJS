@@ -22,9 +22,9 @@
 
             var matches = {
                 Z: this.utcMode ? "Z" : this.timezone(),
-                ZZ: this.timezoneName()
+                z: this.timezoneName()
             }
-            var result = format.replace(/(\[[^\]]+])|Z{1,3}/g, function(match){
+            var result = format.replace(/(\[[^\]]+])|Z{1,3}|z/g, function(match){
                 return matches[match] || match;
             })
 

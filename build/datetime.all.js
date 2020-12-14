@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/DatetimeJS.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 13/12/2020 20:19:07
+ * Build at 15/12/2020 00:43:17
  * Licensed under MIT
  */
 
@@ -15,7 +15,7 @@
 
     var DEFAULT_FORMAT = "YYYY-MM-DDTHH:mm:ss.sssZ";
     var INVALID_DATE = "Invalid date";
-    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,3}|Z{1,2}|z{1,2}|W{1,2}|(^[T][a-zA-Z]{1,4})/g;
+    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|m{1,2}|s{1,3}|(^[T][a-zA-Z]{1,4})/g;
 
     global['DATETIME_LOCALES'] = {
         "en": {
@@ -349,8 +349,8 @@
 
             var format = fmt || DEFAULT_FORMAT;
             var names = Datetime.getNames(locale || this.locale);
-            var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay(), weekNumber = this.weekNumber();
-            var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), ms = this.ms();
+            var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();
+            var hour = this.hour()/*, hour12 = this.hour12()*/, minute = this.minute(), second = this.second(), ms = this.ms();
             var matches = {
                 YY: year2,
                 YYYY: year,
@@ -364,14 +364,8 @@
                 dd: names.weekdaysMin[weekDay],
                 ddd: names.weekdaysShort[weekDay],
                 dddd: names.weekdays[weekDay],
-                W: weekNumber,
-                WW: lpad(weekNumber, "0", 2),
                 H: hour,
                 HH: lpad(hour, "0", 2),
-                h: hour12,
-                hh: lpad(hour12, "0", 2),
-                a: this.ampm(true),
-                A: this.ampm(false),
                 m: minute,
                 mm: lpad(minute,"0", 2),
                 s: second,
@@ -380,7 +374,7 @@
             };
 
             return format.replace(REGEX_FORMAT, function(match){
-                return matches[match] || match;
+                return matches[match] === 0 || matches[match] ? matches[match] : match;
             });
         },
 
@@ -962,17 +956,20 @@ Datetime.locale("zh", {
 (function() {
     'use strict';
 
+    var fnFormat = Datetime.prototype.format;
+    var lpad = Datetime.lpad;
+
     Datetime.use({
         ampm: function(isLowerCase){
             var val = this.hour() < 12 ? "AM" : "PM";
             return isLowerCase ? val.toLowerCase() : val;
         },
 
-        hour12: function(h, /* string am|pm */ p){
+        hour12: function(h, p){
             var hour = h;
 
             if (arguments.length === 0) {
-                return this.hour() % 12 || 12;
+                return this.hour() % 12;
             }
 
             p = p || 'am';
@@ -982,6 +979,25 @@ Datetime.locale("zh", {
             }
 
             return this.hour(hour);
+        },
+
+        format: function(format, locale){
+            var matches, result, h12 = this.hour12();
+
+            format = format || Datetime.DEFAULT_FORMAT;
+
+            matches = {
+                a: this.ampm(true),
+                A: this.ampm(false),
+                h: h12,
+                hh: lpad(h12, "0", 2)
+            };
+
+            result = format.replace(/(\[[^\]]+])|a|A|h{1,2}/g, function(match){
+                return matches[match] === 0 || matches[match] ? matches[match] : match;
+            });
+
+            return fnFormat.bind(this)(result, locale)
         }
     })
 }());
@@ -1055,15 +1071,10 @@ Datetime.locale("zh", {
             return this.weekDay((val + 6) % 7 + 1);
         },
 
-        isoWeekNumber: function(){
-            return this.weekNumber(1);
-        },
-
         format: function(format, locale){
             format = format || Datetime.DEFAULT_FORMAT;
             var matches = {
-                I: this.isoWeekDay(),
-                II: this.isoWeekNumber()
+                I: this.isoWeekDay()
             }
             var result = format.replace(/(\[[^\]]+])|I{1,2}/g, function(match){
                 return matches[match] || match;
@@ -1367,7 +1378,7 @@ Datetime.locale("zh", {
             };
 
             return format.replace(REGEX_FORMAT_STRFTIME, function(match){
-                return matches[match] || match;
+                return matches[match] === 0 || matches[match] ? matches[match] : match;
             });
         }
     });
@@ -1400,9 +1411,9 @@ Datetime.locale("zh", {
 
             var matches = {
                 Z: this.utcMode ? "Z" : this.timezone(),
-                ZZ: this.timezoneName()
+                z: this.timezoneName()
             }
-            var result = format.replace(/(\[[^\]]+])|Z{1,3}/g, function(match){
+            var result = format.replace(/(\[[^\]]+])|Z{1,3}|z/g, function(match){
                 return matches[match] || match;
             })
 
@@ -1509,11 +1520,14 @@ Datetime.locale("zh", {
 }());
 
 
-// Source: src/plugins/weekNumber.js
+// Source: src/plugins/weeknumber.js
 
 /* global Datetime, datetime */
 (function() {
     'use strict';
+
+    var fnFormat = Datetime.prototype.format;
+    var lpad = Datetime.lpad;
 
     Datetime.use({
         weekNumber: function (weekStart) {
@@ -1540,6 +1554,29 @@ Datetime.locale("zh", {
                 weeknum = Math.floor((daynum + day - 1) / 7);
             }
             return weeknum;
+        },
+
+        isoWeekNumber: function(){
+            return this.weekNumber(1);
+        },
+
+        format: function(format, locale){
+            var matches, result, wn = this.weekNumber(), wni = this.isoWeekNumber();
+
+            format = format || Datetime.DEFAULT_FORMAT;
+
+            matches = {
+                W: wn,
+                WW: lpad(wn, "0", 2),
+                WWW: wni,
+                WWWW: lpad(wni, "0", 2)
+            };
+
+            result = format.replace(/(\[[^\]]+])|W{1,4}/g, function(match){
+                return matches[match] === 0 || matches[match] ? matches[match] : match;
+            });
+
+            return fnFormat.bind(this)(result, locale)
         }
     })
 }());

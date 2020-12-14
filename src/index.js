@@ -4,7 +4,7 @@
 
     var DEFAULT_FORMAT = "YYYY-MM-DDTHH:mm:ss.sssZ";
     var INVALID_DATE = "Invalid date";
-    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,3}|Z{1,2}|z{1,2}|W{1,2}|(^[T][a-zA-Z]{1,4})/g;
+    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|m{1,2}|s{1,3}|(^[T][a-zA-Z]{1,4})/g;
 
     global['DATETIME_LOCALES'] = {
         "en": {
@@ -338,8 +338,8 @@
 
             var format = fmt || DEFAULT_FORMAT;
             var names = Datetime.getNames(locale || this.locale);
-            var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay(), weekNumber = this.weekNumber();
-            var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), ms = this.ms();
+            var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();
+            var hour = this.hour()/*, hour12 = this.hour12()*/, minute = this.minute(), second = this.second(), ms = this.ms();
             var matches = {
                 YY: year2,
                 YYYY: year,
@@ -353,14 +353,8 @@
                 dd: names.weekdaysMin[weekDay],
                 ddd: names.weekdaysShort[weekDay],
                 dddd: names.weekdays[weekDay],
-                W: weekNumber,
-                WW: lpad(weekNumber, "0", 2),
                 H: hour,
                 HH: lpad(hour, "0", 2),
-                h: hour12,
-                hh: lpad(hour12, "0", 2),
-                a: this.ampm(true),
-                A: this.ampm(false),
                 m: minute,
                 mm: lpad(minute,"0", 2),
                 s: second,
@@ -369,7 +363,7 @@
             };
 
             return format.replace(REGEX_FORMAT, function(match){
-                return matches[match] || match;
+                return matches[match] === 0 || matches[match] ? matches[match] : match;
             });
         },
 

@@ -49,15 +49,10 @@
             return this.weekDay((val + 6) % 7 + 1);
         },
 
-        isoWeekNumber: function(){
-            return this.weekNumber(1);
-        },
-
         format: function(format, locale){
             format = format || Datetime.DEFAULT_FORMAT;
             var matches = {
-                I: this.isoWeekDay(),
-                II: this.isoWeekNumber()
+                I: this.isoWeekDay()
             }
             var result = format.replace(/(\[[^\]]+])|I{1,2}/g, function(match){
                 return matches[match] || match;
