@@ -4,7 +4,7 @@
 
     var DEFAULT_FORMAT = "YYYY-MM-DDTHH:mm:ss.sssZ";
     var INVALID_DATE = "Invalid date";
-    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|m{1,2}|s{1,3}|(^[T][a-zA-Z]{1,4})/g;
+    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|m{1,2}|s{1,3}/g;
 
     global['DATETIME_LOCALES'] = {
         "en": {
@@ -359,8 +359,9 @@
                 sss: lpad(ms,"0", 3)
             };
 
-            return format.replace(REGEX_FORMAT, function(match){
-                return matches[match] === 0 || matches[match] ? matches[match] : match;
+            return format.replace(REGEX_FORMAT, function(match, $1){
+                return $1 || matches[match] || match;
+                // return matches[match] === 0 || matches[match] ? matches[match] : match;
             });
         },
 

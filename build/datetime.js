@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/DatetimeJS.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 15/12/2020 01:26:37
+ * Build at 15/12/2020 14:08:14
  * Licensed under MIT
  */
 
@@ -15,7 +15,7 @@
 
     var DEFAULT_FORMAT = "YYYY-MM-DDTHH:mm:ss.sssZ";
     var INVALID_DATE = "Invalid date";
-    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|m{1,2}|s{1,3}|(^[T][a-zA-Z]{1,4})/g;
+    var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|m{1,2}|s{1,3}/g;
 
     global['DATETIME_LOCALES'] = {
         "en": {
@@ -370,8 +370,9 @@
                 sss: lpad(ms,"0", 3)
             };
 
-            return format.replace(REGEX_FORMAT, function(match){
-                return matches[match] === 0 || matches[match] ? matches[match] : match;
+            return format.replace(REGEX_FORMAT, function(match, $1){
+                return $1 || matches[match] || match;
+                // return matches[match] === 0 || matches[match] ? matches[match] : match;
             });
         },
 
