@@ -360,8 +360,7 @@
             };
 
             return format.replace(REGEX_FORMAT, function(match, $1){
-                return $1 || matches[match] || match;
-                // return matches[match] === 0 || matches[match] ? matches[match] : match;
+                return $1 || (matches[match] === 0 || matches[match] ? matches[match] : match);
             });
         },
 

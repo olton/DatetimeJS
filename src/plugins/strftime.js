@@ -58,7 +58,7 @@
                 '%s': Math.round(time / 1000),
                 '%S': aSecond,
                 '%u': this.isoWeekDay(),
-                '%V': this.isoWeek(),
+                '%V': this.isoWeekNumber(),
                 '%w': weekDay,
                 '%x': this.toLocaleDateString(),
                 '%X': this.toLocaleTimeString(),
@@ -75,7 +75,7 @@
             };
 
             return format.replace(REGEX_FORMAT_STRFTIME, function(match){
-                return matches[match] === 0 || matches[match] ? matches[match] : match;
+                return (matches[match] === 0 || matches[match] ? matches[match] : match);
             });
         }
     });
