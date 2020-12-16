@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/DatetimeJS.git)
  * Copyright 2020 by Serhii Pimenov (https://pimenov.com.ua)
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 17/12/2020 00:33:24
+ * Build at 17/12/2020 00:36:29
  * Licensed under MIT
  !*/
 (function(global) {
@@ -199,7 +199,7 @@
 
         useLocale: function(val){
             if (Object.keys(global['DATETIME_LOCALES']).indexOf(val) === -1) {
-                console.warn("Locale " + val + " not defined!");
+                console.warn("Locale " + val + " is not defined!");
                 return this;
             }
             this.locale = val;

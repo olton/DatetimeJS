@@ -155,6 +155,9 @@ describe('Datetime', function(){
         it ('Align to start of week', () => {
             assert.strictEqual(datetime("2020-03-14 09:33:56").align("week").format("YYYY-MM-DD HH:mm:ss.sss"), "2020-03-08 00:00:00.000");
         });
+        it ('Align to start of year', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").immutable().align("year").format("YYYY-MM-DD HH:mm:ss"), "2020-01-01 00:00:00");
+        });
     });
 
     describe('Align date to end of', () => {
