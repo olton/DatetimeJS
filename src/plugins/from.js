@@ -3,7 +3,7 @@
     'use strict';
 
     Datetime.useStatic({
-        parseFromString: function(str, format, locale){
+        from: function(str, format, locale){
             var norm, normFormat, fItems, dItems;
             var iMonth, iDay, iYear, iHour, iMinute, iSecond;
             var year, month, day, hour, minute, second;

@@ -56,8 +56,8 @@ datetime("2020-12-31 23:59");
 datetime(2020, 12, 31, 23, 59);
 datetime([2020, 12, 31, 23, 59]);
 Datetime.parse("Mon, 25 Dec 1995 13:30:00 +0430"); // Work same as Date.parse()
-Datetime.fromString("16 November 1961 15:24", "dd mm %y h:i", "en")
-Datetime.fromString("16 Ноября 1961 15:24", "dd mm %y h:i", "ru")
+Datetime.from("16 November 1961 15:24", "dd mm %y h:i", "en")
+Datetime.from("16 Ноября 1961 15:24", "dd mm %y h:i", "ru")
 ```
 
 #### Immutable/mutable

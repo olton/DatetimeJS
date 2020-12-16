@@ -1,4 +1,4 @@
-/* global Datetime, datetime */
+
 (function() {
     'use strict';
 

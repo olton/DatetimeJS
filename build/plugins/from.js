@@ -1,9 +1,9 @@
-/* global Datetime, datetime */
+
 (function() {
     'use strict';
 
     Datetime.useStatic({
-        parseFromString: function(str, format, locale){
+        from: function(str, format, locale){
             var norm, normFormat, fItems, dItems;
             var iMonth, iDay, iYear, iHour, iMinute, iSecond;
             var year, month, day, hour, minute, second;
@@ -66,10 +66,7 @@
             if (Datetime.not(format) || (""+format).trim() === "") {
                 return datetime();
             }
-
-            /* eslint-disable-next-line */
             norm = str.replace(/[\/,.:\s]/g, '-');
-            /* eslint-disable-next-line */
             normFormat = format.toLowerCase().replace(/[^a-zA-Z0-9%]/g, '-');
             fItems = normFormat.split('-');
             dItems = norm.split('-');
