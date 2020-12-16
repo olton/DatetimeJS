@@ -1,5 +1,8 @@
 let assert = require('assert');
-require('../build/datetime.all.js');
+
+require('../src/index');
+require('../src/plugins/isleapyear');
+require('../src/plugins/dayofyear');
 
 describe('Datetime', function() {
     describe('dayOfYear()', () => {

@@ -1,5 +1,7 @@
 let assert = require('assert');
-require('../build/datetime.all.js');
+
+require('../src/index');
+require('../src/plugins/compare');
 
 describe('Datetime', function() {
     describe('older()', () => {

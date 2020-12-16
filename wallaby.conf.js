@@ -1,7 +1,9 @@
 module.exports = function (wallaby) {
     return {
         files: [
-            'build/**/*.js'
+            'src/*.js',
+            'src/plugins/*.js',
+            'src/i18n/*.js',
         ],
 
         tests: [

@@ -1,5 +1,7 @@
 let assert = require('assert');
-require('../build/datetime.all.js');
+
+require('../src/index');
+require('../src/plugins/isleapyear');
 
 describe('Plugin isLeapYear()', () => {
     it ('Should be true for 2020', () => {

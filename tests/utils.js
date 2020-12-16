@@ -1,10 +1,14 @@
 let assert = require('assert');
-require('../build/datetime.all.js');
+
+require('../src/index');
 
 describe('Datetime Utils', function() {
     describe('lpad()', () => {
         it ('Should be 009', () => {
             assert.strictEqual(Datetime.lpad(9, "0", 3), '009');
+        })
+        it ('Should be 19', () => {
+            assert.strictEqual(Datetime.lpad(19, "0", 2), '19');
         })
         it ('Should be true for null', () => {
             assert.strictEqual(Datetime.not(null), true);

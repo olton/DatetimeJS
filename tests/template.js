@@ -1,5 +1,6 @@
 let assert = require('assert');
-require('../build/datetime.all.js');
+
+require('../src/index');
 
 describe('Datetime test template', function() {
     it ('Should be true', () => {

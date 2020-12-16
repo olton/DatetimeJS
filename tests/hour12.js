@@ -1,5 +1,7 @@
 let assert = require('assert');
-require('../build/datetime.all.js');
+
+require('../src/index');
+require('../src/plugins/hour12');
 
 describe('Datetime', function() {
     describe('ampm()', () => {
