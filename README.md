@@ -12,7 +12,6 @@
 ![GitHub release](https://img.shields.io/github/v/release/olton/DatetimeJS?color=darkLime)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)
 ![GitHub issues](https://img.shields.io/github/issues-raw/olton/DatetimeJS.svg?color=red)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/olton/DatetimeJS.svg)
 
 </p>
 <hr>
