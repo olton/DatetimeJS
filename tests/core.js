@@ -98,8 +98,31 @@ describe('Datetime', function(){
         })
     });
 
-    describe('Align date', () => {
-
+    describe('Align date to start of', () => {
+        it ('Align to start of year', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").align("year").format("YYYY-MM-DD hh:mm:ss"), "2020-01-01 00:00:00");
+        });
+        it ('Align to start of month', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").align("month").format("YYYY-MM-DD hh:mm:ss"), "2020-03-01 00:00:00");
+        });
+        it ('Align to start of day', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").align("day").format("YYYY-MM-DD hh:mm:ss"), "2020-03-15 00:00:00");
+        });
+        it ('Align to start of hour', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").align("hour").format("YYYY-MM-DD hh:mm:ss"), "2020-03-15 09:00:00");
+        });
+        it ('Align to start of minute', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").align("minute").format("YYYY-MM-DD hh:mm:ss"), "2020-03-15 09:33:00");
+        });
+        it ('Align to start of second', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").align("second").format("YYYY-MM-DD hh:mm:ss.sss"), "2020-03-15 09:33:56.000");
+        });
+        it ('Align to start of quarter', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").align("quarter").format("YYYY-MM-DD hh:mm:ss.sss"), "2020-01-01 00:00:00.000");
+        });
+        it ('Align to start of week', () => {
+            assert.strictEqual(datetime("2020-03-14 09:33:56").align("week").format("YYYY-MM-DD hh:mm:ss.sss"), "2020-03-08 00:00:00.000");
+        });
     });
 
     describe('Align date to end of', () => {
