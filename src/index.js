@@ -37,9 +37,7 @@
         h: "hour",
         D: "day",
         W: "week",
-        WI: "isoWeek",
         d: "weekDay",
-        dI: "isoWeekDay",
         M: "month",
         Y: "year",
         Y2: "year2",
@@ -63,14 +61,13 @@
     /* Fabric method */
     var datetime = function(){
         var args;
+
         if (arguments[0] instanceof Datetime) {
             return arguments[0].clone();
         }
-        if (Array.isArray(arguments[0])) {
-            args = [].slice.call(arguments[0]);
-        } else {
-            args = [].slice.call(arguments);
-        }
+
+        args = [].slice.call(Array.isArray(arguments[0]) ? arguments[0] : arguments);
+
         return new (Function.prototype.bind.apply(Datetime,  [this].concat(args) ) );
     }
 
@@ -249,6 +246,10 @@
             }
 
             return datetime(val);
+        },
+
+        year2: function(){
+            return +(""+this.year()).substr(-2);
         },
 
         /* Get + Set */

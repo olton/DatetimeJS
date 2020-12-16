@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/DatetimeJS.git)
  * Copyright 2020 by Serhii Pimenov
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 15/12/2020 14:23:24
+ * Build at 16/12/2020 13:04:58
  * Licensed under MIT
  */
 
@@ -48,9 +48,7 @@
         h: "hour",
         D: "day",
         W: "week",
-        WI: "isoWeek",
         d: "weekDay",
-        dI: "isoWeekDay",
         M: "month",
         Y: "year",
         Y2: "year2",
@@ -74,14 +72,13 @@
     /* Fabric method */
     var datetime = function(){
         var args;
+
         if (arguments[0] instanceof Datetime) {
             return arguments[0].clone();
         }
-        if (Array.isArray(arguments[0])) {
-            args = [].slice.call(arguments[0]);
-        } else {
-            args = [].slice.call(arguments);
-        }
+
+        args = [].slice.call(Array.isArray(arguments[0]) ? arguments[0] : arguments);
+
         return new (Function.prototype.bind.apply(Datetime,  [this].concat(args) ) );
     }
 
@@ -260,6 +257,10 @@
             }
 
             return datetime(val);
+        },
+
+        year2: function(){
+            return +(""+this.year()).substr(-2);
         },
 
         /* Get + Set */
@@ -1594,20 +1595,6 @@ Datetime.locale("zh", {
         weeksInYear: function(weekStart){
             var curr = this.clone();
             return curr.month(11).day(31).weekNumber(weekStart);
-        }
-    })
-}());
-
-
-// Source: src/plugins/year2.js
-
-/* global Datetime */
-(function() {
-    'use strict';
-
-    Datetime.use({
-        year2: function(){
-            return (""+this.year()).substr(-2);
         }
     })
 }());
