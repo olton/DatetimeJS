@@ -4,6 +4,18 @@
 
 <h1 align="center">Datetime.js</h1>
 
+<p align="center">
+
+![Dependencies](https://img.shields.io/badge/Dependencies-none-darklime.svg)
+[![JS gzip size](http://img.badgesize.io/olton/DatetimeJS/master/build/datetime.min.js?compression=gzip&label=JS+gzip)](https://github.com/olton/DatetimeJS/blob/master/build/datetime.min.js)
+[![JS gzip size](http://img.badgesize.io/olton/DatetimeJS/master/build/datetime.all.min.js?compression=gzip&label=JS+gzip)](https://github.com/olton/DatetimeJS/blob/master/build/datetime.all.min.js)
+![GitHub release](https://img.shields.io/github/v/release/olton/DatetimeJS?color=darkLime)
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)
+![GitHub issues](https://img.shields.io/github/issues-raw/olton/DatetimeJS.svg)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/olton/DatetimeJS.svg)
+
+</p>
+
 Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
 
 * 🕒 Quick and accurate
