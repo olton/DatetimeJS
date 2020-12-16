@@ -10,7 +10,7 @@
     Datetime.use({
         strftime: function(fmt, locale){
             var format = fmt || DEFAULT_FORMAT_STRFTIME;
-            var names = Datetime.getNames(locale || this.locale);
+            var names = Datetime.getLocale(locale || this.locale);
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();
             var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), ms = this.ms(), time = this.time();
             var aDay = lpad(day, "0", 2),

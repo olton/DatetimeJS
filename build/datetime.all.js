@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/DatetimeJS.git)
  * Copyright 2020 by Serhii Pimenov (https://pimenov.com.ua)
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 16/12/2020 21:57:48
+ * Build at 17/12/2020 00:33:24
  * Licensed under MIT
  !*/
 (function(global) {
@@ -105,8 +105,8 @@
         global['DATETIME_LOCALES'][name] = locale;
     }
 
-    Datetime.getNames = function(locale){
-        return global['DATETIME_LOCALES'][locale || "en"];
+    Datetime.getLocale = function(locale){
+        return global['DATETIME_LOCALES'][locale || "en"] || global['DATETIME_LOCALES']["en"];
     }
 
     Datetime.parse = function(str){
@@ -198,12 +198,12 @@
         },
 
         useLocale: function(val){
-            if (typeof Datetime.getNames(val) === "undefined") {
+            if (Object.keys(global['DATETIME_LOCALES']).indexOf(val) === -1) {
                 console.warn("Locale " + val + " not defined!");
                 return this;
             }
             this.locale = val;
-            this.weekStart = Datetime.getNames(val).weekStart;
+            this.weekStart = Datetime.getLocale(val).weekStart;
             return this;
         },
 
@@ -328,7 +328,7 @@
 
         format: function(fmt, locale){
             var format = fmt || DEFAULT_FORMAT;
-            var names = Datetime.getNames(locale || this.locale);
+            var names = Datetime.getLocale(locale || this.locale);
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();
             var hour = this.hour(), minute = this.minute(), second = this.second(), ms = this.ms();
             var matches = {
@@ -565,7 +565,7 @@ Datetime.locale("ua", {
             var date = d instanceof Datetime ? d.clone().align("month") : datetime(d);
             var ws = iso === 0 || iso ? iso : date.weekStart;
             var wd = ws ? date.isoWeekDay() : date.weekDay();
-            var names = Datetime.getNames(date.locale);
+            var names = Datetime.getLocale(date.locale);
             var now = datetime(), i;
 
             var getWeekDays = function (wd, ws){
@@ -765,7 +765,7 @@ Datetime.locale("ua", {
         daysInYearObj: function(locale, shortName){
             var map = this.daysInYearMap();
             var result = {};
-            var names = Datetime.getNames(locale || this.locale);
+            var names = Datetime.getLocale(locale || this.locale);
 
             map.forEach(function(v, i){
                 result[names[shortName ? 'monthsShort' : 'months'][i]] = v;
@@ -825,7 +825,7 @@ Datetime.locale("ua", {
 
             var monthNameToNumber = function(month){
                 var i = -1;
-                var names = Datetime.getNames(locale || 'en');
+                var names = Datetime.getLocale(locale || 'en');
 
                 if (Datetime.not(month)) return -1;
 
@@ -1134,7 +1134,7 @@ Datetime.locale("ua", {
     Datetime.use({
         strftime: function(fmt, locale){
             var format = fmt || DEFAULT_FORMAT_STRFTIME;
-            var names = Datetime.getNames(locale || this.locale);
+            var names = Datetime.getLocale(locale || this.locale);
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();
             var hour = this.hour(), hour12 = this.hour12(), minute = this.minute(), second = this.second(), ms = this.ms(), time = this.time();
             var aDay = lpad(day, "0", 2),

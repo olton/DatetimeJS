@@ -105,8 +105,8 @@
         global['DATETIME_LOCALES'][name] = locale;
     }
 
-    Datetime.getNames = function(locale){
-        return global['DATETIME_LOCALES'][locale || "en"];
+    Datetime.getLocale = function(locale){
+        return global['DATETIME_LOCALES'][locale || "en"] || global['DATETIME_LOCALES']["en"];
     }
 
     Datetime.parse = function(str){
@@ -201,12 +201,12 @@
         },
 
         useLocale: function(val){
-            if (typeof Datetime.getNames(val) === "undefined") {
-                console.warn("Locale " + val + " not defined!");
+            if (Object.keys(global['DATETIME_LOCALES']).indexOf(val) === -1) {
+                console.warn("Locale " + val + " is not defined!");
                 return this;
             }
             this.locale = val;
-            this.weekStart = Datetime.getNames(val).weekStart;
+            this.weekStart = Datetime.getLocale(val).weekStart;
             return this;
         },
 
@@ -333,7 +333,7 @@
 
         format: function(fmt, locale){
             var format = fmt || DEFAULT_FORMAT;
-            var names = Datetime.getNames(locale || this.locale);
+            var names = Datetime.getLocale(locale || this.locale);
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();
             var hour = this.hour(), minute = this.minute(), second = this.second(), ms = this.ms();
             var matches = {

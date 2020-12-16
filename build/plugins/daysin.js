@@ -29,7 +29,7 @@
         daysInYearObj: function(locale, shortName){
             var map = this.daysInYearMap();
             var result = {};
-            var names = Datetime.getNames(locale || this.locale);
+            var names = Datetime.getLocale(locale || this.locale);
 
             map.forEach(function(v, i){
                 result[names[shortName ? 'monthsShort' : 'months'][i]] = v;

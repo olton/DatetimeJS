@@ -17,7 +17,7 @@
 
             var monthNameToNumber = function(month){
                 var i = -1;
-                var names = Datetime.getNames(locale || 'en');
+                var names = Datetime.getLocale(locale || 'en');
 
                 if (Datetime.not(month)) return -1;
 

@@ -13,7 +13,7 @@
             var date = d instanceof Datetime ? d.clone().align("month") : datetime(d);
             var ws = iso === 0 || iso ? iso : date.weekStart;
             var wd = ws ? date.isoWeekDay() : date.weekDay();
-            var names = Datetime.getNames(date.locale);
+            var names = Datetime.getLocale(date.locale);
             var now = datetime(), i;
 
             var getWeekDays = function (wd, ws){
