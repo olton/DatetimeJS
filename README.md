@@ -6,6 +6,7 @@
 
 <p align="center">
 
+[![Coverage Status](https://coveralls.io/repos/github/olton/DatetimeJS/badge.svg?branch=master)](https://coveralls.io/github/olton/DatetimeJS?branch=master)
 ![Dependencies](https://img.shields.io/badge/Dependencies-none-darklime.svg)
 [![Core size](http://img.badgesize.io/olton/DatetimeJS/master/build/datetime.min.js?compression=gzip&label=Core+gzip)](https://github.com/olton/DatetimeJS/blob/master/build/datetime.min.js)
 [![Full size](http://img.badgesize.io/olton/DatetimeJS/master/build/datetime.all.min.js?compression=gzip&label=Full+gzip)](https://github.com/olton/DatetimeJS/blob/master/build/datetime.all.min.js)

@@ -26,7 +26,7 @@
   "license": "MIT",
   "scripts": {
     "build": "npm install && grunt",
-    "test": "mocha tests/**/*.js"
+    "test": "nyc mocha tests/**/*.js"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -38,13 +38,13 @@
     "grunt-contrib-uglify": "^4.0.1",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-eslint": "^22.0.0",
+    "grunt-remove-comments": "^0.1.6",
     "grunt-remove-logging": "^0.2.0",
     "grunt-replace": "^1.0.1",
     "load-grunt-tasks": "^5.0.0",
     "mocha": "^8.2.1",
-    "sinon": "^9.2.1",
-    "grunt-remove-comments": "^0.1.6"
+    "nyc": "^15.1.0",
+    "sinon": "^9.2.1"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
