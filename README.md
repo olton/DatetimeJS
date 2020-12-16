@@ -15,6 +15,7 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/olton/DatetimeJS.svg)
 
 </p>
+<hr>
 
 Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
 
