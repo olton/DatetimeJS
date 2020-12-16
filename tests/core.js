@@ -177,6 +177,12 @@ describe('Datetime', function(){
         it ('Should be true for datetime().val(new Date("2021")).val().getTime() === new Date(2021).getTime()', () => {
             assert.strictEqual(datetime().val(new Date("2021")).val().getTime() === new Date("2021").getTime(), true);
         })
+        it ('Should be true', () => {
+            assert.strictEqual(datetime().val(new Date("2021"))  instanceof Datetime, true);
+        })
+        it ('Should be true', () => {
+            assert.strictEqual(datetime().immutable().val(new Date("2021"))  instanceof Datetime, true);
+        })
     });
 
 
