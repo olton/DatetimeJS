@@ -26,10 +26,11 @@
   "license": "MIT",
   "scripts": {
     "build": "npm install && grunt",
-    "test": "nyc mocha tests/**/*.js"
+    "test": "nyc mocha tests/**/*.js && nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "coveralls": "^3.1.0",
     "eslint": "^7.0.0",
     "grunt": "^1.0.4",
     "grunt-contrib-clean": "^2.0.0",
@@ -43,6 +44,7 @@
     "grunt-replace": "^1.0.1",
     "load-grunt-tasks": "^5.0.0",
     "mocha": "^8.2.1",
+    "mocha-lcov-reporter": "^1.3.0",
     "nyc": "^15.1.0",
     "sinon": "^9.2.1"
   },
