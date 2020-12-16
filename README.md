@@ -11,7 +11,7 @@
 [![Full size](http://img.badgesize.io/olton/DatetimeJS/master/build/datetime.all.min.js?compression=gzip&label=Full+gzip)](https://github.com/olton/DatetimeJS/blob/master/build/datetime.all.min.js)
 ![GitHub release](https://img.shields.io/github/v/release/olton/DatetimeJS?color=darkLime)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)
-![GitHub issues](https://img.shields.io/github/issues-raw/olton/DatetimeJS.svg)
+![GitHub issues](https://img.shields.io/github/issues-raw/olton/DatetimeJS.svg?color=darkred)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/olton/DatetimeJS.svg)
 
 </p>
