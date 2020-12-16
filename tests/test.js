@@ -102,6 +102,10 @@ describe('Datetime', function(){
 
     });
 
+    describe('Align date to end of', () => {
+
+    });
+
     describe('year2()', () => {
         it ('Should be 21 for 2021', () => {
             assert.strictEqual(datetime("2021").year2(), 21);
