@@ -16,7 +16,7 @@
 </p>
 <hr>
 
-Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
+**Datetime.js** is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
 
 * 🕒 Quick and accurate
 * 💪 Immutable/mutable modes
