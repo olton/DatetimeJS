@@ -79,6 +79,10 @@
         this.weekStart = global['DATETIME_LOCALES']["en"].weekStart;
         this.utcMode = false;
         this.mutable = true;
+
+        if (isNaN(this.value.getTime())) {
+            throw new Error(INVALID_DATE);
+        }
     }
 
     /* ************ Static methods **************** */
@@ -232,10 +236,6 @@
             return this.clone().immutable(false).alignEnd(to).immutable(!this.mutable);
         },
 
-        isValid: function(){
-            return !isNaN(this.time());
-        },
-
         val: function(val){
             if ( !(val instanceof Date) )
                 return this.value;
@@ -332,8 +332,6 @@
         addQuarter: function(v){return this.add(v, C.q);},
 
         format: function(fmt, locale){
-            if (!this.isValid()) return INVALID_DATE;
-
             var format = fmt || DEFAULT_FORMAT;
             var names = Datetime.getNames(locale || this.locale);
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();

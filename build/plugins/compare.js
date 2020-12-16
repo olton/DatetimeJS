@@ -15,18 +15,10 @@
             var curr = this.clone();
             var t1, t2;
 
-            operator = operator || "<";
+            operator = operator || "=";
 
             if (["<", ">", ">=", "<=", "=", "!="].indexOf(operator) === -1) {
-                throw new Error("Operator must be one of <, >, >=, <=, =, !=");
-            }
-
-            if (!curr.isValid()) {
-                throw new Error("Object has not contains a valid date");
-            }
-
-            if (!date.isValid()) {
-                throw new Error("Argument is not a valid date");
+                operator = "=";
             }
 
             align = (align || "ms").toLowerCase();

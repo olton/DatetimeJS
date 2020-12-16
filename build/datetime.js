@@ -1,10 +1,10 @@
-/*
+/*!
  * Datetime v1.0.0, (https://github.com/olton/DatetimeJS.git)
- * Copyright 2020 by Serhii Pimenov
+ * Copyright 2020 by Serhii Pimenov (https://pimenov.com.ua)
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 16/12/2020 13:04:58
+ * Build at 16/12/2020 16:23:30
  * Licensed under MIT
- */
+ !*/
 
 
 // Source: src/index.js
@@ -90,6 +90,10 @@
         this.weekStart = global['DATETIME_LOCALES']["en"].weekStart;
         this.utcMode = false;
         this.mutable = true;
+
+        if (isNaN(this.value.getTime())) {
+            throw new Error(INVALID_DATE);
+        }
     }
 
     /* ************ Static methods **************** */
@@ -343,8 +347,6 @@
         addQuarter: function(v){return this.add(v, C.q);},
 
         format: function(fmt, locale){
-            if (!this.isValid()) return INVALID_DATE;
-
             var format = fmt || DEFAULT_FORMAT;
             var names = Datetime.getNames(locale || this.locale);
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();

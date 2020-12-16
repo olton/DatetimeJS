@@ -3,7 +3,7 @@
   "title": "DatetimeJS",
   "description": "Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.",
   "version": "1.0.0",
-  "main": "build/datetime.js",
+  "main": "src/index.js",
   "homepage": "https://github.com/olton/DatetimeJS",
   "author": {
     "name": "Serhii Pimenov",
@@ -24,7 +24,6 @@
     "url": "https://github.com/olton/DatetimeJS/issues"
   },
   "license": "MIT",
-  "dependencies": {},
   "scripts": {
     "build": "npm install && grunt",
     "test": "mocha tests/**/*.js"
@@ -43,6 +42,9 @@
     "grunt-replace": "^1.0.1",
     "load-grunt-tasks": "^5.0.0",
     "mocha": "^8.2.1",
-    "sinon": "^9.2.1"
+    "sinon": "^9.2.1",
+    "grunt-remove-comments": "^0.1.6"
+  },
+  "dependencies": {
   }
 }

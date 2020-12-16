@@ -9,8 +9,6 @@
 
     Datetime.use({
         strftime: function(fmt, locale){
-            if (!this.isValid()) return Datetime.INVALID_DATE;
-
             var format = fmt || DEFAULT_FORMAT_STRFTIME;
             var names = Datetime.getNames(locale || this.locale);
             var year = this.year(), year2 = this.year2(), month = this.month(), day = this.day(), weekDay = this.weekDay();

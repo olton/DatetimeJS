@@ -19,6 +19,7 @@ module.exports = function(grunt) {
 
     if (!develop) {
         tasks.push('removelogging');
+        tasks.push('remove_comments');
     }
 
     if (watching) {
@@ -28,13 +29,13 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
-        copyright: '/*\n' +
+        copyright: '/*!\n' +
             ' * Datetime v<%= pkg.version %>, (<%= pkg.repository.url %>)\n' +
-            ' * Copyright <%= grunt.template.today("yyyy") %> by <%= pkg.author.name %>\n' +
+            ' * Copyright <%= grunt.template.today("yyyy") %> by <%= pkg.author.name %> (<%= pkg.author.url %>)\n' +
             ' * <%= pkg.description %>\n' +
             ' * Build at ' +(timestamp)+ '\n' +
             ' * Licensed under <%= pkg.license %>\n' +
-            ' */\n\n',
+            ' !*/\n\n',
 
         clean: {
             build: ['build']
@@ -75,7 +76,8 @@ module.exports = function(grunt) {
 
         uglify: {
             options: {
-                sourceMap: true,
+                comments: false,
+                sourceMap: false,
                 preserveComments: true,
                 compress: true,
                 mangle: {
@@ -126,6 +128,16 @@ module.exports = function(grunt) {
                 cwd: 'src/plugins',
                 src: '**/*',
                 dest: 'build/plugins'
+            }
+        },
+
+        remove_comments: {
+            options: {
+                keepSpecialComments: true,
+                linein: false
+            },
+            build: {
+                src: 'build/**/*.js'
             }
         },
 

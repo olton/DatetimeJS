@@ -1,9 +1,11 @@
 let assert = require('assert');
+let chai = require('chai');
+let expect = chai.expect;
 require('../build/datetime.all.js');
 
 describe('Datetime', function(){
 
-    describe('new Datetime', () => {
+    describe('new Datetime()', () => {
         it ('Should return a instance of Datetime ', () => {
             assert.strictEqual(new Datetime() instanceof Datetime, true);
         });
@@ -13,9 +15,57 @@ describe('Datetime', function(){
         it ('should return a instance of Datetime ', () => {
             assert.strictEqual(datetime() instanceof Datetime, true);
         });
-        it ('Invalid date', () => {
-            assert.strictEqual(datetime("21/12/1972").isValid(), false);
+        it ('should return a instance of Datetime for null', () => {
+            assert.strictEqual(datetime(null) instanceof Datetime, true);
         });
+        it ('should return a instance fo Datetime for 2020-12-21', () => {
+            assert.strictEqual(datetime('2020-12-21') instanceof Datetime, true);
+        });
+        it ('should return a instance fo Datetime for 2020-12-21 00:00:00', () => {
+            assert.strictEqual(datetime('2020-12-21 00:00:00') instanceof Datetime, true);
+        });
+        it ('should return a instance fo Datetime for 2020-12', () => {
+            assert.strictEqual(datetime("2020-12") instanceof Datetime, true);
+        });
+        it ('should return a instance fo Datetime for 2020', () => {
+            assert.strictEqual(datetime(2020) instanceof Datetime, true);
+        });
+        it ('should return a instance fo Datetime for 2020, 12, 21', () => {
+            assert.strictEqual(datetime(2020, 12, 21) instanceof Datetime, true);
+        });
+        it ('should return a instance fo Datetime for [2020, 12, 21]', () => {
+            assert.strictEqual(datetime([2020, 12, 21]) instanceof Datetime, true);
+        });
+        it ('should throw error for 21-12-1972', () => {
+            expect(() => {datetime("21-12-1972")}).to.throw(Datetime.INVALID_DATE);
+        });
+        it ('should throw error for ***', () => {
+            expect(() => {datetime("***")}).to.throw(Datetime.INVALID_DATE);
+        });
+        it ('should throw error for undefined', () => {
+            expect(() => {datetime(undefined)}).to.throw(Datetime.INVALID_DATE);
+        });
+    });
+
+    describe('immutable()', () => {
+        it ('The mutable Should be false', () => {
+            assert.strictEqual(datetime().immutable().mutable, false);
+        })
+        it ('The mutable Should be true', () => {
+            assert.strictEqual(datetime().immutable(false).mutable, true);
+        })
+        it ('The mutable Should be false', () => {
+            var date = datetime().immutable();
+            assert.strictEqual(date.addDay(1) === date, false);
+        })
+        it ('The mutable Should be true', () => {
+            var date = datetime().immutable(false);
+            assert.strictEqual(date.addDay(1) === date, true);
+        })
+        it ('The mutable Should be true', () => {
+            var date = datetime();
+            assert.strictEqual(date.addDay(1) === date, true);
+        })
     });
 
     describe('utc()', () => {
@@ -36,16 +86,20 @@ describe('Datetime', function(){
         })
     });
 
-    describe('isValid()', () => {
-        it ('The Should be true for 2020-12-21', () => {
-            assert.strictEqual(datetime("2020-12-21").isValid(), true);
+    describe('clone()', () => {
+        it ('The Should be false', () => {
+            var date = datetime();
+            assert.strictEqual(date === date.clone(), false);
         })
-        it ('The Should be false for 2020-21-12', () => {
-            assert.strictEqual(datetime("2020-21-12").isValid(), false);
+        it ('The Should be true', () => {
+            var date = datetime();
+            var clone = date.clone();
+            assert.strictEqual(date.locale === clone.locale && date.time() === clone.time(), true);
         })
-        it ('The Should be false for ABCD', () => {
-            assert.strictEqual(datetime("ABCD").isValid(), false);
-        })
+    });
+
+    describe('Align date', () => {
+
     });
 
     describe('year2()', () => {
