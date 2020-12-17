@@ -214,5 +214,64 @@ describe('Datetime', function(){
         })
     });
 
+    describe('Getters get() and others', () => {
+        it ('Should be 21 for 2021', () => {
+            assert.strictEqual(datetime("2021").get('year'), 2021);
+        })
+        it ('Should be 2 for 2021-03', () => {
+            assert.strictEqual(datetime("2021-03").get('month'), 2);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15").get('day'), 15);
+        })
+        it ('Should be 1 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15").get('weekDay'), 1);
+        })
+        it ('Should be 13', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34").get('hour'), 13);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34").get('minute'), 15);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34").get('second'), 34);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").get('ms'), 243);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").get('time'), 1615806934243);
+        })
+        it ('Should be 21 for 2021', () => {
+            assert.strictEqual(datetime("2021").utc().get('year'), 2021);
+        })
+        it ('Should be 2 for 2021-03', () => {
+            assert.strictEqual(datetime("2021-03").utc().get('month'), 2);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15").utc().get('day'), 15);
+        })
+        it ('Should be 1 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15").utc().get('weekDay'), 1);
+        })
+        it ('Should be 13', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34").utc().get('hour'), 11);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34").utc().get('minute'), 15);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34").utc().get('second'), 34);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").utc().get('ms'), 243);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").utc().get('time'), 1615806934243);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").immutable().get('time'), 1615806934243);
+        })
+    });
 
 });

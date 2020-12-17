@@ -300,7 +300,7 @@
         },
 
         get: function(unit){
-            return Object.values(C).indexOf(unit) === -1 ? this.valueOf() : this[unit]();
+            return typeof this[unit] !== "function" ? this.valueOf() : this[unit]();
         },
 
         set: function(unit, val){
