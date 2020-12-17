@@ -292,7 +292,7 @@
             }
 
             var curr = this.weekDay();
-            var diff = curr - val;
+            var diff = val - curr;
 
             this.day(this.day() + diff);
 
@@ -300,7 +300,7 @@
         },
 
         get: function(unit){
-            return typeof this[unit] !== "function" ? this.valueOf() : this[unit]();
+            return typeof this[unit] !== "function" ? this : this[unit]();
         },
 
         set: function(unit, val){

@@ -272,6 +272,99 @@ describe('Datetime', function(){
         it ('Should be 15 for 2021-03-15', () => {
             assert.strictEqual(datetime("2021-03-15 13:15:34.243").immutable().get('time'), 1615806934243);
         })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").get('xxx') instanceof Datetime, true);
+        })
+    });
+
+    describe("Named getters", () => {
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").ms(), 243);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").second(), 34);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").minute(), 15);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").hour(), 13);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").day(), 15);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").weekDay(), 1);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").weekDay(null), 1);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").month(), 2);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").year(), 2021);
+        })
+    });
+
+    describe('Setters set() and others', () => {
+        it ('Should be 22', () => {
+            assert.strictEqual(datetime("2021").set('year', 2022).year(), 2022);
+        })
+        it ('Should be 3', () => {
+            assert.strictEqual(datetime("2021-03").set('month', 3).month(), 3);
+        })
+        it ('Should be 22', () => {
+            assert.strictEqual(datetime("2021-03-15").set('day', 22).day(), 22);
+        })
+        it ('Should be 1 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15").set('weekDay', 2).weekDay(), 2);
+        })
+        it ('Should be 10', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34").set('hour', 10).hour(), 10);
+        })
+        it ('Should be 10', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34").set('minute', 10).minute(), 10);
+        })
+        it ('Should be 10', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34").set('second', 10).second(), 10);
+        })
+        it ('Should be 222', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").set('ms', 222).ms(), 222);
+        })
+        it ('Should be 1615806934244', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").set('time', 1615806934244).time(), 1615806934244);
+        })
+        it ('Should be 2022', () => {
+            assert.strictEqual(datetime("2021").utc().set('year', 2022).year(), 2022);
+        })
+        it ('Should be 3', () => {
+            assert.strictEqual(datetime("2021-03").utc().set('month', 3).month(), 3);
+        })
+        it ('Should be 10', () => {
+            assert.strictEqual(datetime("2021-03-15").utc().set('day', 10).day(), 10);
+        })
+        it ('Should be 1 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15").utc().set('weekDay', 2).weekDay(), 2);
+        })
+        it ('Should be 11', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34").utc().set('hour', 11).hour(), 11);
+        })
+        it ('Should be 20 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34").utc().set('minute', 20).minute(), 20);
+        })
+        it ('Should be 15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34").utc().set('second', 15).second(), 15);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").utc().set('ms', 222).ms(), 222);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").utc().set('time', 1615806934244).time(), 1615806934244);
+        })
+        it ('Should be 15 for 2021-03-15', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").immutable().set('time', 1615806934244).time(), 1615806934244);
+        })
     });
 
 });
