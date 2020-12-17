@@ -148,7 +148,7 @@
             case C.Y:  result = Datetime.alignEnd(date, C.D)[C.M](11)[C.D](31); break; //year
             case C.W:  {
                 temp = date.weekDay();
-                result = Datetime.align(date, 'day').addDay(6 - temp);
+                result = Datetime.alignEnd(date, 'day').addDay(6 - temp);
                 break; // week
             }
 

@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/DatetimeJS.git)
  * Copyright 2020 by Serhii Pimenov (https://pimenov.com.ua)
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 17/12/2020 00:42:14
+ * Build at 17/12/2020 10:26:21
  * Licensed under MIT
  !*/
 (function(global) {
@@ -148,7 +148,7 @@
             case C.Y:  result = Datetime.alignEnd(date, C.D)[C.M](11)[C.D](31); break; //year
             case C.W:  {
                 temp = date.weekDay();
-                result = Datetime.align(date, 'day').addDay(6 - temp);
+                result = Datetime.alignEnd(date, 'day').addDay(6 - temp);
                 break; // week
             }
 

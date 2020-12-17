@@ -161,7 +161,36 @@ describe('Datetime', function(){
     });
 
     describe('Align date to end of', () => {
-
+        it ('Align to end of year', () => {
+            assert.strictEqual(Datetime.alignEnd("2020-03-15 09:33:56", "year").format("YYYY-MM-DD HH:mm:ss"), "2020-12-31 23:59:59");
+        });
+        it ('Align to end of year', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").alignEnd("year").format("YYYY-MM-DD HH:mm:ss"), "2020-12-31 23:59:59");
+        });
+        it ('Align to end of month', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").alignEnd("month").format("YYYY-MM-DD HH:mm:ss"), "2020-03-31 23:59:59");
+        });
+        it ('Align to end of day', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").alignEnd("day").format("YYYY-MM-DD HH:mm:ss"), "2020-03-15 23:59:59");
+        });
+        it ('Align to end of hour', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").alignEnd("hour").format("YYYY-MM-DD HH:mm:ss"), "2020-03-15 09:59:59");
+        });
+        it ('Align to end of minute', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").alignEnd("minute").format("YYYY-MM-DD HH:mm:ss"), "2020-03-15 09:33:59");
+        });
+        it ('Align to end of second', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56.777").alignEnd("minute").format("YYYY-MM-DD HH:mm:ss.sss"), "2020-03-15 09:33:59.999");
+        });
+        it ('Align to end of week', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").alignEnd("week").format("YYYY-MM-DD HH:mm:ss"), "2020-03-21 23:59:59");
+        });
+        it ('Align to unknown', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").alignEnd("xxx").format("YYYY-MM-DD HH:mm:ss"), "2020-03-15 09:33:56");
+        });
+        it ('Align to end of year', () => {
+            assert.strictEqual(datetime("2020-03-15 09:33:56").immutable().alignEnd("year").format("YYYY-MM-DD HH:mm:ss"), "2020-12-31 23:59:59");
+        });
     });
 
     describe('year2()', () => {
