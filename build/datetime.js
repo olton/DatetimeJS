@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/DatetimeJS.git)
  * Copyright 2020 by Serhii Pimenov (https://pimenov.com.ua)
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 18/12/2020 00:15:42
+ * Build at 18/12/2020 00:35:09
  * Licensed under MIT
  !*/
 (function(global) {
@@ -299,7 +299,7 @@
         },
 
         set: function(unit, val){
-            return Object.values(C).indexOf(unit) === -1 ? this : this[unit]( val || 0 );
+            return typeof this[unit] !== "function" ? this : this[unit](val);
         },
 
         add: function(val, to){
@@ -354,7 +354,7 @@
             };
 
             return format.replace(REGEX_FORMAT, function(match, $1){
-                return $1 || (matches[match] === 0 || matches[match] ? matches[match] : match);
+                return $1 || (typeof matches[match] !== "undefined" ? matches[match] : match);
             });
         },
 
@@ -362,44 +362,8 @@
             return this.value.valueOf();
         },
 
-        toTimeString: function(){
-            return this.value.toTimeString();
-        },
-
-        toLocaleDateString: function(){
-            return this.value.toLocaleDateString();
-        },
-
-        toLocaleString: function(){
-            return this.value.toLocaleString();
-        },
-
-        toLocaleTimeString: function(){
-            return this.value.toLocaleTimeString();
-        },
-
         toString: function(){
             return this.value.toString();
-        },
-
-        toJSON: function(){
-            return this.value.toJSON();
-        },
-
-        toSource: function(){
-            return this.value.toSource();
-        },
-
-        toISOString: function(){
-            return this.value.toISOString();
-        },
-
-        toUTCString: function(){
-            return this.value.toUTCString();
-        },
-
-        toDate: function(){
-            return new Date(this.valueOf());
         }
     }
 

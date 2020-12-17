@@ -367,4 +367,9 @@ describe('Datetime', function(){
         })
     });
 
+    describe('toString()', () => {
+        it("", () => {
+            assert.strictEqual(datetime("2020").toString(), 'Wed Jan 01 2020 02:00:00 GMT+0200 (GMT+02:00)');
+        })
+    });
 });
