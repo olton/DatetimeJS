@@ -24,7 +24,7 @@ for modern browsers and Node with **comfortable modern API**.
 * 💪 Immutable/mutable modes
 * 🔥 Chainable
 * 🌐 I18n support
-* 📦 2kb mini library (in base), 6kb - with all plugins
+* 📦 2kb mini library (core), 8kb - full
 * 👫 All browsers, Electron, NodeJS supported
 
 ## Getting started
