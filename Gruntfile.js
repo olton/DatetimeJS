@@ -10,7 +10,7 @@ module.exports = function(grunt) {
     var source_files = [
         'src/index.js',
         'src/i18n/*js',
-        'src/plugins/*js',
+        'src/plugins/*js'
     ];
 
     require('load-grunt-tasks')(grunt);
@@ -38,7 +38,7 @@ module.exports = function(grunt) {
             ' !*/\n\n',
 
         clean: {
-            build: ['build']
+            lib: ['lib']
         },
 
         eslint: {
@@ -56,17 +56,17 @@ module.exports = function(grunt) {
             },
             main: {
                 src: ['src/index.js'],
-                dest: 'build/datetime.js'
+                dest: 'lib/datetime.js'
             },
             all: {
                 src: source_files,
-                dest: 'build/datetime.all.js'
+                dest: 'lib/datetime.all.js'
             }
         },
 
         removelogging: {
             dist: {
-                src: "build/**/*.js",
+                src: "lib/**/*.js",
 
                 options: {
                     methods: ["log"]
@@ -85,19 +85,19 @@ module.exports = function(grunt) {
                 }
             },
             main: {
-                src: 'build/datetime.js',
-                dest: 'build/datetime.min.js'
+                src: 'lib/datetime.js',
+                dest: 'lib/datetime.min.js'
             },
             all: {
-                src: 'build/datetime.all.js',
-                dest: 'build/datetime.all.min.js'
+                src: 'lib/datetime.all.js',
+                dest: 'lib/datetime.all.min.js'
             },
             plugins: {
                 files: [{
                     expand: true,
-                    cwd: 'build/plugins',
+                    cwd: 'lib/plugins',
                     src: '**/*.js',
-                    dest: 'build/plugins',
+                    dest: 'lib/plugins',
                     rename: function (dst, src) {
                         return dst + '/' + src.replace('.js', '.min.js');
                     }
@@ -106,9 +106,9 @@ module.exports = function(grunt) {
             i18n: {
                 files: [{
                     expand: true,
-                    cwd: 'build/i18n',
+                    cwd: 'lib/i18n',
                     src: '**/*.js',
-                    dest: 'build/i18n',
+                    dest: 'lib/i18n',
                     rename: function (dst, src) {
                         return dst + '/' + src.replace('.js', '.min.js');
                     }
@@ -121,13 +121,13 @@ module.exports = function(grunt) {
                 expand: true,
                 cwd: 'src/i18n',
                 src: '**/*',
-                dest: 'build/i18n'
+                dest: 'lib/i18n'
             },
             plugins: {
                 expand: true,
                 cwd: 'src/plugins',
                 src: '**/*',
-                dest: 'build/plugins'
+                dest: 'lib/plugins'
             }
         },
 
@@ -136,8 +136,8 @@ module.exports = function(grunt) {
                 keepSpecialComments: true,
                 linein: false
             },
-            build: {
-                src: 'build/**/*.js'
+            lib: {
+                src: 'lib/**/*.js'
             }
         },
 

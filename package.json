@@ -3,7 +3,7 @@
   "title": "DatetimeJS",
   "description": "Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "lib/datetime.js",
   "homepage": "https://github.com/olton/DatetimeJS",
   "author": {
     "name": "Serhii Pimenov",
