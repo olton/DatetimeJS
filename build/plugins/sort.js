@@ -5,11 +5,19 @@
     Datetime.useStatic({
         sort: function(arr, opt){
             var result, _arr;
-            var o = typeof opt === "object"  ? opt : {};
+            var o = {};
 
-            if (typeof o.format === "undefined") o.format = Datetime.DEFAULT_FORMAT;
-            if (typeof o.dir === "undefined") o.dir = "ASC";
-            if (typeof o.returnAs === "undefined") o.returnAs = "datetime";
+            if (typeof opt === "string" || typeof opt !== "object" || Datetime.not(opt)) {
+                o.format = Datetime.DEFAULT_FORMAT;
+                o.dir = opt && opt.toUpperCase() === "DESC" ? "DESC" : "ASC";
+                o.returnAs = "datetime";
+            } else {
+                o.format = opt.format || Datetime.DEFAULT_FORMAT;
+                o.dir = opt.dir || "ASC";
+                o.returnAs = opt.format ? "string" : opt.returnAs || "datetime";
+            }
+
+            console.log(o);
 
             _arr =  arr.map(function(el){
                 return datetime(el);

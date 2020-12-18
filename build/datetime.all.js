@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/DatetimeJS.git)
  * Copyright 2020 by Serhii Pimenov (https://pimenov.com.ua)
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 18/12/2020 15:02:37
+ * Build at 18/12/2020 15:21:32
  * Licensed under MIT
  !*/
 
@@ -1258,11 +1258,19 @@ Datetime.locale("zh", {
     Datetime.useStatic({
         sort: function(arr, opt){
             var result, _arr;
-            var o = typeof opt === "object"  ? opt : {};
+            var o = {};
 
-            if (typeof o.format === "undefined") o.format = Datetime.DEFAULT_FORMAT;
-            if (typeof o.dir === "undefined") o.dir = "ASC";
-            if (typeof o.returnAs === "undefined") o.returnAs = "datetime";
+            if (typeof opt === "string" || typeof opt !== "object" || Datetime.not(opt)) {
+                o.format = Datetime.DEFAULT_FORMAT;
+                o.dir = opt && opt.toUpperCase() === "DESC" ? "DESC" : "ASC";
+                o.returnAs = "datetime";
+            } else {
+                o.format = opt.format || Datetime.DEFAULT_FORMAT;
+                o.dir = opt.dir || "ASC";
+                o.returnAs = opt.format ? "string" : opt.returnAs || "datetime";
+            }
+
+            console.log(o);
 
             _arr =  arr.map(function(el){
                 return datetime(el);
