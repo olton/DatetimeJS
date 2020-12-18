@@ -4,3 +4,4 @@ node_modules
 temp
 *.bat
 *.yml
+wallaby.conf.js
