@@ -1,7 +1,4 @@
-/* global Datetime */
-/*
-* Plugin required isleapyear.js
-* */
+
 (function() {
     'use strict';
 

@@ -1,4 +1,4 @@
-/* global Datetime, datetime */
+
 (function() {
     'use strict';
 
@@ -17,7 +17,7 @@
                 o.returnAs = opt.format ? "string" : opt.returnAs || "datetime";
             }
 
-            console.log(o);
+            
 
             _arr =  arr.map(function(el){
                 return datetime(el);
