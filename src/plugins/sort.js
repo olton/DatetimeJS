@@ -17,8 +17,6 @@
                 o.returnAs = opt.format ? "string" : opt.returnAs || "datetime";
             }
 
-            console.log(o);
-
             _arr =  arr.map(function(el){
                 return datetime(el);
             }).sort(function(a, b){
