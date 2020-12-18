@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/DatetimeJS.git)
  * Copyright 2020 by Serhii Pimenov (https://pimenov.com.ua)
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 18/12/2020 00:35:09
+ * Build at 18/12/2020 14:31:40
  * Licensed under MIT
  !*/
 (function(global) {
@@ -1203,47 +1203,6 @@ Datetime.locale("ua", {
 (function() {
     'use strict';
 
-    Datetime.use({
-        toTimeString: function(){
-            return this.value.toTimeString();
-        },
-
-        toLocaleDateString: function(){
-            return this.value.toLocaleDateString();
-        },
-
-        toLocaleString: function(){
-            return this.value.toLocaleString();
-        },
-
-        toLocaleTimeString: function(){
-            return this.value.toLocaleTimeString();
-        },
-
-        toJSON: function(){
-            return this.value.toJSON();
-        },
-
-        toSource: function(){
-            return this.value.toSource();
-        },
-
-        toISOString: function(){
-            return this.value.toISOString();
-        },
-
-        toUTCString: function(){
-            return this.value.toUTCString();
-        },
-
-        toDate: function(){
-            return new Date(this.value);
-        }
-    });
-}());
-(function() {
-    'use strict';
-
     Datetime.useStatic({
         isToday: function(date){
             var d = (date instanceof  Datetime ? date.clone() : datetime(date)).align("day");
@@ -1289,6 +1248,59 @@ Datetime.locale("ua", {
                 return this.clone().add(1, 'day');
             }
             return this.add(1, 'day');
+        }
+    });
+}());
+(function() {
+    'use strict';
+
+    Datetime.use({
+        toDateString: function(){
+            return this.value.toDateString();
+        },
+
+        toISOString: function(){
+            return this.value.toISOString();
+        },
+
+        toJSON: function(){
+            return this.value.toJSON();
+        },
+
+        toGMTString: function(){
+            return this.value.toGMTString();
+        },
+
+        toLocaleDateString: function(){
+            return this.value.toLocaleDateString();
+        },
+
+        toLocaleFormat: function(fmt){
+            return this.value.toLocaleFormat(fmt);
+        },
+
+        toLocaleString: function(){
+            return this.value.toLocaleString();
+        },
+
+        toLocaleTimeString: function(){
+            return this.value.toLocaleTimeString();
+        },
+
+        toSource: function(){
+            return this.value.toSource();
+        },
+
+        toTimeString: function(){
+            return this.value.toTimeString();
+        },
+
+        toUTCString: function(){
+            return this.value.toUTCString();
+        },
+
+        toDate: function(){
+            return new Date(this.value);
         }
     });
 }());

@@ -12,7 +12,7 @@ describe('Datetime', function(){
             assert.strictEqual(Datetime.isDatetime(datetime()), true);
         });
         it ('now() should be true', () => {
-            assert.strictEqual(Datetime.now() === datetime().time(), true);
+            assert.strictEqual(Datetime.align(Datetime.now(), 'day').time() === datetime().align('day').time(), true);
         });
         it ('now() should be true', () => {
             assert.strictEqual(Datetime.now(true) instanceof Date, true);
@@ -350,26 +350,35 @@ describe('Datetime', function(){
         it ('Should be 11', () => {
             assert.strictEqual(datetime("2021-03-15 13:15:34").utc().set('hour', 11).hour(), 11);
         })
-        it ('Should be 20 for 2021-03-15', () => {
+        it ('Should be 20', () => {
             assert.strictEqual(datetime("2021-03-15 13:15:34").utc().set('minute', 20).minute(), 20);
         })
         it ('Should be 15', () => {
             assert.strictEqual(datetime("2021-03-15 13:15:34").utc().set('second', 15).second(), 15);
         })
-        it ('Should be 15 for 2021-03-15', () => {
+        it ('Should be 222', () => {
             assert.strictEqual(datetime("2021-03-15 13:15:34.243").utc().set('ms', 222).ms(), 222);
         })
-        it ('Should be 15 for 2021-03-15', () => {
+        it ('Should be 1615806934244', () => {
             assert.strictEqual(datetime("2021-03-15 13:15:34.243").utc().set('time', 1615806934244).time(), 1615806934244);
         })
-        it ('Should be 15 for 2021-03-15', () => {
+        it ('Should be 1615806934244', () => {
             assert.strictEqual(datetime("2021-03-15 13:15:34.243").immutable().set('time', 1615806934244).time(), 1615806934244);
+        })
+        it ('Should be 1615806934243', () => {
+            assert.strictEqual(datetime("2021-03-15 13:15:34.243").immutable().set('zzz', 1615806934244).time(), 1615806934243);
         })
     });
 
     describe('toString()', () => {
         it("", () => {
             assert.strictEqual(datetime("2020").toString(), 'Wed Jan 01 2020 02:00:00 GMT+0200 (GMT+02:00)');
+        })
+    });
+
+    describe('valueOf()', () => {
+        it("", () => {
+            assert.strictEqual(datetime("2020").valueOf(), 1577836800000);
         })
     });
 });
