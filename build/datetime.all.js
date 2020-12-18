@@ -2,9 +2,14 @@
  * Datetime v1.0.0, (https://github.com/olton/DatetimeJS.git)
  * Copyright 2020 by Serhii Pimenov (https://pimenov.com.ua)
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 18/12/2020 14:45:42
+ * Build at 18/12/2020 15:02:37
  * Licensed under MIT
  !*/
+
+
+// Source: src/index.js
+
+/* global global*/
 (function(global) {
     'use strict';
 
@@ -63,6 +68,8 @@
     var not = function(v){
         return typeof v === "undefined" || v === null;
     }
+
+    /* Fabric method */
     var datetime = function(){
         var args;
 
@@ -74,6 +81,8 @@
 
         return new (Function.prototype.bind.apply(Datetime,  [this].concat(args) ) );
     }
+
+    /* Main class */
     var Datetime = function(){
         var args = [].slice.call(arguments);
         this.value = new (Function.prototype.bind.apply(Date,  [this].concat(args) ) );
@@ -86,6 +95,8 @@
             throw new Error(INVALID_DATE);
         }
     }
+
+    /* ************ Static methods **************** */
     Datetime.DEFAULT_FORMAT = DEFAULT_FORMAT;
     Datetime.REGEX_FORMAT = REGEX_FORMAT;
     Datetime.INVALID_DATE = INVALID_DATE;
@@ -157,6 +168,8 @@
 
         return result;
     }
+
+    /* Plugin support */
     Datetime.extend = function(where){
         var options, name,
             length = arguments.length;
@@ -180,6 +193,7 @@
     Datetime.useStatic = function(obj){
         Datetime.extend(Datetime, obj);
     }
+    /* ************* End of static **************** */
 
     Datetime.prototype = {
         immutable: function(v){
@@ -248,6 +262,8 @@
         year2: function(){
             return +(""+this.year()).substr(-2);
         },
+
+        /* Get + Set */
 
         _set: function(m, v){
             var fn = "set" + (this.utcMode && m !== "t" ? "UTC" : "") + M[m];
@@ -370,7 +386,13 @@
     global.Datetime = Datetime;
     global.datetime = datetime;
 
-}(typeof self === "undefined" ? typeof global === "undefined" ? window : global : self));Datetime.locale("af", {
+}(typeof self === "undefined" ? typeof global === "undefined" ? window : global : self));
+
+
+// Source: src/i18n/af.js
+
+/* global Datetime */
+Datetime.locale("af", {
     months: "Januarie_Februarie_Maart_April_Mei_Junie_Julie_Augustus_September_Oktober_November_Desember".split("_"),
     monthsShort: "Jan_Feb_Mrt_Apr_Mei_Jun_Jul_Aug_Sep_Okt_Nov_Des".split("_"),
     weekdays: "Sondag_Maandag_Dinsdag_Woensdag_Donderdag_Vrydag_Saterdag".split("_"),
@@ -378,6 +400,11 @@
     weekdaysMin: "So_Ma_Di_Wo_Do_Vr_Sa".split("_"),
     weekStart: 1
 });
+
+
+// Source: src/i18n/am.js
+
+/* global Datetime */
 Datetime.locale("am", {
     months: "ጃንዋሪ_ፌብሯሪ_ማርች_ኤፕሪል_ሜይ_ጁን_ጁላይ_ኦገስት_ሴፕቴምበር_ኦክቶበር_ኖቬምበር_ዲሴምበር".split("_"),
     monthsShort: "ጃንዋ_ፌብሯ_ማርች_ኤፕሪ_ሜይ_ጁን_ጁላይ_ኦገስ_ሴፕቴ_ኦክቶ_ኖቬም_ዲሴም".split("_"),
@@ -386,6 +413,11 @@ Datetime.locale("am", {
     weekdaysMin: "እሑ_ሰኞ_ማክ_ረቡ_ሐሙ_አር_ቅዳ".split("_"),
     weekStart: 1
 });
+
+
+// Source: src/i18n/ar.js
+
+/* global Datetime */
 Datetime.locale("ar", {
     months: "يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),
     monthsShort: "يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر".split("_"),
@@ -394,6 +426,11 @@ Datetime.locale("ar", {
     weekdaysMin: "ح_ن_ث_ر_خ_ج_س".split("_"),
     weekStart: 1
 });
+
+
+// Source: src/i18n/az.js
+
+/* global Datetime */
 Datetime.locale("am", {
     months: "Yanvar_Fevral_Mart_Aprel_May_Iyun_Iyul_Avqust_Sentyabr_Oktyabr_Noyabr_Dekabr".split("_"),
     monthsShort: "Yan_Fev_Mar_Apr_May_Iyn_Iyl_Avq_Sen_Okt_Noy_Dek".split("_"),
@@ -402,6 +439,11 @@ Datetime.locale("am", {
     weekdaysMin: "Bz_BE_ÇA_Çə_CA_Cü_Şə".split("_"),
     weekStart: 1
 });
+
+
+// Source: src/i18n/ba.js
+
+/* global Datetime */
 Datetime.locale("ba", {
     months: "Zanwuyekalo_Fewuruyekalo_Marisikalo_Awirilikalo_Mɛkalo_Zuwɛnkalo_Zuluyekalo_Utikalo_Sɛtanburukalo_ɔkutɔburukalo_Nowanburukalo_Desanburukalo".split("_"),
     monthsShort: "Zan_Few_Mar_Awi_Mɛ_Zuw_Zul_Uti_Sɛt_ɔku_Now_Des".split("_"),
@@ -410,6 +452,11 @@ Datetime.locale("ba", {
     weekdaysMin: "Ka_Nt_Ta_Ar_Al_Ju_Si".split("_"),
     weekStart: 1
 });
+
+
+// Source: src/i18n/be.js
+
+/* global Datetime */
 Datetime.locale("be", {
     months: "Студзеня_Лютага_Сакавіка_Красавіка_Траўня_Чэрвеня_Ліпеня_Жніўня_Верасня_Кастрычніка_Лістапада_Снежня".split("_"),
     monthsShort: "Студ_Лют_Сак_Крас_Трав_Чэрв_Ліп_Жнів_Вер_Каст_Ліст_Снеж".split("_"),
@@ -418,6 +465,11 @@ Datetime.locale("be", {
     weekdaysMin: "Нд_Пн_Ат_Ср_Чц_Пт_Сб".split("_"),
     weekStart: 1
 });
+
+
+// Source: src/i18n/bg.js
+
+/* global Datetime */
 Datetime.locale("bg", {
     months: "Януари_Февруари_Март_Април_Май_Юни_Юли_Август_Септември_Октомври_Ноември_Декември".split("_"),
     monthsShort: "Янр_Фев_Мар_Апр_Май_Юни_Юли_Авг_Сеп_Окт_Ное_Дек".split("_"),
@@ -426,6 +478,11 @@ Datetime.locale("bg", {
     weekdaysMin: "Нд_Пн_Вт_Ср_Чт_Пт_Сб".split("_"),
     weekStart: 1
 });
+
+
+// Source: src/i18n/bi.js
+
+/* global Datetime */
 Datetime.locale("bi", {
     months: "Januari_Februari_Maj_Eprel_Mei_Jun_Julae_Okis_Septemba_Oktoba_Novemba_Disemba".split("_"),
     monthsShort: "Jan_Feb_Maj_Epr_Mai_Jun_Jul_Oki_Sep_Okt_Nov_Dis".split("_"),
@@ -434,6 +491,11 @@ Datetime.locale("bi", {
     weekdaysMin: "Sn_Ma_Tu_We_To_Fr_Sr".split("_"),
     weekStart: 1
 });
+
+
+// Source: src/i18n/bn.js
+
+/* global Datetime */
 Datetime.locale("bn", {
     months: "জানুয়ারী_ফেব্রুয়ারি_মার্চ_এপ্রিল_মে_জুন_জুলাই_আগস্ট_সেপ্টেম্বর_অক্টোবর_নভেম্বর_ডিসেম্বর".split("_"),
     monthsShort: "জানু_ফেব_মার্চ_এপ্র_মে_জুন_জুল_আগ_সেপ্ট_অক্টো_নভে_ডিসে".split("_"),
@@ -442,6 +504,11 @@ Datetime.locale("bn", {
     weekdaysMin: "রবি_সোম_মঙ্গ_বুধ_বৃহঃ_শুক্র_শনি".split("_"),
     weekStart: 1
 });
+
+
+// Source: src/i18n/bo.js
+
+/* global Datetime */
 Datetime.locale("bo", {
     months: "ཟླ་བ་དང་པོ_ཟླ་བ་གཉིས་པ_ཟླ་བ་གསུམ་པ_ཟླ་བ་བཞི་པ_ཟླ་བ་ལྔ་པ_ཟླ་བ་དྲུག་པ_ཟླ་བ་བདུན་པ_ཟླ་བ་བརྒྱད་པ_ཟླ་བ་དགུ་པ_ཟླ་བ་བཅུ་པ_ཟླ་བ་བཅུ་གཅིག་པ_ཟླ་བ་བཅུ་གཉིས་པ".split("_"),
     monthsShort: "ཟླ་བ་དང་པོ_ཟླ་བ་གཉིས་པ_ཟླ་བ་གསུམ་པ_ཟླ་བ་བཞི་པ_ཟླ་བ་ལྔ་པ_ཟླ་བ་དྲུག་པ_ཟླ་བ་བདུན་པ_ཟླ་བ་བརྒྱད་པ_ཟླ་བ་དགུ་པ_ཟླ་བ་བཅུ་པ_ཟླ་བ་བཅུ་གཅིག་པ_ཟླ་བ་བཅུ་གཉིས་པ".split("_"),
@@ -450,6 +517,11 @@ Datetime.locale("bo", {
     weekdaysMin: "ཉི་མ་_ཟླ་བ་_མིག་དམར་_ལྷག་པ་_ཕུར་བུ_པ་སངས་_སྤེན་པ་".split("_"),
     weekStart: 1
 });
+
+
+// Source: src/i18n/br.js
+
+/* global Datetime */
 Datetime.locale("br", {
     months: "Genver_Cʼhwevrer_Meurzh_Ebrel_Mae_Mezheven_Gouere_Eost_Gwengolo_Here_Du_Kerzu".split("_"),
     monthsShort: "Gen_Cʼhwe_Meu_Ebr_Mae_Eve_Gou_Eos_Gwe_Her_Du_Ker".split("_"),
@@ -458,6 +530,11 @@ Datetime.locale("br", {
     weekdaysMin: "Su_Lu_Me_Mer_Ya_Gw_Sa".split("_"),
     weekStart: 1
 });
+
+
+// Source: src/i18n/de.js
+
+/* global Datetime */
 Datetime.locale("de", {
     months: "Januar_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),
     monthsShort: "Jan_Feb_Mär_Apr_Mai_Jun_Jul_Aug_Sep_Okt_Nov_Dez".split("_"),
@@ -467,6 +544,10 @@ Datetime.locale("de", {
     weekStart: 1
 });
 
+
+// Source: src/i18n/ru.js
+
+/* global Datetime */
 Datetime.locale("ru", {
     months: "Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь".split("_"),
     monthsParental: "Января_Февраля_Марта_Апреля_Мая_Июня_Июля_Августа_Сентября_Октября_Ноября_Декабря".split("_"),
@@ -476,6 +557,11 @@ Datetime.locale("ru", {
     weekdaysMin: "Вс_Пн_Вт_Ср_Чт_Пт_Сб".split("_"),
     weekStart: 1
 });
+
+
+// Source: src/i18n/ua.js
+
+/* global Datetime */
 Datetime.locale("ua", {
     months: "Січень_Лютий_Березень_Квітень_Травень_Червень_Липень_Серпень_Вересень_Жовтень_Листопад_Грудень".split("_"),
     monthsParental: "Січня_Лютого_Березеня_Квітня_Травня_Червня_Липня_Серпня_Вересня_Жовтня_Листопада_Грудня".split("_"),
@@ -484,7 +570,13 @@ Datetime.locale("ua", {
     weekdaysShort: "Нед_Пон_Вів_Сер_Чет_Птн_Суб".split("_"),
     weekdaysMin: "Нд_Пн_Вт_Ср_Чт_Пт_Сб".split("_"),
     weekStart: 1
-});Datetime.locale("zh", {
+});
+
+
+// Source: src/i18n/zh.js
+
+/* global Datetime */
+Datetime.locale("zh", {
     months: "一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月".split("_"),
     monthsShort: "1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月".split("_"),
     weekdays: "星期日_星期一_星期二_星期三_星期四_星期五_星期六".split("_"),
@@ -493,6 +585,10 @@ Datetime.locale("ua", {
     weekStart: 1
 });
 
+
+// Source: src/plugins/buddhist.js
+
+/* global Datetime */
 (function() {
     'use strict';
 
@@ -509,13 +605,19 @@ Datetime.locale("ua", {
                 BB: (this.buddhist()+"").slice(-2),
                 BBBB: this.buddhist()
             }
-            var result = format.replace(/(\[[^\]]+])|B{4}|B{2}/g, function(match){
-                return matches[match] || match;
+            var result = format.replace(/(\[[^\]]+])|B{4}|B{2}/g, function(match, $1){
+                return $1 || matches[match];
             })
             return fnFormat.bind(this)(result, locale)
         }
     });
-}());(function() {
+}());
+
+
+// Source: src/plugins/calendar.js
+
+/* global Datetime, datetime */
+(function() {
     'use strict';
 
     Datetime.use({
@@ -577,6 +679,10 @@ Datetime.locale("ua", {
     });
 }());
 
+
+// Source: src/plugins/century.js
+
+/* global Datetime */
 (function() {
     'use strict';
 
@@ -592,13 +698,18 @@ Datetime.locale("ua", {
             var matches = {
                 C: this.century()
             }
-            var result = format.replace(/(\[[^\]]+])|C/g, function(match){
-                return matches[match] || match;
+            var result = format.replace(/(\[[^\]]+])|C/g, function(match, $1){
+                return $1 || matches[match];
             })
             return oldFormat.bind(this)(result, locale)
         }
     })
 }());
+
+
+// Source: src/plugins/compare.js
+
+/* global Datetime, datetime */
 (function() {
     'use strict';
 
@@ -606,6 +717,10 @@ Datetime.locale("ua", {
         same: function(d){
             return this.time() === datetime(d).time();
         },
+
+        /*
+        * align: year, month, day, hour, minute, second, ms = default
+        * */
         compare: function(d, align, operator){
             var date = datetime(d);
             var curr = this.clone();
@@ -687,6 +802,14 @@ Datetime.locale("ua", {
         }
     })
 }());
+
+
+// Source: src/plugins/dayofyear.js
+
+/* global Datetime */
+/*
+* Plugin required isleapyear.js
+* */
 (function() {
     'use strict';
 
@@ -699,6 +822,11 @@ Datetime.locale("ua", {
         }
     })
 }());
+
+
+// Source: src/plugins/daysin.js
+
+/* global Datetime */
 (function() {
     'use strict';
 
@@ -739,6 +867,11 @@ Datetime.locale("ua", {
         }
     })
 }());
+
+
+// Source: src/plugins/decade.js
+
+/* global Datetime */
 (function() {
     'use strict';
 
@@ -771,6 +904,11 @@ Datetime.locale("ua", {
         }
     })
 }());
+
+
+// Source: src/plugins/from.js
+
+/* global Datetime, datetime */
 (function() {
     'use strict';
 
@@ -838,7 +976,10 @@ Datetime.locale("ua", {
             if (Datetime.not(format) || (""+format).trim() === "") {
                 return datetime();
             }
+
+            /* eslint-disable-next-line */
             norm = str.replace(/[\/,.:\s]/g, '-');
+            /* eslint-disable-next-line */
             normFormat = format.toLowerCase().replace(/[^a-zA-Z0-9%]/g, '-');
             fItems = normFormat.split('-');
             dItems = norm.split('-');
@@ -883,6 +1024,11 @@ Datetime.locale("ua", {
     })
 
 }());
+
+
+// Source: src/plugins/hour12.js
+
+/* global Datetime */
 (function() {
     'use strict';
 
@@ -931,6 +1077,11 @@ Datetime.locale("ua", {
         }
     })
 }());
+
+
+// Source: src/plugins/isleapyear.js
+
+/* global Datetime */
 (function() {
     'use strict';
 
@@ -941,6 +1092,11 @@ Datetime.locale("ua", {
         }
     })
 }());
+
+
+// Source: src/plugins/iso.js
+
+/* global Datetime, datetime */
 (function() {
     'use strict';
 
@@ -1003,6 +1159,51 @@ Datetime.locale("ua", {
         }
     })
 }());
+
+
+// Source: src/plugins/max.js
+
+/* global Datetime, datetime */
+(function() {
+    'use strict';
+
+    Datetime.useStatic({
+        max: function(){
+            var arr = [].slice.call(arguments);
+
+            return arr.map(function(el){
+                return datetime(el);
+            }).sort(function(a, b){
+                return b.time() - a.time()
+            })[0];
+        }
+    })
+}());
+
+
+// Source: src/plugins/min.js
+
+/* global Datetime, datetime */
+(function() {
+    'use strict';
+
+    Datetime.useStatic({
+        min: function(){
+            var arr = [].slice.call(arguments);
+
+            return arr.map(function(el){
+                return datetime(el);
+            }).sort(function(a, b){
+                return a.time() - b.time()
+            })[0];
+        }
+    })
+}());
+
+
+// Source: src/plugins/quarter.js
+
+/* global Datetime, datetime */
 (function() {
     'use strict';
 
@@ -1046,6 +1247,11 @@ Datetime.locale("ua", {
         }
     })
 }());
+
+
+// Source: src/plugins/sort.js
+
+/* global Datetime, datetime */
 (function() {
     'use strict';
 
@@ -1087,6 +1293,11 @@ Datetime.locale("ua", {
         }
     })
 }());
+
+
+// Source: src/plugins/strftime.js
+
+/* global Datetime */
 (function() {
     'use strict';
 
@@ -1166,6 +1377,11 @@ Datetime.locale("ua", {
         }
     });
 }());
+
+
+// Source: src/plugins/timezone.js
+
+/* global Datetime */
 (function() {
     'use strict';
 
@@ -1200,6 +1416,11 @@ Datetime.locale("ua", {
         }
     })
 }());
+
+
+// Source: src/plugins/today.js
+
+/* global Datetime, datetime */
 (function() {
     'use strict';
 
@@ -1226,6 +1447,11 @@ Datetime.locale("ua", {
         }
     })
 }());
+
+
+// Source: src/plugins/tomorrow.js
+
+/* global Datetime, datetime */
 (function() {
     'use strict';
 
@@ -1251,6 +1477,11 @@ Datetime.locale("ua", {
         }
     });
 }());
+
+
+// Source: src/plugins/transform.js
+
+/* global Datetime */
 (function() {
     'use strict';
 
@@ -1304,6 +1535,11 @@ Datetime.locale("ua", {
         }
     });
 }());
+
+
+// Source: src/plugins/unix.js
+
+/* global Datetime, datetime */
 (function() {
     'use strict';
 
@@ -1335,6 +1571,11 @@ Datetime.locale("ua", {
         }
     });
 }());
+
+
+// Source: src/plugins/weeknumber.js
+
+/* global Datetime, datetime */
 (function() {
     'use strict';
 
@@ -1392,6 +1633,11 @@ Datetime.locale("ua", {
         }
     })
 }());
+
+
+// Source: src/plugins/weeksinyear.js
+
+/* global Datetime */
 (function() {
     'use strict';
 
@@ -1402,6 +1648,11 @@ Datetime.locale("ua", {
         }
     })
 }());
+
+
+// Source: src/plugins/yesterday.js
+
+/* global Datetime, datetime */
 (function() {
     'use strict';
 

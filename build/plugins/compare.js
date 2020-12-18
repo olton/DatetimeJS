@@ -1,4 +1,4 @@
-
+/* global Datetime, datetime */
 (function() {
     'use strict';
 
@@ -6,6 +6,10 @@
         same: function(d){
             return this.time() === datetime(d).time();
         },
+
+        /*
+        * align: year, month, day, hour, minute, second, ms = default
+        * */
         compare: function(d, align, operator){
             var date = datetime(d);
             var curr = this.clone();

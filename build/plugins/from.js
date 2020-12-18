@@ -1,4 +1,4 @@
-
+/* global Datetime, datetime */
 (function() {
     'use strict';
 
@@ -66,7 +66,10 @@
             if (Datetime.not(format) || (""+format).trim() === "") {
                 return datetime();
             }
+
+            /* eslint-disable-next-line */
             norm = str.replace(/[\/,.:\s]/g, '-');
+            /* eslint-disable-next-line */
             normFormat = format.toLowerCase().replace(/[^a-zA-Z0-9%]/g, '-');
             fItems = normFormat.split('-');
             dItems = norm.split('-');

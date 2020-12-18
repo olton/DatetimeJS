@@ -14,8 +14,8 @@
             var matches = {
                 C: this.century()
             }
-            var result = format.replace(/(\[[^\]]+])|C/g, function(match){
-                return matches[match] || match;
+            var result = format.replace(/(\[[^\]]+])|C/g, function(match, $1){
+                return $1 || matches[match];
             })
             return oldFormat.bind(this)(result, locale)
         }

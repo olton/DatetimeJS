@@ -2,9 +2,14 @@
  * Datetime v1.0.0, (https://github.com/olton/DatetimeJS.git)
  * Copyright 2020 by Serhii Pimenov (https://pimenov.com.ua)
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 18/12/2020 14:45:42
+ * Build at 18/12/2020 15:02:37
  * Licensed under MIT
  !*/
+
+
+// Source: src/index.js
+
+/* global global*/
 (function(global) {
     'use strict';
 
@@ -63,6 +68,8 @@
     var not = function(v){
         return typeof v === "undefined" || v === null;
     }
+
+    /* Fabric method */
     var datetime = function(){
         var args;
 
@@ -74,6 +81,8 @@
 
         return new (Function.prototype.bind.apply(Datetime,  [this].concat(args) ) );
     }
+
+    /* Main class */
     var Datetime = function(){
         var args = [].slice.call(arguments);
         this.value = new (Function.prototype.bind.apply(Date,  [this].concat(args) ) );
@@ -86,6 +95,8 @@
             throw new Error(INVALID_DATE);
         }
     }
+
+    /* ************ Static methods **************** */
     Datetime.DEFAULT_FORMAT = DEFAULT_FORMAT;
     Datetime.REGEX_FORMAT = REGEX_FORMAT;
     Datetime.INVALID_DATE = INVALID_DATE;
@@ -157,6 +168,8 @@
 
         return result;
     }
+
+    /* Plugin support */
     Datetime.extend = function(where){
         var options, name,
             length = arguments.length;
@@ -180,6 +193,7 @@
     Datetime.useStatic = function(obj){
         Datetime.extend(Datetime, obj);
     }
+    /* ************* End of static **************** */
 
     Datetime.prototype = {
         immutable: function(v){
@@ -248,6 +262,8 @@
         year2: function(){
             return +(""+this.year()).substr(-2);
         },
+
+        /* Get + Set */
 
         _set: function(m, v){
             var fn = "set" + (this.utcMode && m !== "t" ? "UTC" : "") + M[m];

@@ -1,4 +1,4 @@
-
+/* global Datetime */
 (function() {
     'use strict';
 
@@ -15,8 +15,8 @@
                 BB: (this.buddhist()+"").slice(-2),
                 BBBB: this.buddhist()
             }
-            var result = format.replace(/(\[[^\]]+])|B{4}|B{2}/g, function(match){
-                return matches[match] || match;
+            var result = format.replace(/(\[[^\]]+])|B{4}|B{2}/g, function(match, $1){
+                return $1 || matches[match];
             })
             return fnFormat.bind(this)(result, locale)
         }
