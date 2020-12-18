@@ -2,7 +2,7 @@
  * Datetime v1.0.0, (https://github.com/olton/DatetimeJS.git)
  * Copyright 2020 by Serhii Pimenov (https://pimenov.com.ua)
  * Datetime.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with comfortable modern API.
- * Build at 18/12/2020 14:31:40
+ * Build at 18/12/2020 14:45:42
  * Licensed under MIT
  !*/
 (function(global) {
@@ -354,7 +354,7 @@
             };
 
             return format.replace(REGEX_FORMAT, function(match, $1){
-                return $1 || (typeof matches[match] !== "undefined" ? matches[match] : match);
+                return $1 || matches[match];
             });
         },
 

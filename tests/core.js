@@ -370,6 +370,88 @@ describe('Datetime', function(){
         })
     });
 
+    describe('add functions', () => {
+        it("default, should be 2021", () => {
+            assert.strictEqual(datetime("2020").year(), 2020);
+            assert.strictEqual(datetime("2020").add(1, 'year').year(), 2021);
+        })
+        it("default, should be 1", () => {
+            assert.strictEqual(datetime("2020").month(), 0);
+            assert.strictEqual(datetime("2020").add(1, 'month').month(), 1);
+        })
+        it("default, should be 2", () => {
+            assert.strictEqual(datetime("2020").day(), 1);
+            assert.strictEqual(datetime("2020").add(1, 'day').day(), 2);
+        })
+        it("default, should be 1", () => {
+            assert.strictEqual(datetime("2020-1").hour(), 0);
+            assert.strictEqual(datetime("2020-1").add(1, 'hour').hour(), 1);
+        })
+        it("default, should be 1", () => {
+            assert.strictEqual(datetime("2020-1").minute(), 0);
+            assert.strictEqual(datetime("2020-1").add(1, 'minute').minute(), 1);
+        })
+        it("default, should be 1", () => {
+            assert.strictEqual(datetime("2020-1").second(), 0);
+            assert.strictEqual(datetime("2020-1").add(1, 'second').second(), 1);
+        })
+        it("default, should be 1", () => {
+            assert.strictEqual(datetime("2020-1").ms(), 0);
+            assert.strictEqual(datetime("2020-1").add(1, 'ms').ms(), 1);
+        })
+        it("default, should be 1", () => {
+            assert.strictEqual(datetime("2020-1").month(), 0);
+            assert.strictEqual(datetime("2020-1").add(1, 'quarter').month(), 3);
+        })
+        it("default, should be 1", () => {
+            assert.strictEqual(datetime("2020-1").day(), 1);
+            assert.strictEqual(datetime("2020-1").add(1, 'week').day(), 8);
+        })
+
+        it("default, should be 2021", () => {
+            assert.strictEqual(datetime("2020").year(), 2020);
+            assert.strictEqual(datetime("2020").addYear(1).year(), 2021);
+        })
+        it("default, should be 1", () => {
+            assert.strictEqual(datetime("2020").month(), 0);
+            assert.strictEqual(datetime("2020").addMonth(1).month(), 1);
+        })
+        it("default, should be 2", () => {
+            assert.strictEqual(datetime("2020").day(), 1);
+            assert.strictEqual(datetime("2020").addDay(1).day(), 2);
+        })
+        it("default, should be 1", () => {
+            assert.strictEqual(datetime("2020-1").hour(), 0);
+            assert.strictEqual(datetime("2020-1").addHour(1).hour(), 1);
+        })
+        it("default, should be 1", () => {
+            assert.strictEqual(datetime("2020-1").minute(), 0);
+            assert.strictEqual(datetime("2020-1").addMinute(1).minute(), 1);
+        })
+        it("default, should be 1", () => {
+            assert.strictEqual(datetime("2020-1").second(), 0);
+            assert.strictEqual(datetime("2020-1").addSecond(1).second(), 1);
+        })
+        it("default, should be 1", () => {
+            assert.strictEqual(datetime("2020-1").ms(), 0);
+            assert.strictEqual(datetime("2020-1").addMs(1).ms(), 1);
+        })
+        it("default, should be 1", () => {
+            assert.strictEqual(datetime("2020-1").month(), 0);
+            assert.strictEqual(datetime("2020-1").addQuarter(1).month(), 3);
+        })
+        it("default, should be 1", () => {
+            assert.strictEqual(datetime("2020-1").day(), 1);
+            assert.strictEqual(datetime("2020-1").addWeek(1).day(), 8);
+        })
+    });
+
+    describe('format()', () => {
+        it("default, should be ", () => {
+            assert.strictEqual(datetime("2020").format(), '2020-01-01T02:00:00.000Z');
+        })
+    });
+
     describe('toString()', () => {
         it("", () => {
             assert.strictEqual(datetime("2020").toString(), 'Wed Jan 01 2020 02:00:00 GMT+0200 (GMT+02:00)');

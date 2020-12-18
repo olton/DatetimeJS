@@ -359,7 +359,7 @@
             };
 
             return format.replace(REGEX_FORMAT, function(match, $1){
-                return $1 || (typeof matches[match] !== "undefined" ? matches[match] : match);
+                return $1 || matches[match];
             });
         },
 
