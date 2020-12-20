@@ -5,8 +5,8 @@
     Datetime.useStatic({
         from: function(str, format, locale){
             var norm, normFormat, fItems, dItems;
-            var iMonth, iDay, iYear, iHour, iMinute, iSecond;
-            var year, month, day, hour, minute, second;
+            var iMonth, iDay, iYear, iHour, iMinute, iSecond, iMs;
+            var year, month, day, hour, minute, second, ms;
             var parsedMonth;
 
             var getIndex = function(where, what){
@@ -42,14 +42,11 @@
                     "year": ["YY", "YYYY", "yy", "yyyy", "%y"],
                     "hour": ["h", "hh", "%h"],
                     "minute": ["m", "mi", "i", "ii", "%i"],
-                    "second": ["s", "ss", "%s"]
+                    "second": ["s", "ss", "%s"],
+                    "ms": ["sss"]
                 }
 
                 var result = -1, key, index;
-
-                if (!parts[part]) {
-                    return result;
-                }
 
                 for(var i = 0; i < parts[part].length; i++) {
                     key = parts[part][i];
@@ -75,7 +72,7 @@
             dItems = norm.split('-');
 
             if (norm.replace(/-/g,"").trim() === "") {
-                return Datetime.INVALID_DATE;
+                throw new Error(Datetime.INVALID_DATE);
             }
 
             iMonth = getPartIndex("month");
@@ -84,33 +81,34 @@
             iHour = getPartIndex("hour");
             iMinute = getPartIndex("minute");
             iSecond = getPartIndex("second");
+            iMs = getPartIndex("ms");
 
-            if (iMonth > -1 && dItems[iMonth] !== "") {
+            if (iMonth > -1 && dItems[iMonth]) {
                 if (isNaN(parseInt(dItems[iMonth]))) {
                     dItems[iMonth] = monthNameToNumber(dItems[iMonth]);
                     if (dItems[iMonth] === -1) {
-                        return Datetime.INVALID_DATE;
+                        iMonth = -1;
                     }
                 } else {
                     parsedMonth = parseInt(dItems[iMonth]);
                     if (parsedMonth < 1 || parsedMonth > 12) {
-                        return Datetime.INVALID_DATE;
+                        iMonth = -1;
                     }
                 }
             } else {
-                return Datetime.INVALID_DATE;
+                iMonth = -1;
             }
 
-            year  = iYear > -1 && dItems[iYear] ? dItems[iYear] : null;
-            month = iMonth > -1 && dItems[iMonth] ? dItems[iMonth] : null;
-            day   = iDay > -1 && dItems[iDay] ? dItems[iDay] : null;
+            year  = iYear > -1 && dItems[iYear] ? dItems[iYear] : 0;
+            month = iMonth > -1 && dItems[iMonth] ? dItems[iMonth] : 1;
+            day   = iDay > -1 && dItems[iDay] ? dItems[iDay] : 1;
 
-            hour    = iHour > -1 && dItems[iHour] ? dItems[iHour] : null;
-            minute  = iMinute > -1 && dItems[iMinute] ? dItems[iMinute] : null;
-            second  = iSecond > -1 && dItems[iSecond] ? dItems[iSecond] : null;
+            hour    = iHour > -1 && dItems[iHour] ? dItems[iHour] : 0;
+            minute  = iMinute > -1 && dItems[iMinute] ? dItems[iMinute] : 0;
+            second  = iSecond > -1 && dItems[iSecond] ? dItems[iSecond] : 0;
+            ms  = iMs > -1 && dItems[iMs] ? dItems[iMs] : 0;
 
-            return datetime(year, month-1, day, hour, minute, second);
+            return datetime(year, month-1, day, hour, minute, second, ms);
         }
     })
-
 }());
