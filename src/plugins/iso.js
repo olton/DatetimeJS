@@ -42,11 +42,13 @@
 
     Datetime.use({
         isoWeekDay: function(val){
+            var wd = (this.weekDay() + 6) % 7 + 1;
+
             if (!arguments.length || (Datetime.not(val))) {
-                return (this.weekDay() + 6) % 7 + 1;
+                return wd;
             }
 
-            return this.weekDay((val + 6) % 7 + 1);
+            return this.addDay(val - wd);
         },
 
         format: function(format, locale){
@@ -54,8 +56,8 @@
             var matches = {
                 I: this.isoWeekDay()
             }
-            var result = format.replace(/(\[[^\]]+])|I{1,2}/g, function(match){
-                return matches[match] || match;
+            var result = format.replace(/(\[[^\]]+])|I{1,2}/g, function(match, $1){
+                return $1 || matches[match];
             })
             return fnFormat.bind(this)(result, locale)
         }
