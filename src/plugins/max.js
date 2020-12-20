@@ -12,5 +12,11 @@
                 return b.time() - a.time()
             })[0];
         }
-    })
+    });
+
+    Datetime.use({
+        max: function(){
+            return Datetime.max.apply(this, [this].concat([].slice.call(arguments)));
+        }
+    });
 }());

@@ -12,5 +12,11 @@
                 return a.time() - b.time()
             })[0];
         }
+    });
+
+    Datetime.use({
+        min: function(){
+            return Datetime.min.apply(this, [this].concat([].slice.call(arguments)));
+        }
     })
 }());
