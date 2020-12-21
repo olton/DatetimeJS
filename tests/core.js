@@ -400,10 +400,6 @@ describe('Datetime', function(){
             assert.strictEqual(datetime("2020-1").add(1, 'ms').ms(), 1);
         })
         it("default, should be 1", () => {
-            assert.strictEqual(datetime("2020-1").month(), 0);
-            assert.strictEqual(datetime("2020-1").add(1, 'quarter').month(), 3);
-        })
-        it("default, should be 1", () => {
             assert.strictEqual(datetime("2020-1").day(), 1);
             assert.strictEqual(datetime("2020-1").add(1, 'week').day(), 8);
         })
@@ -435,10 +431,6 @@ describe('Datetime', function(){
         it("default, should be 1", () => {
             assert.strictEqual(datetime("2020-1").ms(), 0);
             assert.strictEqual(datetime("2020-1").addMs(1).ms(), 1);
-        })
-        it("default, should be 1", () => {
-            assert.strictEqual(datetime("2020-1").month(), 0);
-            assert.strictEqual(datetime("2020-1").addQuarter(1).month(), 3);
         })
         it("default, should be 1", () => {
             assert.strictEqual(datetime("2020-1").day(), 1);

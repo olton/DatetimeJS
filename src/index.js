@@ -317,7 +317,6 @@
                 case C.W: return this.day(this.day() + val * 7);
                 case C.M: return this.month(this.month() + val);
                 case C.Y: return this.year(this.year() + val);
-                case C.q: return this.month(this.month() + val * 3);
             }
         },
 
@@ -329,7 +328,6 @@
         addWeek: function(v){return this.add(v,C.W);},
         addMonth: function(v){return this.add(v, C.M);},
         addYear: function(v){return this.add(v, C.Y);},
-        addQuarter: function(v){return this.add(v, C.q);},
 
         format: function(fmt, locale){
             var format = fmt || DEFAULT_FORMAT;
