@@ -6,6 +6,7 @@
     var lpad = Datetime.lpad;
 
     Datetime.use({
+        // TODO Need optimisation
         weekNumber: function (weekStart) {
             var nYear, nday, newYear, day, daynum, weeknum;
 
@@ -48,8 +49,8 @@
                 WWWW: lpad(wni, "0", 2)
             };
 
-            result = format.replace(/(\[[^\]]+])|W{1,4}/g, function(match){
-                return matches[match] === 0 || matches[match] ? matches[match] : match;
+            result = format.replace(/(\[[^\]]+])|W{1,4}/g, function(match, $1){
+                return $1 || matches[match];
             });
 
             return fnFormat.bind(this)(result, locale)
