@@ -37,6 +37,11 @@
             return this.weekNumber(1);
         },
 
+        weeksInYear: function(weekStart){
+            var curr = this.clone();
+            return curr.month(11).day(31).weekNumber(weekStart);
+        },
+
         format: function(format, locale){
             var matches, result, wn = this.weekNumber(), wni = this.isoWeekNumber();
 
