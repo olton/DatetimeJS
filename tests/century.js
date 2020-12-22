@@ -12,7 +12,7 @@ describe('Datetime', function() {
             assert.strictEqual(datetime("1972").format('C'), '19');
         })
         it ('Should be 19 for 1972', () => {
-            assert.strictEqual(datetime("1972").format(), '1972-01-01T03:00:00.000Z');
+            assert.strictEqual(datetime("1972").format(), '1972-01-01T03:00:00.000');
         })
     });
 })

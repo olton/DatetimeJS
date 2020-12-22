@@ -21,7 +21,7 @@ describe('Datetime', function() {
             assert.strictEqual(datetime("2020 10:00").hour12(11, "pm").hour(), 23);
         })
         it ('Should be formated', () => {
-            assert.strictEqual(datetime("2020 10:00").format(), "2020-01-01T10:00:00.000Z");
+            assert.strictEqual(datetime("2020 10:00").format(), "2020-01-01T10:00:00.000");
         })
         it ('Should be formated', () => {
             assert.strictEqual(datetime("2020 10:00").format("YYYY hh:mm"), "2020 10:00");

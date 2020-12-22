@@ -2,7 +2,7 @@
 (function(global) {
     'use strict';
 
-    var DEFAULT_FORMAT = "YYYY-MM-DDTHH:mm:ss.sssZ";
+    var DEFAULT_FORMAT = "YYYY-MM-DDTHH:mm:ss.sss";
     var INVALID_DATE = "Invalid date";
     var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|m{1,2}|s{1,3}/g;
 

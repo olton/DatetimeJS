@@ -25,8 +25,8 @@
                 ZZ: this.timezone().replace(":", ""),
                 z: this.timezoneName()
             }
-            var result = format.replace(/(\[[^\]]+])|Z{1,3}|z/g, function(match){
-                return matches[match] || match;
+            var result = format.replace(/(\[[^\]]+])|Z{1,3}|z/g, function(match, $1){
+                return $1 || matches[match];
             })
 
             return fnFormat.bind(this)(result, locale)

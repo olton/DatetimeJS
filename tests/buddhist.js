@@ -12,7 +12,7 @@ describe('Datetime Buddhist plugin', function() {
             assert.strictEqual(datetime("2020").format('BB'), '63');
         })
         it ('Should be 2563 for 2020', () => {
-            assert.strictEqual(datetime("2020").format(), '2020-01-01T02:00:00.000Z');
+            assert.strictEqual(datetime("2020").format(), '2020-01-01T02:00:00.000');
         })
         it ('Should be 2563 for 2020', () => {
             assert.strictEqual(datetime("2020").format('BBBB'), '2563');

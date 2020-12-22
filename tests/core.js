@@ -440,7 +440,7 @@ describe('Datetime', function(){
 
     describe('format()', () => {
         it("default, should be ", () => {
-            assert.strictEqual(datetime("2020").format(), '2020-01-01T02:00:00.000Z');
+            assert.strictEqual(datetime("2020").format(), '2020-01-01T02:00:00.000');
         })
     });
 
