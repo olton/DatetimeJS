@@ -23,20 +23,12 @@
             return this.value.toLocaleDateString();
         },
 
-        toLocaleFormat: function(fmt){
-            return this.value.toLocaleFormat(fmt);
-        },
-
         toLocaleString: function(){
             return this.value.toLocaleString();
         },
 
         toLocaleTimeString: function(){
             return this.value.toLocaleTimeString();
-        },
-
-        toSource: function(){
-            return this.value.toSource();
         },
 
         toTimeString: function(){
