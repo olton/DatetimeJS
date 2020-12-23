@@ -6,6 +6,9 @@ require('../src/plugins/yesterday');
 describe('Datetime', function() {
     describe('isYesterday()', () => {
         it ('Should be true', () => {
+            assert.strictEqual(Datetime.isYesterday("1972-12-21"), false);
+        })
+        it ('Should be true', () => {
             var yesterday = new Date();
             yesterday.setDate(yesterday.getDate() - 1);
             assert.strictEqual(datetime(yesterday).isYesterday(), true);
