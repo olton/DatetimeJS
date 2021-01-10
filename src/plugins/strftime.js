@@ -1,4 +1,4 @@
-/* global Datetime */
+/* global Datetime, datetime */
 (function() {
     'use strict';
 
@@ -24,7 +24,7 @@
             var that = this;
 
             var thursday = function(){
-                var target = that.clone();
+                var target = datetime(that.value);
                 target.day(that.day() - ((that.weekDay() + 6) % 7) + 3);
                 return target;
             };

@@ -13,6 +13,11 @@ module.exports = function(grunt) {
         'src/plugins/*js'
     ];
 
+    var source_files_no_i18n = [
+        'src/index.js',
+        'src/plugins/*js'
+    ];
+
     require('load-grunt-tasks')(grunt);
 
     tasks = ['clean', 'eslint', 'copy', 'concat', 'uglify'];
@@ -58,9 +63,13 @@ module.exports = function(grunt) {
                 src: ['src/index.js'],
                 dest: 'lib/datetime.js'
             },
-            all: {
+            i18n: {
                 src: source_files,
                 dest: 'lib/datetime.all.js'
+            },
+            no_i18n: {
+                src: source_files_no_i18n,
+                dest: 'lib/datetime.plugins.js'
             }
         },
 
@@ -88,9 +97,13 @@ module.exports = function(grunt) {
                 src: 'lib/datetime.js',
                 dest: 'lib/datetime.min.js'
             },
-            all: {
+            i18n: {
                 src: 'lib/datetime.all.js',
                 dest: 'lib/datetime.all.min.js'
+            },
+            no_i18n: {
+                src: 'lib/datetime.plugins.js',
+                dest: 'lib/datetime.plugins.min.js'
             },
             plugins: {
                 files: [{
@@ -103,7 +116,7 @@ module.exports = function(grunt) {
                     }
                 }]
             },
-            i18n: {
+            locales: {
                 files: [{
                     expand: true,
                     cwd: 'lib/i18n',

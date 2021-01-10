@@ -63,7 +63,7 @@
         var args;
 
         if (arguments[0] instanceof Datetime) {
-            return arguments[0].clone();
+            return datetime(arguments[0].value);
         }
 
         args = [].slice.call(Array.isArray(arguments[0]) ? arguments[0] : arguments);
@@ -201,7 +201,7 @@
         },
 
         useLocale: function(val){
-            if (Object.keys(global['DATETIME_LOCALES']).indexOf(val) === -1) {
+            if (!Datetime.getLocale(val)) {
                 console.warn("Locale " + val + " is not defined!");
                 return this;
             }
@@ -213,8 +213,8 @@
         clone: function(){
             var c = datetime(this.value);
             c.locale = this.locale;
-            c.mutable = this.mutable;
             c.weekStart = this.weekStart;
+            c.mutable = this.mutable;
             return c;
         },
 

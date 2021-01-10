@@ -4,7 +4,7 @@
 
     Datetime.useStatic({
         isYesterday: function(date){
-            var d = (date instanceof  Datetime ? date.clone() : datetime(date)).align("day");
+            var d = datetime(date).align("day");
             var c = datetime().align('day').add(-1, 'day');
 
             return d.time() === c.time();

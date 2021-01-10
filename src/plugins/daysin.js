@@ -1,10 +1,10 @@
-/* global Datetime */
+/* global Datetime, datetime */
 (function() {
     'use strict';
 
     Datetime.use({
         daysInMonth: function(){
-            var curr = this.clone();
+            var curr = datetime(this.value);
             return curr.add(1, 'month').day(1).add(-1, 'day').day();
         },
 
@@ -14,7 +14,7 @@
 
         daysInYearMap: function(){
             var result = [];
-            var curr = this.clone();
+            var curr = datetime(this.value);
 
             curr.month(0).day(1);
 
